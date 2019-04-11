@@ -23,22 +23,22 @@ CreateSession <- function(origin, destination, startDate, returnDate = NULL,
 
   url <- paste0("https://", getOption("API")$host, "/apiservices/pricing/v1.0")
   header <- MakeHeader()
-  query <- list("cabinClass" = cabinClass,
-                "country" = country,
-                "currency" = currency,
-                "locale" = locale,
-                "originPlace" = paste0(origin, "-sky"),
-                "destinationPlace" = paste0(destination, "-sky"),
-                "outboundDate" = startDate,
-                "inboundDate" = returnDate,
-                "adults" = adults,
-                "children" = children,
-                "infants" = infants,
-                "includeCarriers" = includeCarriers,
-                "excludeCarriers" = excludeCarriers)
+  body <- list("cabinClass" = cabinClass,
+               "country" = country,
+               "currency" = currency,
+               "locale" = locale,
+               "originPlace" = paste0(origin, "-sky"),
+               "destinationPlace" = paste0(destination, "-sky"),
+               "outboundDate" = startDate,
+               "inboundDate" = returnDate,
+               "adults" = adults,
+               "children" = children,
+               "infants" = infants,
+               "includeCarriers" = includeCarriers,
+               "excludeCarriers" = excludeCarriers)
 
-  resp <- POST(url, add_headers(header), body = query, encode = "form")
-  flag <- CheckStatusCode(resp)
+  resp <- POST(url, add_headers(header), body = body, encode = "form")
+  flag <- CheckStatus(resp)
   resp
 }
 
@@ -52,7 +52,7 @@ PollSession <- function(sessionKey, respondPOST = NULL) {
   path <- c(parse_url(url)$path, sessionKey)
 
   resp <- GET(url, add_headers(header), path = path)
-  flag <- CheckStatusCode(resp)
+  flag <- CheckStatus(resp)
   resp
 }
 
@@ -70,30 +70,16 @@ BrowseFlight <- function(endpoint = c("quotes", "routes", "dates"),
   query <- list("inboundpartialdate" = returnDate)
 
   resp <- GET(url, add_headers(header), path = path, query = query)
-  flag <- CheckStatusCode(resp)
+  flag <- CheckStatus(resp)
   resp
 }
 
 
-
 # return 1 if error, else 0.
-CheckStatusCode <- function(x) {
-  code <- status_code(x)
+CheckStatus <- function(x) {
+  # warn_for_status(x)
   if (http_error(x)) {
-    warning("Status Code ", code, ": Request failed.")
-    switch(as.character(code),
-           "400" = "",
-           "401" = "",
-           "402" = "",
-           "404" = "",
-           "405" = "",
-           "406" = "",
-           "407" = "",
-           "408" = "",
-           "409" = "",
-           "410" = "",
-           "415" = "",
-           "500" = "")
+    warning(http_status(x)$message)
     1
   } else 0
 }

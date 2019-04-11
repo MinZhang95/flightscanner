@@ -1,4 +1,5 @@
 # API Website: https://rapidapi.com/skyscanner/api/skyscanner-flight-search
+rm(list = ls())
 library(dplyr)
 library(httr)
 
@@ -23,19 +24,19 @@ CreateSession <- function(origin, destination, startDate, returnDate = NULL,
 
   url <- paste0("https://", getOption("API")$host, "/apiservices/pricing/v1.0")
   header <- MakeHeader()
-  body <- list("cabinClass" = cabinClass,
-               "country" = country,
-               "currency" = currency,
-               "locale" = locale,
-               "originPlace" = paste0(origin, "-sky"),
-               "destinationPlace" = paste0(destination, "-sky"),
-               "outboundDate" = startDate,
-               "inboundDate" = returnDate,
-               "adults" = adults,
-               "children" = children,
-               "infants" = infants,
-               "includeCarriers" = includeCarriers,
-               "excludeCarriers" = excludeCarriers)
+  body <- list(cabinClass = cabinClass,
+               country = country,
+               currency = currency,
+               locale = locale,
+               originPlace = paste0(origin, "-sky"),
+               destinationPlace = paste0(destination, "-sky"),
+               outboundDate = startDate,
+               inboundDate = returnDate,
+               adults = adults,
+               children = children,
+               infants = infants,
+               includeCarriers = includeCarriers,
+               excludeCarriers = excludeCarriers)
 
   resp <- POST(url, add_headers(header), body = body, encode = "form")
   flag <- CheckStatus(resp)
@@ -43,16 +44,54 @@ CreateSession <- function(origin, destination, startDate, returnDate = NULL,
 }
 
 
-PollSession <- function(sessionKey, respondPOST = NULL) {
+PollSession <- function(sessionKey, respondPOST = NULL,
+                        sortType = "price", sortOrder = "asc",
+                        duration = NULL, stops = NULL,
+                        includeCarriers = NULL, excludeCarriers = NULL,
+                        originAirports = NULL, destinationAirports = NULL,
+                        outboundDepartTime = NULL,
+                        outboundDepartStartTime = NULL, outboundDepartEndTime = NULL,
+                        outboundArriveStartTime = NULL, outboundArriveEndTime = NULL,
+                        inboundDepartTime = NULL,
+                        inboundDepartStartTime = NULL, inboundDepartEndTime = NULL,
+                        inboundArriveStartTime = NULL, inboundArriveEndTime = NULL) {
+  par.options <- list(sortType = c("price", "duration", "carrier",
+                                   "outboundarrivetime", "outbounddeparttime",
+                                   "inboundarrivetime", "inbounddeparttime"),
+                      sortOrder = c("asc", "desc"))
+  # Add checking here.
+
   if (missing(sessionKey))
     sessionKey <- SessionKey(respondPOST)
+  if (!missing(sortType)) sortType <- match.arg(sortType, par.options$sortType)
+  if (!missing(sortOrder)) sortOrder <- match.arg(sortOrder, par.options$sortOrder)
+  if (!missing(sortType)) sortType <- match.arg(sortType, par.options$sortType)
 
   url <- paste0("https://", getOption("API")$host, "/apiservices/pricing/uk2/v1.0")
   header <- MakeHeader()
   path <- c(parse_url(url)$path, sessionKey)
+  query <- list(sortType = sortType,
+                sortOrder = sortOrder,
+                duration = duration,
+                stops = stops,
+                includeCarriers = includeCarriers,
+                excludeCarriers = excludeCarriers,
+                originAirports = originAirports,
+                destinationAirports = destinationAirports,
+                outboundDepartTime = outboundDepartTime,
+                outboundDepartStartTime = outboundDepartStartTime,
+                outboundDepartEndTime = outboundDepartEndTime,
+                outboundArriveStartTime = outboundArriveStartTime,
+                outboundArriveEndTime = outboundArriveEndTime,
+                inboundDepartTime = inboundDepartTime,
+                inboundDepartStartTime = inboundDepartStartTime,
+                inboundDepartEndTime = inboundDepartEndTime,
+                inboundArriveStartTime = inboundArriveStartTime,
+                inboundArriveEndTime = inboundArriveEndTime)
 
-  resp <- GET(url, add_headers(header), path = path)
+  resp <- GET(url, add_headers(header), path = path, query = query)
   flag <- CheckStatus(resp)
+  if (content(resp)$Status != "UpdatesComplete") warning("Data Updating is not Complete.")
   resp
 }
 
@@ -67,7 +106,7 @@ BrowseFlight <- function(endpoint = c("quotes", "routes", "dates"),
   header <- MakeHeader()
   path <- c(parse_url(url)$path, country, currency, locale,
             paste0(origin, "-sky"), paste0(destination, "-sky"), startDate)
-  query <- list("inboundpartialdate" = returnDate)
+  query <- list(inboundpartialdate = returnDate)
 
   resp <- GET(url, add_headers(header), path = path, query = query)
   flag <- CheckStatus(resp)
@@ -118,13 +157,43 @@ res <- content(resp.get)
 names(res)
 
 res$Query
-res$Itineraries[[1]]
-res$Legs[[1]]
+res$Status
+
+length(res$Itineraries)
+res$Itineraries[[1]]  # outbound/inbound legs
+length(res$Legs)
+res$Legs[[1]]  # multiple segements
+length(res$Segments)
 res$Segments[[1]]
-res$Carriers[[1]]
-res$Agents[[1]]
-res$Places[[1]]
-res$Currencies[[1]]
+
+res$Carriers
+res$Agents
+res$Places
+res$Currencies
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 ### Browse Quotes - Browse Flight Prices

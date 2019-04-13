@@ -1,4 +1,4 @@
-Package: flightcrawl
+Package: flightscanner
 Type: Package
 Title: Flight Information
 Version: 0.1.0
@@ -20,5 +20,5 @@ Imports:
     tidyr
 Suggests: 
     testthat
-URL: https://github.com/qiaoyang00/flightcrawl
-BugReports: https://github.com/qiaoyang00/flightcrawl/issues
+URL: https://github.com/MinZhang95/flightscanner
+BugReports: https://github.com/MinZhang95/flightscanner/issues

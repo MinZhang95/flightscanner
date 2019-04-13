@@ -1,4 +1,4 @@
 library(testthat)
-library(flightcrawl)
+library(flightscanner)
 
-test_check("flightcrawl")
+test_check("flightscanner")

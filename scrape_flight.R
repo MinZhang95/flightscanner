@@ -21,17 +21,6 @@ devtools::document()
 
 
 
-# country = "US"; currency = "USD"; locale = "en-US"
-# url <- paste0("https://", getOption("API")$host, "/autosuggest/v1.0")
-# header <- flightcrawl:::MakeHeader()
-# path <- c(parse_url(url)$path, country, currency, locale)
-# query <- list(id = "DTW-sky")
-#
-# resp.place <- GET(url, add_headers(header), path = path, query = query)
-#
-# resp.place$request
-# content(resp.place)
-
 # ----------------------------------------------------------------------------
 # header information
 SetAPI(host = "skyscanner-skyscanner-flight-search-v1.p.rapidapi.com",
@@ -40,7 +29,7 @@ getOption("API")
 
 
 ### Create session - Live Flight Search
-resp.post <- CreateSession(orig = "DSM", dest = "DTTA", startDate = "2019-05-01", returnDate = NULL)
+resp.post <- CreateSession(orig = "DSM", dest = "DTW", startDate = "2019-05-01", returnDate = NULL)
 resp.post
 SessionKey(resp.post)
 
@@ -57,9 +46,9 @@ res$Query
 res$Status
 
 length(res$Itineraries)
-res$Itineraries[[2]]  # outbound/inbound legs
+res$Itineraries[[1]]  # outbound/inbound legs
 
-res$Itineraries %>% lapply(function(x, link = F) {
+res$Itineraries %>% lapply(function(x, link = T) {
   id <- x$PricingOptions %>% sapply(function(y) y$Price) %>% which.min
   which <- c("Price", "DeeplinkUrl")
   if (link == F) which <- which[which != "DeeplinkUrl"]

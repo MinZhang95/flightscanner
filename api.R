@@ -1,13 +1,30 @@
-# API Website: https://rapidapi.com/skyscanner/api/skyscanner-flight-search
-rm(list = ls())
-library(dplyr)
-library(httr)
-
+#' Set API hostname and key.
+#' @description Set API hostname and key globally.
+#'
+#' See \url{https://rapidapi.com/skyscanner/api/skyscanner-flight-search}.
+#'
+#' @param host API hostname.
+#' @param key API key.
+#'
+#' @return A list of hostname and key.
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#' SetAPI("skyscanner-skyscanner-flight-search-v1.p.rapidapi.com", "YOUR_API_KEY")
+#' }
 SetAPI <- function(host, key) {
   options(API = list(host = host, key = key))
 }
 
 
+#' Make headers to a request.
+#'
+#' @param host API hostname.
+#' @param key API key.
+#' @param type Content type.
+#'
+#' @return A character vector contains host, key, and type.
 MakeHeader <- function(host, key, type) {
   if (missing(host)) host <- getOption("API")$host
   if (missing(key)) key <- getOption("API")$key
@@ -16,6 +33,37 @@ MakeHeader <- function(host, key, type) {
 }
 
 
+#' Create session of live flight search.
+#' @description Returns live prices from all our suppliers for the requested flight itinerary.
+#' This function is POST step. Make sure you have set API using \code{\link{SetAPI}} before.
+#'
+#' See \url{https://rapidapi.com/skyscanner/api/skyscanner-flight-search}.
+#'
+#' @seealso \code{\link{PollSession}}.
+#'
+#' @param origin (REQUIRED) The origin place, can be country, city, airport, in Skyscanner code.
+#' @param destination (REQUIRED) The destination, can be country, city, airport, in Skyscanner code.
+#' @param startDate (REQUIRED) The outbound date. Format 'yyyy-mm-dd'.
+#' @param returnDate (OPTIONAL) The return date. Format 'yyyy-mm-dd'. Use NULL for oneway trip.
+#' @param adults (REQUIRED) Number of adults (16+ years). Must be between 1 and 8.
+#' @param children (OPTIONAL) Number of children (1-16 years). Can be between 0 and 8.
+#' @param infants (OPTIONAL) Number of infants (under 12 months). Can be between 0 and 8.
+#' @param country (REQUIRED) The market/country your user is in.
+#' @param currency (REQUIRED) The currency you want the prices in.
+#' @param locale (REQUIRED) The locale you want the results in (ISO locale).
+#' @param cabinClass (OPTIONAL) The cabin class. Can be 'economy', 'premiumeconomy', 'business', 'first'
+#' @param includeCarriers (OPTIONAL) Only return results from those carriers. Comma-separated list of carrier ids.
+#' @param excludeCarriers (OPTIONAL) Filter out results from those carriers. Comma-separated list of carrier ids.
+#'
+#' @return A \code{\link[httr]{response}} object of Request.
+#' @import httr
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#' SetAPI("skyscanner-skyscanner-flight-search-v1.p.rapidapi.com", "YOUR_API_KEY")
+#' CreateSession(origin = "SFO", destination = "LHR", startDate = "2019-07-01")
+#' }
 CreateSession <- function(origin, destination, startDate, returnDate = NULL,
                           adults = 1, children = NULL, infants = NULL,
                           country = "US", currency = "USD", locale = "en-US",
@@ -44,6 +92,50 @@ CreateSession <- function(origin, destination, startDate, returnDate = NULL,
 }
 
 
+#' Poll session of live flight search.
+#' @description Returns live prices from all our suppliers for the requested flight itinerary.
+#' This function is GET step. Make sure you have set API using \code{\link{SetAPI}} before.
+#'
+#' See \url{https://rapidapi.com/skyscanner/api/skyscanner-flight-search}.
+#'
+#' @seealso \code{\link{CreateSession}}.
+#'
+#' @param sessionKey The Session key to identify the session.
+#' @param respondPOST Return object of \code{\link{CreateSession}}.
+#' @param sortType (OPTIONAL) The parameter to sort results on.
+#' Can be carrier, duration, outboundarrivetime, outbounddeparttime, inboundarrivetime, inbounddeparttime, price.
+#' @param sortOrder (OPTIONAL) The sort order. 'asc' or 'desc'.
+#' @param duration (OPTIONAL) Filter for maximum duration in minutes. Integer between 0 and 1800.
+#' @param stops (OPTIONAL) Filter by number of stops. 0: direct flights only. 1: flights with one stop only.
+#' To show all flights do not use (only supports values 0 and 1).
+#' @param includeCarriers (OPTIONAL) Filter flights by the specified carriers. Must be semicolon-separated IATA codes.
+#' @param excludeCarriers (OPTIONAL) Filter flights by any but the specified carriers. Must be semicolon-separated IATA codes.
+#' @param originAirports (OPTIONAL) Origin airports to filter on. List of airport codes delimited by ';'.
+#' @param destinationAirports (OPTIONAL) Destination airports to filter on. List of airport codes delimited by ';'.
+#' @param outboundDepartTime (OPTIONAL) Filter for outbound departure time by time period of the day (i.e. morning, afternoon, evening).
+#' List of day time period delimited by ';' (acceptable values are M, A, E).
+#' @param outboundDepartStartTime (OPTIONAL) Filter for start of range for outbound departure time. Format 'hh:mm'.
+#' @param outboundDepartEndTime (OPTIONAL) Filter for end of range for outbound departure time. Format 'hh:mm'.
+#' @param outboundArriveStartTime (OPTIONAL) Filter for start of range for outbound arrival time. Format 'hh:mm'.
+#' @param outboundArriveEndTime (OPTIONAL) Filter for end of range for outbound arrival time. Format 'hh:mm'.
+#' @param inboundDepartTime (OPTIONAL) Filter for inbound departure time by time period of the day (i.e. morning, afternoon, evening).
+#' List of day time period delimited by ';' (acceptable values are M, A, E).
+#' @param inboundDepartStartTime (OPTIONAL) Filter for start of range for inbound departure time. Format 'hh:mm'.
+#' @param inboundDepartEndTime (OPTIONAL) Filter for end of range for inbound departure time. Format 'hh:mm'.
+#' @param inboundArriveStartTime (OPTIONAL) Filter for start of range for inbound arrival time. Format 'hh:mm'.
+#' @param inboundArriveEndTime (OPTIONAL) Filter for end of range for inbound arrival time. Format 'hh:mm'.
+#'
+#' @return A \code{\link[httr]{response}} object of Request.
+#' @import httr
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#' SetAPI("skyscanner-skyscanner-flight-search-v1.p.rapidapi.com", "YOUR_API_KEY")
+#' resp <- CreateSession(origin = "SFO", destination = "LHR", startDate = "2019-07-01")
+#' PollSession(SessionKey(resp))
+#' PollSession(respondPOST = resp)
+#' }
 PollSession <- function(sessionKey, respondPOST = NULL,
                         sortType = "price", sortOrder = "asc",
                         duration = NULL, stops = NULL,
@@ -96,6 +188,49 @@ PollSession <- function(sessionKey, respondPOST = NULL,
 }
 
 
+#' Browse flight prices from the skyscanner cache.
+#' @description Gets you information about flights from the skyscanner cache.
+#' It might be slightly outdated in comparison to live search, but more detailed and immediate.
+#' Make sure you have set API using \code{\link{SetAPI}} before.
+#'
+#' See \url{https://rapidapi.com/skyscanner/api/skyscanner-flight-search}.
+#'
+#' @details The \code{endpoint} argument:
+#' \describe{
+#'   \item{\code{'quotes'}}{
+#'   Returns the cheapest quotes that meet your query.
+#'   The prices come from our cached prices resulting from our users' searches.
+#'   }
+#'   \item{\code{'routes'}}{
+#'   Similar to Browse Quotes but with the quotes grouped by routes.
+#'   This provides the cheapest destinations (countries, cities or airports) from our cached data.
+#'   }
+#'   \item{\code{'dates'}}{
+#'   Similar to Browse Quotes but with the quotes grouped by outbound and inbound date.
+#'   Useful to find the lowest price for a given route, over either a month or a 12 month period.
+#'   }
+#' }
+#'
+#' @param endpoint Endpoint to choose. One of 'quotes', 'routes', 'dates'.
+#' @param origin (REQUIRED) The origin place, can be country, city, airport, in Skyscanner code.
+#' @param destination (REQUIRED) The destination, can be country, city, airport, in Skyscanner code.
+#' @param startDate (REQUIRED) The outbound date. Format 'yyyy-mm-dd', 'yyyy-mm' or 'anytime'.
+#' @param returnDate (OPTIONAL) The return date. Format 'yyyy-mm-dd', 'yyyy-mm' or 'anytime'. Use empty string for oneway trip.
+#' @param country (REQUIRED) The market country your user is in.
+#' @param currency (REQUIRED) The currency you want the prices in.
+#' @param locale (REQUIRED) The locale you want the results in (ISO locale).
+
+#' @return A \code{\link[httr]{response}} object of Request.
+#' @import httr
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#' SetAPI("skyscanner-skyscanner-flight-search-v1.p.rapidapi.com", "YOUR_API_KEY")
+#' BrowseFlight("quotes", origin = "SFO", destination = "LHR", startDate = "2019-07-01")
+#' BrowseFlight("routes", origin = "SFO", destination = "LHR", startDate = "2019-07-01")
+#' BrowseFlight("dates", origin = "SFO", destination = "LHR", startDate = "2019-07-01")
+#' }
 BrowseFlight <- function(endpoint = c("quotes", "routes", "dates"),
                          origin, destination, startDate, returnDate = NULL,
                          country = "US", currency = "USD", locale = "en-US") {
@@ -114,7 +249,12 @@ BrowseFlight <- function(endpoint = c("quotes", "routes", "dates"),
 }
 
 
-# return 1 if error, else 0.
+#' Check status of request response.
+#' @description Extract the http status code and convert it into a human readable message. Give warning if has an error.
+#'
+#' @param x A request object or a number.
+#'
+#' @return 1 if has an error, otherwise 0.
 CheckStatus <- function(x) {
   # warn_for_status(x)
   if (http_error(x)) {
@@ -124,97 +264,23 @@ CheckStatus <- function(x) {
 }
 
 
+#' Extract session key from request response.
+#' @description Extract session key from request response.
+#' The last value of location header contains the session key which is required when polling the session.
+#'
+#' @param x A request object.
+#'
+#' @return Session key.
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#' SetAPI("skyscanner-skyscanner-flight-search-v1.p.rapidapi.com", "YOUR_API_KEY")
+#' resp <- CreateSession(origin = "SFO", destination = "LHR", startDate = "2019-07-01")
+#' SessionKey(resp)
+#' }
 SessionKey <- function(x) {
   location <- headers(x)$location
-  last(strsplit(location, "/")[[1]])
+  y <- strsplit(location, "/")[[1]]
+  y[length(y)]
 }
-
-
-
-
-########################################
-########################################
-# header information
-SetAPI(host = "skyscanner-skyscanner-flight-search-v1.p.rapidapi.com",
-       key = "3e85a0e43cmshac6dba6fde57066p1c1145jsn1e6f8c3d0e33")
-getOption("API")
-
-
-### Create session - Live Flight Search
-resp.post <- CreateSession(orig = "DSM", dest = "DTW", startDate = "2019-05-01", returnDate = NULL)
-resp.post
-SessionKey(resp.post)
-
-
-### Poll session - Live Flight Search
-resp.get <- PollSession(respondPOST = resp.post)
-resp.get
-resp.get$request
-headers(resp.get)
-glimpse(resp.get)
-
-res <- content(resp.get)
-names(res)
-
-res$Query
-res$Status
-
-length(res$Itineraries)
-res$Itineraries[[1]]  # outbound/inbound legs
-length(res$Legs)
-res$Legs[[1]]  # multiple segements
-length(res$Segments)
-res$Segments[[1]]
-
-res$Carriers
-res$Agents
-res$Places
-res$Currencies
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-### Browse Quotes - Browse Flight Prices
-resp.quote <- BrowseFlight("quotes", orig = "DSM", dest = "DTW", start = "2019-05-01", return = NULL)
-resp.quote
-headers(resp.quote)
-glimpse(resp.quote)
-content(resp.quote)
-
-
-### Browse Routes - Browse Flight Prices
-resp.route <- BrowseFlight("routes", orig = "DSM", dest = "DTW", start = "2019-05-01", return = NULL)
-resp.route
-headers(resp.route)
-glimpse(resp.route)
-content(resp.route)
-
-
-### Browse Dates - Browse Flight Prices
-resp.date <- BrowseFlight("dates", orig = "DSM", dest = "DTW", start = "2019-05-01", return = NULL)
-resp.date
-headers(resp.date)
-glimpse(resp.date)
-content(resp.date)

@@ -1,0 +1,5 @@
+^LICENSE\.md$
+^README\.Rmd$
+^README\.md$
+^.*\.Rproj$
+^\.Rproj\.user$

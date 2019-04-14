@@ -24,7 +24,12 @@ Key_checking <- function(){
     header = MakeHeader("skyscanner-skyscanner-flight-search-v1.p.rapidapi.com",API_key)
     resp <- GET(URL, add_headers(header))
     if(suppressWarnings(CheckStatus(resp))){
-      warning("Check your API key or network connection")
+      cli::cat_line("Check your API key or network connection")
+      cli::cat_line("Delete the file 'API_key.txt'? 1 for YES; 0 for NO")
+      ANS2 = readline("")
+      if(ANS2 == 1 ){
+        invisible(file.remove('API_key.txt'))
+      }
     }else {
       cli::cat_line("Welcome to FlightScanner!")
     }

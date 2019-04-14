@@ -16,9 +16,10 @@ Imports:
     httr,
     magrittr,
     dplyr,
-    stringr,
     purrr,
     tidyr,
+    lubridate,
+    stringr,
     cli
 Suggests: 
     testthat

@@ -29,15 +29,18 @@ Can be carrier, duration, outboundarrivetime, outbounddeparttime, inboundarrivet
 \item{stops}{(OPTIONAL) Filter by number of stops. 0: direct flights only. 1: flights with one stop only.
 To show all flights do not use (only supports values 0 and 1).}
 
-\item{includeCarriers}{(OPTIONAL) Filter flights by the specified carriers. Must be semicolon-separated IATA codes.}
+\item{includeCarriers}{(OPTIONAL) Filter flights by the specified carriers.
+Must be semicolon-separated IATA codes.}
 
-\item{excludeCarriers}{(OPTIONAL) Filter flights by any but the specified carriers. Must be semicolon-separated IATA codes.}
+\item{excludeCarriers}{(OPTIONAL) Filter flights by any but the specified carriers.
+Must be semicolon-separated IATA codes.}
 
 \item{originAirports}{(OPTIONAL) Origin airports to filter on. List of airport codes delimited by ';'.}
 
 \item{destinationAirports}{(OPTIONAL) Destination airports to filter on. List of airport codes delimited by ';'.}
 
-\item{outboundDepartTime}{(OPTIONAL) Filter for outbound departure time by time period of the day (i.e. morning, afternoon, evening).
+\item{outboundDepartTime}{(OPTIONAL) Filter for outbound departure time by time period of the day
+(i.e. morning, afternoon, evening).
 List of day time period delimited by ';' (acceptable values are M, A, E).}
 
 \item{outboundDepartStartTime}{(OPTIONAL) Filter for start of range for outbound departure time. Format 'hh:mm'.}
@@ -48,7 +51,8 @@ List of day time period delimited by ';' (acceptable values are M, A, E).}
 
 \item{outboundArriveEndTime}{(OPTIONAL) Filter for end of range for outbound arrival time. Format 'hh:mm'.}
 
-\item{inboundDepartTime}{(OPTIONAL) Filter for inbound departure time by time period of the day (i.e. morning, afternoon, evening).
+\item{inboundDepartTime}{(OPTIONAL) Filter for inbound departure time by time period of the day
+(i.e. morning, afternoon, evening).
 List of day time period delimited by ';' (acceptable values are M, A, E).}
 
 \item{inboundDepartStartTime}{(OPTIONAL) Filter for start of range for inbound departure time. Format 'hh:mm'.}

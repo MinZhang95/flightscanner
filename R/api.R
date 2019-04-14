@@ -108,17 +108,21 @@ CreateSession <- function(origin, destination, startDate, returnDate = NULL,
 #' @param duration (OPTIONAL) Filter for maximum duration in minutes. Integer between 0 and 1800.
 #' @param stops (OPTIONAL) Filter by number of stops. 0: direct flights only. 1: flights with one stop only.
 #' To show all flights do not use (only supports values 0 and 1).
-#' @param includeCarriers (OPTIONAL) Filter flights by the specified carriers. Must be semicolon-separated IATA codes.
-#' @param excludeCarriers (OPTIONAL) Filter flights by any but the specified carriers. Must be semicolon-separated IATA codes.
+#' @param includeCarriers (OPTIONAL) Filter flights by the specified carriers.
+#' Must be semicolon-separated IATA codes.
+#' @param excludeCarriers (OPTIONAL) Filter flights by any but the specified carriers.
+#' Must be semicolon-separated IATA codes.
 #' @param originAirports (OPTIONAL) Origin airports to filter on. List of airport codes delimited by ';'.
 #' @param destinationAirports (OPTIONAL) Destination airports to filter on. List of airport codes delimited by ';'.
-#' @param outboundDepartTime (OPTIONAL) Filter for outbound departure time by time period of the day (i.e. morning, afternoon, evening).
+#' @param outboundDepartTime (OPTIONAL) Filter for outbound departure time by time period of the day
+#' (i.e. morning, afternoon, evening).
 #' List of day time period delimited by ';' (acceptable values are M, A, E).
 #' @param outboundDepartStartTime (OPTIONAL) Filter for start of range for outbound departure time. Format 'hh:mm'.
 #' @param outboundDepartEndTime (OPTIONAL) Filter for end of range for outbound departure time. Format 'hh:mm'.
 #' @param outboundArriveStartTime (OPTIONAL) Filter for start of range for outbound arrival time. Format 'hh:mm'.
 #' @param outboundArriveEndTime (OPTIONAL) Filter for end of range for outbound arrival time. Format 'hh:mm'.
-#' @param inboundDepartTime (OPTIONAL) Filter for inbound departure time by time period of the day (i.e. morning, afternoon, evening).
+#' @param inboundDepartTime (OPTIONAL) Filter for inbound departure time by time period of the day
+#' (i.e. morning, afternoon, evening).
 #' List of day time period delimited by ';' (acceptable values are M, A, E).
 #' @param inboundDepartStartTime (OPTIONAL) Filter for start of range for inbound departure time. Format 'hh:mm'.
 #' @param inboundDepartEndTime (OPTIONAL) Filter for end of range for inbound departure time. Format 'hh:mm'.
@@ -157,7 +161,7 @@ PollSession <- function(sessionKey, respondPOST = NULL,
     sessionKey <- SessionKey(respondPOST)
   if (!missing(sortType)) sortType <- match.arg(sortType, par.options$sortType)
   if (!missing(sortOrder)) sortOrder <- match.arg(sortOrder, par.options$sortOrder)
-  if (!missing(sortType)) sortType <- match.arg(sortType, par.options$sortType)
+  # if (!missing(sortType)) sortType <- match.arg(sortType, par.options$sortType)
 
   url <- paste0("https://", getOption("API")$host, "/apiservices/pricing/uk2/v1.0")
   header <- MakeHeader()
@@ -215,7 +219,7 @@ PollSession <- function(sessionKey, respondPOST = NULL,
 #' @param origin (REQUIRED) The origin place, can be country, city, airport, in Skyscanner code.
 #' @param destination (REQUIRED) The destination, can be country, city, airport, in Skyscanner code.
 #' @param startDate (REQUIRED) The outbound date. Format 'yyyy-mm-dd', 'yyyy-mm' or 'anytime'.
-#' @param returnDate (OPTIONAL) The return date. Format 'yyyy-mm-dd', 'yyyy-mm' or 'anytime'. Use empty string for oneway trip.
+#' @param returnDate (OPTIONAL) The return date. Format 'yyyy-mm-dd', 'yyyy-mm' or 'anytime'. Use NULL for oneway trip.
 #' @param country (REQUIRED) The market country your user is in.
 #' @param currency (REQUIRED) The currency you want the prices in.
 #' @param locale (REQUIRED) The locale you want the results in (ISO locale).
@@ -250,7 +254,8 @@ BrowseFlight <- function(endpoint = c("quotes", "routes", "dates"),
 
 
 #' Check status of request response.
-#' @description Extract the http status code and convert it into a human readable message. Give warning if has an error.
+#' @description Extract the http status code and convert it into a human readable message.
+#' Give warning if has an error.
 #'
 #' @param x A request object or a number.
 #'

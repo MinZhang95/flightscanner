@@ -17,7 +17,7 @@ BrowseFlight(endpoint = c("quotes", "routes", "dates"), origin,
 
 \item{startDate}{(REQUIRED) The outbound date. Format 'yyyy-mm-dd', 'yyyy-mm' or 'anytime'.}
 
-\item{returnDate}{(OPTIONAL) The return date. Format 'yyyy-mm-dd', 'yyyy-mm' or 'anytime'. Use empty string for oneway trip.}
+\item{returnDate}{(OPTIONAL) The return date. Format 'yyyy-mm-dd', 'yyyy-mm' or 'anytime'. Use NULL for oneway trip.}
 
 \item{country}{(REQUIRED) The market country your user is in.}
 

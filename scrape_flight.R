@@ -1,4 +1,4 @@
-# rm(list = ls())
+rm(list = ls())
 library(dplyr)
 library(httr)
 library(flightcrawl)
@@ -29,7 +29,7 @@ getOption("API")
 
 
 ### Create session - Live Flight Search
-resp.post <- CreateSession(orig = "DSM", dest = "DTW", startDate = "2019-05-01", returnDate = NULL)
+resp.post <- CreateSession(orig = "SEA", dest = "PVG", startDate = "2019-05-01")
 resp.post
 SessionKey(resp.post)
 
@@ -44,39 +44,17 @@ names(res)
 
 res$Query
 res$Status
-
-length(res$Itineraries)
 res$Itineraries[[1]]  # outbound/inbound legs
-
-res$Itineraries %>% lapply(function(x, link = T) {
-  id <- x$PricingOptions %>% sapply(function(y) y$Price) %>% which.min
-  which <- c("Price", "DeeplinkUrl")
-  if (link == F) which <- which[which != "DeeplinkUrl"]
-  data.frame(OutboundLegId = x$OutboundLegId, x$PricingOptions[[id]][which])
-}) %>% do.call(rbind, .) %>% as.tbl
-
-length(res$Legs)
 res$Legs[[1]]  # multiple segements
-length(res$Segments)
 res$Segments[[1]]
 
-headers(resp.get)$location
-res$Carriers %>% lapply(function(x) data.frame(x[c("Id", "Name")])) %>% do.call(rbind, .)
-res$Agents %>% lapply(function(x) data.frame(x[c("Id", "Name")])) %>% do.call(rbind, .)
-res$Places %>% lapply(function(x) data.frame(x[c("Id", "Name")])) %>% do.call(rbind, .)
-res$Currencies
-
-res$Itineraries %>% lapply(function(x) {x$PricingOptions %>% lapply(function(y) y$Agents)}) %>% unlist
-
-res$Legs %>% lapply(function(x) x$Carriers %>% unlist %>% paste(collapse = ",")) %>% unlist
-
-
-
-
-
-
-
-
+GetPrice(resp.get)
+GetItineraries(resp.get)
+GetLegs(resp.get)
+GetSegments(resp.get)
+GetCarriers(resp.get)
+GetAgents(resp.get)
+GetPlaces(resp.get)
 
 
 

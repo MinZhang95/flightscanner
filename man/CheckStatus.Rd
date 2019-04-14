@@ -13,5 +13,6 @@ CheckStatus(x)
 1 if has an error, otherwise 0.
 }
 \description{
-Extract the http status code and convert it into a human readable message. Give warning if has an error.
+Extract the http status code and convert it into a human readable message.
+Give warning if has an error.
 }

@@ -12,12 +12,14 @@ LazyData: true
 RoxygenNote: 6.1.1
 Depends: R (>= 2.10)
 Imports: 
+    utils,
     httr,
     magrittr,
     dplyr,
     stringr,
     purrr,
-    tidyr
+    tidyr,
+    cli
 Suggests: 
     testthat
 URL: https://github.com/MinZhang95/flightscanner

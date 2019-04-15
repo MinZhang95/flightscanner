@@ -47,15 +47,15 @@ GetPrice <- function(x) {
 GetItineraries <- function(x, price = F) {
   if (inherits(x, "response")) x <- content(x)
 
-  x$Itineraries %>% lapply(function(y) {
+  x$Itineraries %>% purrr::map_df(function(y) {
     tab <- tibble(OutboundLegId = y$OutboundLegId,
                   InboundLegId = ifelse(is.null(y$InboundLegId), as.character(NA), y$InboundLegId))
     if (price)
-      tab$PricingOptions <- y$PricingOptions %>% lapply(function(z) {
+      tab$PricingOptions <- y$PricingOptions %>% purrr::map_df(function(z) {
         tibble(AgentId = z$Agents[[1]], Price = z$Price, LinkURL = z$DeeplinkUrl)
-      }) %>% do.call(rbind, .) %>% arrange(!!sym("Price")) %>% list()
+      }) %>% arrange(!!sym("Price")) %>% list()
     tab
-  }) %>% do.call(rbind, .)
+  })
 }
 
 
@@ -85,17 +85,20 @@ GetLegs <- function(x) {
 
   segments_info <- GetSegments(x)
 
-  x$Legs %>% lapply(function(y) {
+  x$Legs %>% purrr::map_df(function(y) {
     n <- length(y$SegmentIds)
-    time_info <- segments_info[unlist(y$SegmentIds) + 1, c("DepartureTime", "ArrivalTime")]
-    layover <- lubridate::interval(time_info$ArrivalTime[-n], time_info$DepartureTime[-1]) %>%
-      lubridate::as.duration() %>% as.numeric("minute")
 
-    temp <- if (length(y$Stops) != n - 1) {
+    stopId <- if (n == 1) {
+      integer(0)
+    } else if (length(y$Stops) != n - 1) {
       warning("Unmatch of Segments and Stops: [LegId] = ", y$Id, call. = F)
       # return(NULL)
       unlist(y$Stops)[1:(n - 1)]
     } else unlist(y$Stops)
+
+    time_info <- segments_info[unlist(y$SegmentIds) + 1, c("DepartureTime", "ArrivalTime")]
+    layover <- lubridate::interval(time_info$ArrivalTime[-n], time_info$DepartureTime[-1]) %>%
+      lubridate::as.duration() %>% as.numeric("minute")
 
     tibble(Id = y$Id,
            SegmentIds = list(unlist(y$SegmentIds)),
@@ -106,11 +109,9 @@ GetLegs <- function(x) {
            Duration = y$Duration,
            No.Stops = n - 1,
            Directionality = y$Directionality,
-           Stops = data.frame(StopId = if (n - 1) temp else integer(0),
-                              Layover = as.integer(layover)) %>% list(),
-           FlightNumbers = lapply(y$FlightNumbers, data.frame, stringsAsFactors = F) %>%
-             do.call(rbind, .) %>% list())
-  }) %>% do.call(rbind, .)
+           Stops = list(data.frame(StopId = stopId, Layover = as.integer(layover))),
+           FlightNumbers = list(purrr::map_df(y$FlightNumbers, data.frame, stringsAsFactors = F)))
+  })
 }
 
 
@@ -135,13 +136,12 @@ GetLegs <- function(x) {
 GetSegments <- function(x) {
   if (inherits(x, "response")) x <- content(x)
 
-  x$Segments %>% lapply(as_tibble) %>% do.call(rbind, .) %>%
-    select(-"JourneyMode") %>%
+  x$Segments %>% purrr::map_df(as_tibble) %>%
+    select("Id":"ArrivalDateTime", "Duration", everything(), -"JourneyMode") %>%
+    mutate_at(vars("DepartureDateTime", "ArrivalDateTime"), lubridate::ymd_hms) %>%
     rename(OriginId = "OriginStation", DestinationId = "DestinationStation",
            DepartureTime = "DepartureDateTime", ArrivalTime = "ArrivalDateTime",
-           CarrierId = "Carrier", OperatingCarrierId = "OperatingCarrier") %>%
-    mutate_at(vars("DepartureTime", "ArrivalTime"), lubridate::ymd_hms) %>%
-    select("Id":"ArrivalTime", "Duration", everything())
+           CarrierId = "Carrier", OperatingCarrierId = "OperatingCarrier")
 }
 
 
@@ -165,7 +165,8 @@ GetSegments <- function(x) {
 GetCarriers <- function(x) {
   if (inherits(x, "response")) x <- content(x)
 
-  x$Carriers %>% lapply(as_tibble) %>% do.call(rbind, .) %>% select(-"DisplayCode")
+  x$Carriers %>% purrr::map_df(as_tibble) %>%
+    select(-"DisplayCode") %>% rename(ImageURL = "ImageUrl")
 }
 
 
@@ -189,7 +190,9 @@ GetCarriers <- function(x) {
 GetAgents <- function(x) {
   if (inherits(x, "response")) x <- content(x)
 
-  x$Agents %>% lapply(as_tibble) %>% do.call(rbind, .) %>% select(-"Status", -"OptimisedForMobile")
+  x$Agents %>% purrr::map_df(as_tibble) %>%
+    select(-"ImageUrl", everything(), -"Status", -"OptimisedForMobile") %>%
+    rename(ImageURL = "ImageUrl")
 }
 
 
@@ -213,8 +216,5 @@ GetAgents <- function(x) {
 GetPlaces <- function(x) {
   if (inherits(x, "response")) x <- content(x)
 
-  x$Places %>% lapply(function(y) {
-    if (is.null(y$ParentId)) y$ParentId <- NA
-    as_tibble(y)
-  }) %>% do.call(rbind, .) %>% select("Id", "ParentId", everything())
+  x$Places %>% purrr::map_df(as_tibble) %>% select("Id", "ParentId", everything())
 }

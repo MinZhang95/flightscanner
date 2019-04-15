@@ -40,8 +40,7 @@ Must be semicolon-separated IATA codes.}
 \item{destinationAirports}{(OPTIONAL) Destination airports to filter on. List of airport codes delimited by ';'.}
 
 \item{outboundDepartTime}{(OPTIONAL) Filter for outbound departure time by time period of the day
-(i.e. morning, afternoon, evening).
-List of day time period delimited by ';' (acceptable values are M, A, E).}
+(i.e. morning, afternoon, evening). List of day time period delimited by ';' (acceptable values are M, A, E).}
 
 \item{outboundDepartStartTime}{(OPTIONAL) Filter for start of range for outbound departure time. Format 'hh:mm'.}
 
@@ -52,8 +51,7 @@ List of day time period delimited by ';' (acceptable values are M, A, E).}
 \item{outboundArriveEndTime}{(OPTIONAL) Filter for end of range for outbound arrival time. Format 'hh:mm'.}
 
 \item{inboundDepartTime}{(OPTIONAL) Filter for inbound departure time by time period of the day
-(i.e. morning, afternoon, evening).
-List of day time period delimited by ';' (acceptable values are M, A, E).}
+(i.e. morning, afternoon, evening). List of day time period delimited by ';' (acceptable values are M, A, E).}
 
 \item{inboundDepartStartTime}{(OPTIONAL) Filter for start of range for inbound departure time. Format 'hh:mm'.}
 

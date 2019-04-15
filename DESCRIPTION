@@ -20,6 +20,8 @@ Imports:
     tidyr,
     lubridate,
     stringr,
+    DBI (>= 0.3.0),
+    RSQLite,
     cli
 Suggests: 
     testthat

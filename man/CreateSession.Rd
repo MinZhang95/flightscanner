@@ -37,7 +37,7 @@ CreateSession(origin, destination, startDate, returnDate = NULL,
 \item{excludeCarriers}{(OPTIONAL) Filter out results from those carriers. Comma-separated list of carrier ids.}
 }
 \value{
-A \code{\link[httr]{response}} object of Request.
+A \code{\link[httr:response]{response()}} object of request.
 }
 \description{
 Returns live prices from all our suppliers for the requested flight itinerary.

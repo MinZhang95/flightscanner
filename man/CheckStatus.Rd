@@ -7,7 +7,7 @@
 CheckStatus(x)
 }
 \arguments{
-\item{x}{A request object or a number.}
+\item{x}{A \code{\link[httr:response]{response()}} object or a number.}
 }
 \value{
 1 if has an error, otherwise 0.

@@ -62,7 +62,7 @@ Must be semicolon-separated IATA codes.}
 \item{inboundArriveEndTime}{(OPTIONAL) Filter for end of range for inbound arrival time. Format 'hh:mm'.}
 }
 \value{
-A \code{\link[httr]{response}} object of Request.
+A \code{\link[httr:response]{response()}} object of request.
 }
 \description{
 Returns live prices from all our suppliers for the requested flight itinerary.

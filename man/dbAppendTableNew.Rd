@@ -7,7 +7,7 @@
 dbAppendTableNew(conn, name, value, ...)
 }
 \arguments{
-\item{conn}{A \code{\link[DBI:DBIConnection-class]{DBIConnection}} object,
+\item{conn}{A \code{\link[RSQLite:SQLiteConnection-class]{SQLiteConnection}} object,
 as returned by \code{\link[DBI:dbConnect]{dbConnect()}}.}
 
 \item{name}{Name of the table.}
@@ -24,5 +24,6 @@ It assumes that the table has been created beforehand.
 }
 \examples{
 con <- DBI::dbConnect(RSQLite::SQLite(), ":memory:")
+DBI::dbWriteTable(con, "iris", iris[0, ])
 dbAppendTableNew(con, "iris", iris)
 }

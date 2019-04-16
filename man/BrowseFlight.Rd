@@ -27,7 +27,7 @@ Use NULL for oneway trip.}
 \item{locale}{(REQUIRED) The locale you want the results in (ISO locale).}
 }
 \value{
-A \code{\link[httr]{response}} object of Request.
+A \code{\link[httr:response]{response()}} object of request.
 }
 \description{
 Gets you information about flights from the skyscanner cache.

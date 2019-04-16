@@ -7,7 +7,7 @@
 SessionKey(x)
 }
 \arguments{
-\item{x}{A request object.}
+\item{x}{A \code{\link[httr:response]{response()}} object.}
 }
 \value{
 Session key.

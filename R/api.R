@@ -55,7 +55,7 @@ MakeHeader <- function(host, key, type) {
 #' @param includeCarriers (OPTIONAL) Only return results from those carriers. Comma-separated list of carrier ids.
 #' @param excludeCarriers (OPTIONAL) Filter out results from those carriers. Comma-separated list of carrier ids.
 #'
-#' @return A \code{\link[httr]{response}} object of Request.
+#' @return A \code{\link[httr:response]{response()}} object of request.
 #' @import httr
 #' @export
 #'
@@ -127,7 +127,7 @@ CreateSession <- function(origin, destination, startDate, returnDate = NULL,
 #' @param inboundArriveStartTime (OPTIONAL) Filter for start of range for inbound arrival time. Format 'hh:mm'.
 #' @param inboundArriveEndTime (OPTIONAL) Filter for end of range for inbound arrival time. Format 'hh:mm'.
 #'
-#' @return A \code{\link[httr]{response}} object of Request.
+#' @return A \code{\link[httr:response]{response()}} object of request.
 #' @import httr
 #' @export
 #'
@@ -221,7 +221,7 @@ PollSession <- function(sessionKey, respondPOST = NULL,
 #' @param currency (REQUIRED) The currency you want the prices in.
 #' @param locale (REQUIRED) The locale you want the results in (ISO locale).
 
-#' @return A \code{\link[httr]{response}} object of Request.
+#' @return A \code{\link[httr:response]{response()}} object of request.
 #' @import httr
 #' @export
 #'
@@ -254,7 +254,7 @@ BrowseFlight <- function(endpoint = c("quotes", "routes", "dates"),
 #' @description Extract the http status code and convert it into a human readable message.
 #' Give warning if has an error.
 #'
-#' @param x A request object or a number.
+#' @param x A \code{\link[httr:response]{response()}} object or a number.
 #'
 #' @return 1 if has an error, otherwise 0.
 CheckStatus <- function(x) {
@@ -270,7 +270,7 @@ CheckStatus <- function(x) {
 #' @description Extract session key from request response.
 #' The last value of location header contains the session key which is required when polling the session.
 #'
-#' @param x A request object.
+#' @param x A \code{\link[httr:response]{response()}} object.
 #'
 #' @return Session key.
 #' @export

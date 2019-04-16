@@ -26,11 +26,12 @@ An object of class \code{\link[RSQLite:SQLiteConnection-class]{SQLiteConnection}
 If can't connect to SQLite driver, return 1.
 }
 \description{
-Connect to a SQLite database file.
-And create some tables if they does not exist.
+Connect to a SQLite database file. And check it the following tables exists:
+price, itinerary, leg, segment, carrier, agent, and place. If not, create them.
 }
 \examples{
 \dontrun{
 dbCreateDB(dbname = "flight.db")
+unlink("flight.db")
 }
 }

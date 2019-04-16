@@ -17,15 +17,17 @@
 #' con <- DBI::dbConnect(RSQLite::SQLite(), ":memory:")
 #' dbAppendTableNew(con, "iris", iris)
 dbAppendTableNew <- function(conn, name, value, ...) {
+  value <- value %>% ListUnpack(mutate = T)
+
   sum(sapply(1:NROW(value), function(i) {
-    tryCatch(dbAppendTable(conn, name, value[i, ], ...), error = function(e) 0)
+    tryCatch(dbAppendTable(conn, name, value[i, , drop = F], ...), error = function(e) 0)
   }))
 }
 
 
 #' Connect to a SQLite database and create tables.
-#' @description Connect to a SQLite database file.
-#' And create some tables if they does not exist.
+#' @description Connect to a SQLite database file. And check it the following tables exists:
+#' price, itinerary, leg, segment, carrier, agent, and place. If not, create them.
 #'
 #' @param conn A \code{\link[RSQLite:SQLiteDriver-class]{SQLiteDriver}}
 #' or \code{\link[RSQLite:SQLiteConnection-class]{SQLiteConnection}}.
@@ -47,6 +49,7 @@ dbAppendTableNew <- function(conn, name, value, ...) {
 #' @examples
 #' \dontrun{
 #' dbCreateDB(dbname = "flight.db")
+#' unlink("flight.db")
 #' }
 dbCreateDB <- function(conn = RSQLite::SQLite(), dbname = "flight.db") {
   if (inherits(conn, "SQLiteConnection")) {
@@ -54,6 +57,48 @@ dbCreateDB <- function(conn = RSQLite::SQLite(), dbname = "flight.db") {
   } else if (inherits(conn, "SQLiteDriver") && dbCanConnect(conn)) {
     con <- dbConnect(conn, dbname = dbname)
   } else return(1)
+
+  if (!dbExistsTable(con, "price")) {
+    dbCreateTable(con, SQL("price"), c(SearchTime = "TEXT NOT NULL",
+                                       OutboundLegId = "TEXT NOT NULL",
+                                       InboundLegId = "TEXT NOT NULL",
+                                       PricingOptions = "BLOB"))
+  }
+
+  if (!dbExistsTable(con, "itinerary")) {
+    fields <- c(OutboundLegId = "TEXT NOT NULL",
+                InboundLegId = "TEXT NOT NULL")
+    columns <- paste(paste(dbQuoteIdentifier(con, names(fields)), fields), collapse = ",\n  ")
+    query <- paste0("CREATE TABLE itinerary (\n  ", columns,
+                    ",\n  PRIMARY KEY (`OutboundLegId`, `InboundLegId`)\n)")
+    dbExecute(con, query)
+  }
+
+  if (!dbExistsTable(con, "leg")) {
+    dbCreateTable(con, SQL("leg"), c(Id = "TEXT PRIMARY KEY NOT NULL",
+                                     SegmentIds = "BLOB NOT NULL",
+                                     OriginId = "INTEGER NOT NULL",
+                                     DestinationId = "INTEGER NOT NULL",
+                                     DepartureTime = "TEXT NOT NULL",
+                                     ArrivalTime = "TEXT NOT NULL",
+                                     Duration = "INTEGER NOT NULL",
+                                     No.Stops = "INTEGER NOT NULL",
+                                     Directionality = "TEXT NOT NULL",
+                                     Stops = "BLOB"))
+  }
+
+  if (!dbExistsTable(con, "segment")) {
+    dbCreateTable(con, SQL("segment"), c(Id = "TEXT PRIMARY KEY NOT NULL",
+                                         OriginId = "INTEGER NOT NULL",
+                                         DestinationId = "INTEGER NOT NULL",
+                                         DepartureTime = "TEXT NOT NULL",
+                                         ArrivalTime = "TEXT NOT NULL",
+                                         Duration = "INTEGER NOT NULL",
+                                         CarrierId = "INTEGER NOT NULL",
+                                         OperatingCarrierId = "INTEGER NOT NULL",
+                                         FlightNumber = "TEXT NOT NULL",
+                                         Directionality = "TEXT NOT NULL"))
+  }
 
   if (!dbExistsTable(con, "carrier")) {
     dbCreateTable(con, SQL("carrier"), c(Id = "INTEGER PRIMARY KEY NOT NULL",

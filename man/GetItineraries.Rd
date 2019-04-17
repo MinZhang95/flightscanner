@@ -9,7 +9,7 @@ GetItineraries(x, price = F)
 \arguments{
 \item{x}{A request object.}
 
-\item{price}{If TRUE, also includes PricingOptions information.}
+\item{price}{If \code{TRUE}, also includes PricingOptions information.}
 }
 \value{
 A tibble.

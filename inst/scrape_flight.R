@@ -1,18 +1,17 @@
 rm(list = ls())
-library(dplyr)
 library(flightcrawl)
 
 # devtools::document()
 # usethis::use_readme_rmd()
 # usethis::use_readme_md()
 # usethis::use_gpl3_license("Yang Qiao")
-# usethis::use_r("dataprocess")
+# usethis::use_r("")
 # usethis::use_pipe()
 # usethis::use_testthat()
 # usethis::use_test("api")
 # usethis::use_git()
 # usethis::use_git_config()
-# usethis::use_github(auth_token = ")
+# usethis::use_github(auth_token = "")
 # usethis::use_package("httr")
 
 devtools::document()
@@ -37,20 +36,6 @@ resp.get
 res <- content(resp.get)
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 ### Browse Quotes - Browse Flight Prices
 resp.quote <- BrowseFlight("quotes", orig = "DSM", dest = "DTW", start = "2019-05-01", return = NULL)
 resp.quote
@@ -73,12 +58,3 @@ resp.date
 headers(resp.date)
 glimpse(resp.date)
 content(resp.date)
-
-
-
-
-
-
-
-
-

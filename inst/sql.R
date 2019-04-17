@@ -1,3 +1,4 @@
+library(dplyr)
 library(DBI)
 
 # initialize SQLite database
@@ -12,17 +13,9 @@ sapply(dbListTables(con), dbRemoveTable, conn = con)
 SaveData(con, x = resp.get)
 
 # extract data
-data <- GetData(resp.get)  # from API response
-GetData(con)  # from SQLite database
+data1 <- GetData(resp.get)  # from API response
+data2 <- GetData(con)  # from SQLite database
+GetData(con, lazy = T)
 
-
-
-
-
-library(sqldf)
-sqldf()
-
-
-dcon <- src_sqlite("inst/flight.db")
-a = tbl(con, from = "segment")
-a
+src <- src_sqlite("inst/flight.db")
+tbl(con, from = "price")

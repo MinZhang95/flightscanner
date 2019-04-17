@@ -10,12 +10,14 @@ GetData(x, ...)
 
 \method{GetData}{response}(x, ...)
 
-\method{GetData}{SQLiteConnection}(x, ...)
+\method{GetData}{SQLiteConnection}(x, lazy = F, ...)
 }
 \arguments{
 \item{x}{An object to get data from.}
 
 \item{...}{Further arguments passed to methods.}
+
+\item{lazy}{If \code{TRUE}, return lazy tibbles.}
 }
 \value{
 A list of tibble.

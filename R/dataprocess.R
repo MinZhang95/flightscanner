@@ -5,6 +5,7 @@
 #'
 #' @param x An object to get data from.
 #' @param ... Further arguments passed to methods.
+#' @param lazy If \code{TRUE}, return lazy tibbles.
 #'
 #' @return A list of tibble.
 #' @export
@@ -39,15 +40,25 @@ GetData.response <- function(x, ...) {
 
 #' @describeIn GetData Get data from SQLite connection.
 #' @export
-GetData.SQLiteConnection <- function(x, ...) {
-  list(price = dbReadTable(x, "price") %>% as.tbl() %>%
-         ListPack(mutate = T, vars = "PricingOptions", tz = NULL),
-       itineraries = dbReadTable(x, "itinerary") %>% as.tbl(),
-       legs = dbReadTable(x, "leg") %>% as.tbl() %>%
-         ListPack(mutate = T, vars = c("SegmentIds", "Stops")),
-       segments = dbReadTable(x, "segment") %>% as.tbl() %>%
-         ListPack(mutate = T),
-       carriers = dbReadTable(x, "carrier") %>% as.tbl(),
-       agents = dbReadTable(x, "agent") %>% as.tbl(),
-       places = dbReadTable(x, "place") %>% as.tbl())
+GetData.SQLiteConnection <- function(x, lazy = F, ...) {
+  if (lazy) {
+    list(price = tbl(x, from = "price"),
+         itineraries = tbl(x, from = "itinerary"),
+         legs = tbl(x, from = "leg"),
+         segments = tbl(x, from = "segment"),
+         carriers = tbl(x, from = "carrier"),
+         agents = tbl(x, from = "agent"),
+         places = tbl(x, from = "place"))
+  } else {
+    list(price = dbReadTable(x, "price") %>% as.tbl() %>%
+           ListPack(mutate = T, vars = "PricingOptions", tz = NULL),
+         itineraries = dbReadTable(x, "itinerary") %>% as.tbl(),
+         legs = dbReadTable(x, "leg") %>% as.tbl() %>%
+           ListPack(mutate = T, vars = c("SegmentIds", "Stops")),
+         segments = dbReadTable(x, "segment") %>% as.tbl() %>%
+           ListPack(mutate = T),
+         carriers = dbReadTable(x, "carrier") %>% as.tbl(),
+         agents = dbReadTable(x, "agent") %>% as.tbl(),
+         places = dbReadTable(x, "place") %>% as.tbl())
+  }
 }

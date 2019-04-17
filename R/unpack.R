@@ -31,7 +31,7 @@ GetPrice <- function(x) {
 #' Information includes the ItineraryId (OutboundLegId, InboundLegId).
 #'
 #' @param x A request object.
-#' @param price If TRUE, also includes PricingOptions information.
+#' @param price If \code{TRUE}, also includes PricingOptions information.
 #'
 #' @return A tibble.
 #' @import dplyr

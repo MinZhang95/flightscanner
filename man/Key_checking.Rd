@@ -7,5 +7,5 @@
 Key_checking()
 }
 \description{
-Checking the API key.
+Checking the API key. This function will automatically run when loading the package.
 }

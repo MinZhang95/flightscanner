@@ -1,5 +1,5 @@
 #' Checking the API key
-#' @description Checking the API key.
+#' @description Checking the API key. This function will automatically run when loading the package.
 #'
 #' @import utils
 #' @export
@@ -15,9 +15,11 @@ Key_checking <- function(){
     cli::cat_bullet('2. Copy the X-RapidAPI-Key from the 3rd line in Request Snippet(Right Panel)')
     cli::cat_line("What's your key?(without quote)")
     API_key = readline("")
+    if(API_key!=""){
     write.table(API_key, file = "API_key.txt", quote = FALSE,
                 row.names = FALSE,col.names = FALSE)
-    Key_checking()
+    return(API_key)
+    }
   }else{
     API_key = tryCatch(read.table(file = 'API_key.txt', stringsAsFactors = F), error=function(e) NULL)[1,1]
     URL = 'https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/reference/v1.0/currencies'
@@ -25,12 +27,8 @@ Key_checking <- function(){
     resp <- GET(URL, add_headers(header))
     if(suppressWarnings(CheckStatus(resp))){
       cli::cat_line("Check your API key or network connection")
-      cli::cat_line("Delete the file 'API_key.txt'? 1 for YES; 0 for NO")
-      ANS2 = readline("")
-      if(ANS2 == 1 ){
-        invisible(file.remove('API_key.txt'))
-      }
     }else {
+      return(API_key)
       cli::cat_line("Welcome to FlightScanner!")
     }
   }

@@ -32,7 +32,7 @@ flight <- data$itineraries %>%
   left_join(segment_info,by=c("OutboundLegId"="LegId", "InboundLegId"="LegId"))
 
 filter_Options <- list(Out_Stops = Inf,
-                       In_Stops = Inf
+                       In_Stops = Inf,
                        Out_Duration = Inf,
                        In_Duration = Inf,
                        Out_DepartureTime = c(hm('00:00'),hm('24:00')),

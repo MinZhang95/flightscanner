@@ -18,7 +18,6 @@ Key_checking <- function(){
     if(API_key!=""){
     write.table(API_key, file = "API_key.txt", quote = FALSE,
                 row.names = FALSE,col.names = FALSE)
-    return(API_key)
     }
   }else{
     API_key = tryCatch(read.table(file = 'API_key.txt', stringsAsFactors = F), error=function(e) NULL)[1,1]
@@ -28,7 +27,6 @@ Key_checking <- function(){
     if(suppressWarnings(CheckStatus(resp))){
       cli::cat_line("Check your API key or network connection")
     }else {
-      return(API_key)
       cli::cat_line("Welcome to FlightScanner!")
     }
   }

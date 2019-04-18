@@ -3,6 +3,13 @@ library(DBI)
 
 # initialize SQLite database
 con <- dbCreateDB(dbname = "inst/flight.db")
+con <- dbConnect(RSQLite::SQLite(),dbname = "inst/flight.db")
+
+dbReadTable(con,'agent')-> agent
+dbReadTable(con,'price')-> price
+dbReadTable(con,'itinerary') -> itinerary
+
+
 dbDisconnect(con)
 dbListTables(con)
 

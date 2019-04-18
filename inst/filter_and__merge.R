@@ -42,8 +42,29 @@ filter_Options <- list(Out_Stops = Inf,
                        price = Inf,
                        Airline_ex = NULL)
 
-flight %>% filter(Out_Stops <= filter_Options$Out_Stops,
-                  In_Stops <= filter_Options$In_Stops,
-                  Out_Duration <= filter_Options$Out_Duration,
-                  In_Duration <= filter_Options$In_Duration) -> 
+# flight %>%
+#   filter(Out_Stops <= filter_Options$Out_Stops,
+#   In_Stops <= filter_Options$In_Stops,
+#   Out_Duration <= filter_Options$Out_Duration,
+#   In_Duration <= filter_Options$In_Duration) %>%
+#   filter_at("Out_DepartureTime",
+#             ~ . >= filter_Options$Out_DepartureTime[1] &
+#               . <= filter_Options$Out_DepartureTime[2]) %>%
+#   filter_at("Out_ArrivalTime",
+#             ~ . >= filter_Options$Out_ArrivalTime[1] &
+#               . <= filter_Options$Out_ArrivalTime[2]) %>%
+#   filter_at("In_DepartureTime",
+#             ~ . >= filter_Options$In_DepartureTime[1] &
+#               . <= filter_Options$In_DepartureTime[2]) %>%
+#   filter_at("In_ArrivalTime",
+#             ~ . >= filter_Options$In_ArrivalTime[1] &
+#               . <= filter_Options$In_ArrivalTime[2]) ->
+#   filtered_time_flight
+
+flight %>%
+  filter(Out_Stops <= filter_Options$Out_Stops,
+         In_Stops <= filter_Options$In_Stops,
+         Out_Duration <= filter_Options$Out_Duration,
+         In_Duration <= filter_Options$In_Duration) ->
+  filtered_time_flight
                   

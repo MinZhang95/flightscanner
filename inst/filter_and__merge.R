@@ -31,6 +31,7 @@ flight <- data$itineraries %>%
   left_join(data$price %>% select(-SearchTime),by=c("OutboundLegId","InboundLegId")) %>% 
   left_join(segment_info,by=c("OutboundLegId"="LegId", "InboundLegId"="LegId"))
 
+#default options
 filter_Options <- list(Out_Stops = Inf,
                        In_Stops = Inf,
                        Out_Duration = Inf,
@@ -61,10 +62,30 @@ filter_Options <- list(Out_Stops = Inf,
 #               . <= filter_Options$In_ArrivalTime[2]) ->
 #   filtered_time_flight
 
+#default options
+filter_Options <- list(Out_Stops = 2,
+                       In_Stops = 2,
+                       Out_Duration = 1500,
+                       In_Duration = 1500,
+                       Out_DepartureTime = c(hm('00:00'),hm('24:00')),
+                       Out_ArrivalTime = c(hm('00:00'),hm('24:00')),
+                       In_DepartureTime = c(hm('00:00'),hm('24:00')),
+                       In_ArrivalTime = c(hm('00:00'),hm('24:00')),
+                       price = Inf,
+                       Airline_ex = c('HU','MU'))
+
+filter_Options <- 
+  c(filter_Options,
+       list(Airline_in = unique(seg_carrier$Code)))
+
 flight %>%
-  filter(Out_Stops <= filter_Options$Out_Stops,
-         In_Stops <= filter_Options$In_Stops,
+  filter(Out_No.Stops <= filter_Options$Out_Stops,
+         In_No.Stops <= filter_Options$In_Stops,
          Out_Duration <= filter_Options$Out_Duration,
-         In_Duration <= filter_Options$In_Duration) ->
-  filtered_time_flight
+         In_Duration <= filter_Options$In_Duration) %>% 
+  unnest(PricingOptions,.drop=FALSE) %>% 
+  unnest(CarrierInfo,.drop=FALSE) %>% 
+  filter(Price <= filter_Options$price,
+         !CarrierCode %in% filter_Options$Airline_ex,
+         CarrierCode %in% filter_Options$Airline_in)->final_filtered
                   

@@ -23,21 +23,28 @@ shinyUI <- fluidPage(
     column(4,
            conditionalPanel(
              condition="input.trip_type=='1' ",
-                            dateInput("date", "", 
+             column(10,
+                            dateInput("date1", "", 
+                                      min = Sys.Date(),
                                       value = Sys.Date(), 
-                                      format = "mm/dd/yy")
+                                      format = "mm/dd/yy"))
                             
            
            ),
            conditionalPanel(
              condition="input.trip_type== '2' ",
-                            dateRangeInput("date", "",
-                                           start  = Sys.Date(),
-                                           end    = Sys.Date()+7,
-                                           min    = Sys.Date(),
-                                           format = "mm/dd/yy"
-                                          )
-           ),
+             column(5,
+                    dateInput("date2", "", 
+                              min = Sys.Date(),
+                              value = Sys.Date(), 
+                              format = "mm/dd/yy")),
+             
+             column(5,
+                    dateInput("date3", "", 
+                              min = Sys.Date(),
+                              value = Sys.Date()+1, 
+                              format = "mm/dd/yy")) 
+             ),
            uiOutput('varselect')       
     )
   ),

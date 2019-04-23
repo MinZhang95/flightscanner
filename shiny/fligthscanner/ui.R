@@ -1,3 +1,5 @@
+library(leaflet)
+library(MUCflights)
 library(shiny)
 
 shinyUI <- fluidPage(
@@ -19,14 +21,16 @@ shinyUI <- fluidPage(
     ),
     #condtional panel for dates
     column(4,
-           conditionalPanel(condition="input.trip_type=='1' ",
+           conditionalPanel(
+             condition="input.trip_type=='1' ",
                             dateInput("date", "", 
                                       value = Sys.Date(), 
                                       format = "mm/dd/yy")
                             
            
            ),
-           conditionalPanel(condition="input.trip_type== '2' ",
+           conditionalPanel(
+             condition="input.trip_type== '2' ",
                             dateRangeInput("date", "",
                                            start  = Sys.Date(),
                                            end    = Sys.Date()+7,

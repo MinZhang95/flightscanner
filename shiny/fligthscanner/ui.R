@@ -35,7 +35,8 @@ shinyUI <- fluidPage(
                                            start  = Sys.Date(),
                                            end    = Sys.Date()+7,
                                            min    = Sys.Date(),
-                                           format = "mm/dd/yy")
+                                           format = "mm/dd/yy"
+                                          )
            ),
            uiOutput('varselect')       
     )

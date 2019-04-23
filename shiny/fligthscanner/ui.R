@@ -84,9 +84,8 @@ shinyUI <- fluidPage(
     
     column(9,
            tabsetPanel(
-             tabPanel("Plot", plotOutput("plot")),
-             tabPanel("Summary", verbatimTextOutput("summary")),
-             tabPanel("Table", tableOutput("table"))
+             tabPanel("Airport Map", leafletOutput("map")),
+             tabPanel("Flights", verbatimTextOutput("flights"))
            )
     )
   )

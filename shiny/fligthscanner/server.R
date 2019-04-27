@@ -1,8 +1,7 @@
 library(leaflet)
-library(MUCflights)
 library(shiny)
 
-data(airports)
+data("airports")
 
 ## all input variables
 # trip_type

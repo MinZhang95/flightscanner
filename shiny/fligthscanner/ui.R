@@ -1,6 +1,7 @@
 library(leaflet)
-library(MUCflights)
 library(shiny)
+
+data("airports")
 
 shinyUI <- fluidPage(
   titlePanel("Hello FlightScanner!"),

@@ -55,7 +55,7 @@ shinyUI <- fluidPage(
            tabsetPanel(
              tabPanel("Airport Map", 
                       leafletOutput("map"),
-                      textOutput("Search_res")),
+                      h3(textOutput("Search_res"),align = "center")),
              tabPanel("Flights", 
                       
                       column(3,
@@ -63,8 +63,7 @@ shinyUI <- fluidPage(
                       ),
                       column(9,tableOutput("table"))),
              tabPanel("IATA Code", 
-                      column(3, textInput("city", label = 'City', value ="")),
-                      column(9, tableOutput("IATAtable"))
+                       column(12, dataTableOutput("IATAtable"))
                       )
            
     )

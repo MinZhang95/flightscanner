@@ -41,7 +41,7 @@ shinyServer(function(input, output,session) {
 
   
   output$ui <- renderUI({ 
-    if(class(dataset()[1])!='try-error'){
+    if(class(dataset())[3]=='data.frame'){
       wellPanel(
         sliderInput("price", label = "Price ($)", min = min(dataset()$Price),
                     max = max(dataset()$Price), 
@@ -136,22 +136,41 @@ shinyServer(function(input, output,session) {
   })
   
   output$map <- leaflet::renderLeaflet({
-    # dataset()
-    leaflet::leaflet(data = airports %>% filter(IATA != "")%>% 
-                       filter(IATA %in% toupper(c(input$from,input$to))) ) %>%
+    from_data = airports %>% filter(IATA != "")%>% 
+      filter(IATA == toupper(input$from)) 
+    to_data = airports %>% filter(IATA != "")%>% 
+      filter(IATA == toupper(input$to)) 
+    icons_from <- awesomeIcons(
+      icon        = "home fa-xs",
+      library     = 'fa',
+      spin = 1
+    )
+    icons_to <- awesomeIcons(
+      icon        = "jet",
+      library     = 'ion'
+    )
+    leaflet::leaflet() %>%
       leaflet::addTiles() %>%
-      leaflet::addMarkers(~ Longitude,
-                                ~ Latitude,
-                                popup = ~ Name)
+      leaflet::addAwesomeMarkers(data = from_data,
+                                  ~ Longitude,
+                                  ~ Latitude,
+                                  popup = ~ Name,
+                                 icon = icons_from)%>%
+      leaflet::addAwesomeMarkers(data = to_data,
+                                 ~ Longitude,
+                                 ~ Latitude,
+                                 popup = ~ Name,
+                                 icon = icons_to)
     
     
   })
-  
-  output$Search_res <- renderText({
-    if(class(dataset()[1])!='try-error'){
-      "Click Flight tag for more details~"
+ 
+   output$Search_res <- renderText({
+    t<- dataset()
+    if(grepl("non-character",as.character(t))){
+      "Error happened: Check the input information and try again!"
     }else{
-      "Check the input information!"
+      "Search Successed! Click Flight tag for more details~"
     }
   })
   
@@ -160,14 +179,9 @@ shinyServer(function(input, output,session) {
       select(Price ,CarrierName) %>% arrange(Price)
   })
   
-  output$IATAtable <- renderTable({
-    if(input$city==""){
+  output$IATAtable <- renderDataTable({
     airports %>% 
       select(Name, City, Country, IATA, Latitude, Longitude)
-    }else{
-      airports %>% 
-        select(Name, City, Country, IATA, Latitude, Longitude) %>% 
-        filter(grepl(gsub("(^|[[:space:]])([[:alpha:]])", "\\1\\U\\2", input$city, perl=TRUE), City))
-    }
-  })
+   
+  },options = list(pageLength =10))
 })

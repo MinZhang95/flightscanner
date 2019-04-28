@@ -97,3 +97,19 @@ if (trip_type == 2) {
                             In_DepartureTime <= filter_Options$In_DepartureTime[2]) -> final_filtered
 }
 
+
+## Filter for the result from download_data.R
+filter_result <- 
+  dataset %>%
+  filter(Out_No.Stops <= filter_Options$Out_Stops,
+         Out_Duration/60 <= filter_Options$Out_Duration,
+         Out_DepartureTime >= filter_Options$Out_DepartureTime[1],
+         Out_DepartureTime <= filter_Options$Out_DepartureTime[2]) %>%
+  filter(Price <= filter_Options$price,
+         !CarrierCode %in% filter_Options$Airline_ex) %>%
+  filter( if (!is.na(In_No.Stops[1]))
+  {In_No.Stops <= filter_Options$In_Stops
+    In_Duration/60 <= filter_Options$In_Duration
+    In_DepartureTime >= filter_Options$In_DepartureTime[1]
+    In_DepartureTime <= filter_Options$In_DepartureTime[2]})
+

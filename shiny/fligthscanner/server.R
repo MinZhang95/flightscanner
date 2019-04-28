@@ -1,5 +1,6 @@
 library(leaflet)
 library(shiny)
+library(dplyr)
 
 data("airports")
 
@@ -19,29 +20,26 @@ shinyServer(function(input, output,session) {
               format = "mm/dd/yy") 
   })
   
-  dataset <- reactive({
-    if(!(input$from==""&input$to==""))
-    {# Change when the button is pressed...
-    input$goButton
-    # ...but not for anything else
-    isolate({
-      withProgress({
-        setProgress(message = "哗啦啦啦哗啦啦...")
-        if(input$trip_type==1){
-          try(download_data(input$trip_type,
-                            toupper(input$from),
-                            toupper(input$to),
-                            input$date1))
-        }else{
-          try(download_data(input$trip_type,
-                            toupper(input$from),
-                            toupper(input$to),
-                            c(input$date2,input$date3)))
-        }
-      })
-    })}
+  
+  dataset <- eventReactive(
+    input$goButton, 
+    {withProgress({
+      setProgress(message = "哗啦啦啦哗啦啦...")
+      if(input$trip_type==1){
+        try(download_data(input$trip_type,
+                          toupper(input$from),
+                          toupper(input$to),
+                          input$date1))
+      }else{
+        try(download_data(input$trip_type,
+                          toupper(input$from),
+                          toupper(input$to),
+                          c(input$date2,input$date3)))
+      }
+    })
   })
 
+  
   output$ui <- renderUI({ 
     if(class(dataset())!='try-error'){
       wellPanel(
@@ -141,7 +139,7 @@ shinyServer(function(input, output,session) {
     leaflet::leaflet(data = airports %>% filter(IATA != "")%>% 
                        filter(IATA %in% toupper(c(input$from,input$to))) ) %>%
       leaflet::addTiles() %>%
-      leaflet::addCircleMarkers(~ Longitude,
+      leaflet::addMarkers(~ Longitude,
                                 ~ Latitude,
                                 popup = ~ Name)
   })

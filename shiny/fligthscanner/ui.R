@@ -51,15 +51,18 @@ shinyUI <- fluidPage(
   ),
   ## filter for price, airline, stops, time ... 
   fluidRow(
-    column(3,
-           uiOutput("ui")
-    ),
     
-    column(9,
            tabsetPanel(
-             tabPanel("Airport Map", leafletOutput("map")),
-             tabPanel("Flights", tableOutput("table"))
-           )
+             tabPanel("Airport Map", 
+                      leafletOutput("map")),
+             tabPanel("Flights", 
+                      
+                      column(3,
+                             uiOutput("ui")
+                      ),
+                      column(9,tableOutput("table"))),
+             tabPanel("IATA Code", tableOutput("IATAtable"))
+           
     )
   )
 )

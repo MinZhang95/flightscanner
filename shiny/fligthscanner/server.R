@@ -136,12 +136,15 @@ shinyServer(function(input, output,session) {
   })
   
   output$map <- leaflet::renderLeaflet({
+    # dataset()
     leaflet::leaflet(data = airports %>% filter(IATA != "")%>% 
                        filter(IATA %in% toupper(c(input$from,input$to))) ) %>%
       leaflet::addTiles() %>%
       leaflet::addMarkers(~ Longitude,
                                 ~ Latitude,
                                 popup = ~ Name)
+    
+    
   })
   
   
@@ -150,4 +153,8 @@ shinyServer(function(input, output,session) {
       select(Price ,CarrierName) %>% arrange(Price)
   })
   
+  output$IATAtable <- renderTable({
+    airports %>% 
+      select(Name, City, Country, IATA, Latitude, Longitude)
+  })
 })

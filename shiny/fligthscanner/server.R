@@ -14,10 +14,6 @@ data("airports")
 # Incl. Airline/Excl. Airline
 # Leave/Back + _ + Duration/Stops/Dep_Time/Arr_Time
 
-createLink <- function(val) {
-  sprintf('<a href="%s" target="_blank" class="btn btn-primary">Book</a>',val)
-}
-
 shinyServer(function(input, output,session) {
   output$ui_date <- renderUI({
     dateInput("date3", "Arr. Date", 

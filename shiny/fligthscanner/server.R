@@ -68,7 +68,7 @@ shinyServer(function(input, output,session) {
                                value = round(max(dataset()$Out_Duration)/60),1),
                    radioButtons("Leave_Stops", label = 'Stops',
                                 choices = list("Nonstops only" = 0, "1 stop or fewer" = 1, "2 stops or fewer" = 2, "I don't care"=Inf),
-                                selected = 0),
+                                selected = Inf),
                    sliderInput("Leave_Dep_Time", label = "Departure Time",step = 0.5,ticks = FALSE,
                                min = 0, max = 24, value = c(0, 24)),
                    sliderInput("Leave_Arr_Time", label = "Arrival Time",step = 0.5,ticks = FALSE,
@@ -203,7 +203,8 @@ shinyServer(function(input, output,session) {
                 In_DepartTime, In_ArrivalTime, In_Duration_Hr, In_No.Stops,
                 CarrierName, LinkURL)
      }
-   })
+   }, options = list(columnDefs = list(list(className = 'dt-center', targets = 4)))
+   )
    
   
   output$IATAtable <- renderDataTable({

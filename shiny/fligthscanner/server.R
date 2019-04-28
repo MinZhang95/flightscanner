@@ -185,7 +185,7 @@ shinyServer(function(input, output,session) {
          mutate(Out_DepartTime = Out_DepartureTime,
                 Out_Duration_Hr = round(Out_Duration/60, 1),
                 Price_USD = Price,
-                Link = createLink(LinkURL)) %>%
+                Link = sprintf('<a href="%s" target="_blank" class="btn btn-primary">Book</a>',LinkURL)) %>%
          select(Price_USD, Out_DepartTime, Out_ArrivalTime, Out_Duration_Hr, Out_No.Stops,
                 CarrierName, Link)
      }else{
@@ -208,7 +208,7 @@ shinyServer(function(input, output,session) {
                 In_DepartTime = In_DepartureTime,
                 In_Duration_Hr = round(In_Duration/60, 1),
                 Price_USD = Price,
-                Link = createLink(LinkURL)) %>% 
+                Link = sprintf('<a href="%s" target="_blank" class="btn btn-primary">Book</a>',LinkURL)) %>% 
          select(Price_USD, Out_DepartTime, Out_ArrivalTime, Out_Duration_Hr, Out_No.Stops,
                 In_DepartTime, In_ArrivalTime, In_Duration_Hr, In_No.Stops,
                 CarrierName, Link)

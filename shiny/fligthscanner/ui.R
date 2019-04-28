@@ -72,7 +72,7 @@ shinyUI <- fluidPage(
                                   label = "Duration/min",ticks = FALSE,
                                   min = 0, max = 100, value = 50),
                       checkboxGroupInput("Leave_Stops", label = 'Stops', 
-                                         choices = list("Nonstops" = 0, "1 Stop" = 1, "2 Stops" = 2, 'More than 2 Stops'=3),
+                                         choices = list("Nonstops" = 0, "1 Stop" = 1, "2 Stops" = 2, 'More than 2 Stops'=Inf),
                                          selected = 0),
                       sliderInput("Leave_Dep_Time", label = "Departure Time",step = 0.5,ticks = FALSE,
                                   min = 0, max = 24, value = c(0, 24)),

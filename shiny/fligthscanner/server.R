@@ -41,7 +41,7 @@ shinyServer(function(input, output,session) {
 
   
   output$ui <- renderUI({ 
-    if(class(dataset())!='try-error'){
+    if(class(dataset()[1])!='try-error'){
       wellPanel(
         sliderInput("price", label = "Price ($)", min = min(dataset()$Price),
                     max = max(dataset()$Price), 
@@ -147,6 +147,13 @@ shinyServer(function(input, output,session) {
     
   })
   
+  output$Search_res <- renderText({
+    if(class(dataset()[1])!='try-error'){
+      "Click Flight tag for more details~"
+    }else{
+      "Check the input information!"
+    }
+  })
   
   output$table <- renderTable({
     dataset() %>% 

@@ -51,11 +51,11 @@ download_data<- function(trip_type, from, to, date){
       
       ## Change POSIXct type of time in Out_DepartureTime, Out_ArrivalTime, In_DepartureTime,
       ## In_ArrivalTime to period type.
-      res %>% mutate(Out_DepartureTime = format(Out_DepartureTime, format="%H:%M:%S") %>% hms(),
-                     Out_ArrivalTime = format(Out_ArrivalTime, format="%H:%M:%S") %>% hms()) -> res
-      if(trip_type != 1){
-        res %>% mutate(In_DepartureTime = format(In_DepartureTime, format="%H:%M:%S") %>% hms(),
-                       In_ArrivalTime = format(In_ArrivalTime, format="%H:%M:%S") %>% hms()) -> res
-        }
+      # res %>% mutate(Out_DepartureTime_period = format(Out_DepartureTime, format="%H:%M:%S") %>% hms(),
+      #                Out_ArrivalTime_period = format(Out_ArrivalTime, format="%H:%M:%S") %>% hms()) -> res
+      # if(trip_type != 1){
+      #   res %>% mutate(In_DepartureTime_period = format(In_DepartureTime, format="%H:%M:%S") %>% hms(),
+      #                  In_ArrivalTime_period = format(In_ArrivalTime, format="%H:%M:%S") %>% hms()) -> res
+      #   }
       return(res)
 }

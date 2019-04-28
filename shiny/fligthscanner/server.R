@@ -63,18 +63,39 @@ shinyServer(function(input, output,session) {
       )
       )
     }else{
-        dataset <- reactive(
-          if(input$trip_type==1){
-          download_data(input$trip_type,
-                        input$from,input$to,
-                        input$date1)
-            }else{
-          download_data(input$trip_type,
-                        input$from,input$to,
-                        c(input$date2,input$date3))
-            }
-          
-        )
+        # dataset <- reactive(
+        #   if(input$trip_type==1){
+        #   download_data(input$trip_type,
+        #                 input$from,input$to,
+        #                 input$date1)
+        #     }else{
+        #   download_data(input$trip_type,
+        #                 input$from,input$to,
+        #                 c(input$date2,input$date3))
+        #     }
+        #   
+        # )
+        dataset <- reactive({
+          # Change when the button is pressed...
+          # input$goButton
+          # ...but not for anything else
+          isolate({
+            withProgress({
+              setProgress(message = "哗啦啦啦哗啦啦...")
+              if(input$trip_type==1){
+                download_data(input$trip_type,
+                              toupper(input$from),
+                              toupper(input$to),
+                              input$date1)
+              }else{
+                download_data(input$trip_type,
+                              toupper(input$from),
+                              toupper(input$to),
+                              c(input$date2,input$date3))
+              }
+            })
+          })
+        })
       
       wellPanel(
         sliderInput("price", label = "Price ($)", min = min(dataset()$Price),
@@ -128,13 +149,7 @@ shinyServer(function(input, output,session) {
   }
   )
   
-  observe({
-    if(input$goButton ==0)
-      return()
-    isolate({
-      input$goButton = 0
-    })
-  })
+
   
   output$map <- leaflet::renderLeaflet({
     leaflet::leaflet(data = airports ) %>%

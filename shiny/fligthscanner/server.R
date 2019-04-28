@@ -154,7 +154,13 @@ shinyServer(function(input, output,session) {
   })
   
   output$IATAtable <- renderTable({
+    if(input$city==""){
     airports %>% 
       select(Name, City, Country, IATA, Latitude, Longitude)
+    }else{
+      airports %>% 
+        select(Name, City, Country, IATA, Latitude, Longitude) %>% 
+        filter(grepl(gsub("(^|[[:space:]])([[:alpha:]])", "\\1\\U\\2", input$city, perl=TRUE), City))
+    }
   })
 })

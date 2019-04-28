@@ -140,27 +140,16 @@ shinyServer(function(input, output,session) {
       filter(IATA == toupper(input$from)) 
     to_data = airports %>% filter(IATA != "")%>% 
       filter(IATA == toupper(input$to)) 
-    icons_from <- awesomeIcons(
-      icon        = "home fa-xs",
-      library     = 'fa',
-      spin = 1
-    )
-    icons_to <- awesomeIcons(
-      icon        = "jet",
-      library     = 'ion'
-    )
     leaflet::leaflet() %>%
       leaflet::addTiles() %>%
-      leaflet::addAwesomeMarkers(data = from_data,
+      leaflet::addMarkers(data = from_data,
                                   ~ Longitude,
                                   ~ Latitude,
-                                  popup = ~ Name,
-                                 icon = icons_from)%>%
-      leaflet::addAwesomeMarkers(data = to_data,
+                                  popup = ~ Name)%>%
+      leaflet::addMarkers(data = to_data,
                                  ~ Longitude,
                                  ~ Latitude,
-                                 popup = ~ Name,
-                                 icon = icons_to)
+                                 popup = ~ Name)
     
     
   })

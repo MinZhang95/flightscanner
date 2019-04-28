@@ -15,6 +15,9 @@ download_data(trip_type, from, to, date)
 
 \item{date}{date}
 }
+\value{
+a data frame
+}
 \description{
 Download data
 }

@@ -6,7 +6,8 @@
 #' @param date date
 #' @import dplyr
 #' @import tidyr
-#' @export res a data frame about search result
+#' @return a data frame
+#' @export
 #'
 download_data<- function(trip_type, from, to, date){
       if(trip_type==1) {

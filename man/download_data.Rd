@@ -7,7 +7,13 @@
 download_data(trip_type, from, to, date)
 }
 \arguments{
-\item{trip_type}{}
+\item{trip_type}{The trip type}
+
+\item{from}{Where from}
+
+\item{to}{Where to}
+
+\item{date}{date}
 }
 \description{
 Download data

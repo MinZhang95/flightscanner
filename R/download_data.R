@@ -1,9 +1,9 @@
 #' Download data
 #' @description Download data
-#' @param trip_type 
-#' @param from
-#' @param to
-#' @param date
+#' @param trip_type The trip type 
+#' @param from Where from
+#' @param to Where to
+#' @param date date
 #' @import dplyr
 #' @import tidyr
 #' @export
@@ -46,5 +46,6 @@ download_data<- function(trip_type, from, to, date){
         left_join(segment_info,by=c("OutboundLegId"="LegId", "InboundLegId"="LegId"))
       flight %>%
         unnest(PricingOptions,.drop=FALSE) %>% 
-        unnest(CarrierInfo,.drop=FALSE) 
+        unnest(CarrierInfo,.drop=FALSE)  -> res
+      return(res)
 }

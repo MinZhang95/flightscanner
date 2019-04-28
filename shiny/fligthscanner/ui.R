@@ -61,7 +61,7 @@ shinyUI <- fluidPage(
                       column(3,
                              uiOutput("ui")
                       ),
-                      column(9,tableOutput("table"))),
+                      column(9, dataTableOutput("table"))),
              tabPanel("IATA Code", 
                        column(12, dataTableOutput("IATAtable"))
                       )

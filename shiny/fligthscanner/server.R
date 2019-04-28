@@ -163,10 +163,39 @@ shinyServer(function(input, output,session) {
     }
   })
   
-  output$table <- renderTable({
-    dataset() %>% 
-      select(Price ,CarrierName) %>% arrange(Price)
-  })
+   output$table <- renderDataTable({
+     if(input$trip_type==1){
+       # filter for single trip
+       dataset() %>% 
+         select(-c(Out_Stops, In_Stops)) %>% 
+         filter(Out_No.Stops <= input$Leave_Stops,
+                Out_Duration <= input$Leave_Duration * 60, 
+                hour(Out_DepartureTime)+minute(Out_DepartureTime)/60 >= input$Leave_Dep_Time[1], 
+                hour(Out_DepartureTime)+minute(Out_DepartureTime)/60 <= input$Leave_Dep_Time[2], 
+                Price <= input$price, 
+                !CarrierName %in% input$Airline_Ex)  %>% 
+         select(Price, Out_DepartureTime, Out_ArrivalTime, Out_Duration, Out_No.Stops,
+                CarrierName, LinkURL)
+     }else{
+       # filter for round trip
+       dataset() %>% 
+         select(-c(Out_Stops, In_Stops)) %>% 
+         filter(Out_No.Stops <= input$Leave_Stops,
+                Out_Duration <= input$Leave_Duration * 60, 
+                hour(Out_DepartureTime)+minute(Out_DepartureTime)/60 >= input$Leave_Dep_Time[1], 
+                hour(Out_DepartureTime)+minute(Out_DepartureTime)/60 <= input$Leave_Dep_Time[2], 
+                Price <= input$price, 
+                !CarrierName %in% input$Airline_Ex) %>% 
+         filter(In_No.Stops <= input$Back_Stops,
+                In_Duration <= input$Back_Duration * 60,
+                hour(In_DepartureTime)+minute(In_DepartureTime)/60 >= input$Back_Dep_Time[1], 
+                hour(In_DepartureTime)+minute(In_DepartureTime)/60 <= input$Back_Dep_Time[2]) %>% 
+         select(Price, Out_DepartureTime, Out_ArrivalTime, Out_Duration, Out_No.Stops,
+                In_DepartureTime, In_ArrivalTime, In_Duration, In_No.Stops,
+                CarrierName, LinkURL)
+     }
+   })
+   
   
   output$IATAtable <- renderDataTable({
     airports %>% 

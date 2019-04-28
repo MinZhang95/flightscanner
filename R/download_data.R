@@ -1,3 +1,13 @@
+#' Download data
+#' @description Download data
+#' @param trip_type 
+#' @param from
+#' @param to
+#' @param date
+#' @import dplyr
+#' @import tidyr
+#' @export
+#'
 download_data<- function(trip_type, from, to, date){
       if(trip_type==1) {
         resp.post <- CreateSession(orig = from, 

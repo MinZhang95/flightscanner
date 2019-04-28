@@ -9,23 +9,23 @@ shinyUI <- fluidPage(
   fluidRow(
     # filter for trip type
     column(2,
-           selectInput("trip_type",label='',
+           selectInput("trip_type",label='Trip Type',
                           choices = list("One Way" = 1, "Round Trip" = 2), 
                           selected = 1)
             )    ,
     # filter for places
     column(2,
-           textInput("from", label = '', value = "Where from")
+           textInput("from", label = 'Where From', value = "")
     ),
     column(2,
-           textInput("to", label = '', value = "Where to")
+           textInput("to", label = 'Where To', value = "")
     ),
     #condtional panel for dates
     column(4,
            conditionalPanel(
              condition="input.trip_type=='1' ",
              column(10,
-                            dateInput("date1", "", 
+                            dateInput("date1", "Dept. Date", 
                                       min = Sys.Date(),
                                       value = Sys.Date(), 
                                       format = "mm/dd/yy"))
@@ -35,13 +35,12 @@ shinyUI <- fluidPage(
            conditionalPanel(
              condition="input.trip_type== '2' ",
              column(5,
-                    dateInput("date2", "", 
+                    dateInput("date2", "Dept. Date", 
                               min = Sys.Date(),
                               value = Sys.Date(), 
                               format = "mm/dd/yy")),
-             
              column(5,
-                    dateInput("date3", "", 
+                    dateInput("date3", "Arr. Date", 
                               min = Sys.Date(),
                               value = Sys.Date()+1, 
                               format = "mm/dd/yy")) 
@@ -94,7 +93,7 @@ shinyUI <- fluidPage(
            )  
         )
     ),
-    
+  
     column(9,
            tabsetPanel(
              tabPanel("Airport Map", leafletOutput("map")),

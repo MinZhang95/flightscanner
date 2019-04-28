@@ -178,7 +178,10 @@ shinyServer(function(input, output,session) {
                 Price <= input$price, 
                 CarrierName %in% input$Airline_In, 
                 !CarrierName %in% input$Airline_Ex)  %>% 
-         select(Price, Out_DepartureTime, Out_ArrivalTime, Out_Duration, Out_No.Stops,
+         mutate(Out_DepartTime = Out_DepartureTime,
+                Out_Duration_Hr = round(Out_Duration/60, 1),
+                Price_USD = Price) %>%
+         select(Price_USD, Out_DepartTime, Out_ArrivalTime, Out_Duration_Hr, Out_No.Stops,
                 CarrierName, LinkURL)
      }else{
        # filter for round trip
@@ -194,9 +197,14 @@ shinyServer(function(input, output,session) {
          filter(In_No.Stops <= input$Back_Stops,
                 In_Duration <= input$Back_Duration * 60,
                 hour(In_DepartureTime)+minute(In_DepartureTime)/60 >= input$Back_Dep_Time[1], 
-                hour(In_DepartureTime)+minute(In_DepartureTime)/60 <= input$Back_Dep_Time[2]) %>% 
-         select(Price, Out_DepartureTime, Out_ArrivalTime, Out_Duration, Out_No.Stops,
-                In_DepartureTime, In_ArrivalTime, In_Duration, In_No.Stops,
+                hour(In_DepartureTime)+minute(In_DepartureTime)/60 <= input$Back_Dep_Time[2]) %>%
+         mutate(Out_DepartTime = Out_DepartureTime,
+                Out_Duration_Hr = round(Out_Duration/60, 1),
+                In_DepartTime = In_DepartureTime,
+                In_Duration_Hr = round(In_Duration/60, 1),
+                Price_USD = Price)
+         select(Price_USD, Out_DepartTime, Out_ArrivalTime, Out_Duration_Hr, Out_No.Stops,
+                In_DepartTime, In_ArrivalTime, In_Duration_Hr, In_No.Stops,
                 CarrierName, LinkURL)
      }
    })

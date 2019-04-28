@@ -1,4 +1,6 @@
-
+library(lubridate)
+library(dplyr)
+library(tidyr)
 
 ### data is the result from the scraping data <- GetData(resp.get)
 ### need to be improve into one table
@@ -7,6 +9,7 @@
 Out <- data$legs %>% filter(Directionality == 'Outbound') %>% 
   select("Id","DepartureTime","ArrivalTime","Duration","No.Stops","Stops") %>% 
   magrittr::set_names(c("OutboundLegId","Out_DepartureTime","Out_ArrivalTime","Out_Duration","Out_No.Stops","Out_Stops"))
+
 
 In <- data$legs %>% filter(Directionality == 'Inbound') %>% 
   select("Id","DepartureTime","ArrivalTime","Duration","No.Stops","Stops") %>% 

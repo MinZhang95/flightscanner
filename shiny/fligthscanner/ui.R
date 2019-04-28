@@ -40,58 +40,19 @@ shinyUI <- fluidPage(
                               value = Sys.Date(), 
                               format = "mm/dd/yy")),
              column(5,
-                    dateInput("date3", "Arr. Date", 
-                              min = Sys.Date(),
-                              value = Sys.Date()+1, 
-                              format = "mm/dd/yy")) 
-             ),
-           uiOutput('varselect')       
-    )
+                    uiOutput("ui_date")
+                    ) 
+             )      
+    ),
+    column(2,align = 'left',
+           actionButton("goButton", "Go!",icon("telegram-plane",
+                                               #"accessible-icon",
+                                               "fa-3x","font-awesome")))
   ),
   ## filter for price, airline, stops, time ... 
   fluidRow(
     column(3,
-           wellPanel(
-             sliderInput("price", label = "Price", min = 0, 
-                         max = 100, value = 50)
-              ,
-           tabsetPanel(
-             tabPanel("Incl. Airline", 
-             selectInput("Airline_In", label = '', 
-                         choices = list("AA" , "BB","CC",'DD'), 
-                         multiple = TRUE)),
-             tabPanel("Excl. Airline",
-             selectInput("Airline_Ex", label = "", 
-                         choices = list("AA" , "BB","CC",'DD'), 
-                         multiple = TRUE)))
-             ,
-           tabsetPanel(
-             tabPanel("Leave", 
-                      br(),
-                      sliderInput("Leave_Duration", 
-                                  label = "Duration/min",ticks = FALSE,
-                                  min = 0, max = 100, value = 50),
-                      checkboxGroupInput("Leave_Stops", label = 'Stops', 
-                                         choices = list("Nonstops" = 0, "1 Stop" = 1, "2 Stops" = 2, 'More than 2 Stops'=Inf),
-                                         selected = 0),
-                      sliderInput("Leave_Dep_Time", label = "Departure Time",step = 0.5,ticks = FALSE,
-                                  min = 0, max = 24, value = c(0, 24)),
-                      sliderInput("Leave_Arr_Time", label = "Arrival Time",step = 0.5,ticks = FALSE, 
-                                  min = 0, max = 24, value = c(0, 24))),
-             tabPanel("Back", 
-                      br(),
-                      sliderInput("Back_Duration", 
-                                  label = "Duration/min",ticks = FALSE,
-                                  min = 0, max = 100, value = 50),
-                      checkboxGroupInput("Back_Stops", label = 'Stops', 
-                                         choices = list("Nonstops" = 0, "1 Stop" = 1, "2 Stops" = 2, 'More than 2 Stops'=3),
-                                         selected = 0),
-                      sliderInput("Back_Dep_Time", label = "Departure Time",step = 0.5,ticks = FALSE,
-                                  min = 0, max = 24, value = c(0, 24)),
-                      sliderInput("Back_Arr_Time", label = "Arrival Time",step = 0.5,ticks = FALSE, 
-                                  min = 0, max = 24, value = c(0, 24)))
-           )  
-        )
+           uiOutput("ui")
     ),
   
     column(9,

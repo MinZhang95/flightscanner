@@ -25,7 +25,7 @@ getOption("API")
 
 
 ### Create session - Live Flight Search
-resp.post <- CreateSession(orig = "SEA", dest = "PVG", startDate = "2019-05-01")
+resp.post <- CreateSession(orig = "SEA", dest = "PVG", startDate = "2019-05-01", returnDate = "2019-05-10")
 resp.post
 
 

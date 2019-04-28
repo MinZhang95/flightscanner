@@ -81,14 +81,19 @@ filter_Options <-
   c(filter_Options,
        list(Airline_in = unique(seg_carrier$Code)))
 
-flight %>%
-  filter(Out_No.Stops <= filter_Options$Out_Stops,
-         In_No.Stops <= filter_Options$In_Stops,
-         Out_Duration <= filter_Options$Out_Duration,
-         In_Duration <= filter_Options$In_Duration) %>% 
+flight %>% filter(Out_No.Stops <= filter_Options$Out_Stops,
+                  Out_Duration <= filter_Options$Out_Duration, 
+                  Out_DepartureTime >= filter_Options$Out_DepartureTime[1], 
+                  Out_DepartureTime <= filter_Options$Out_DepartureTime[2]) %>% 
   unnest(PricingOptions,.drop=FALSE) %>% 
   unnest(CarrierInfo,.drop=FALSE) %>% 
   filter(Price <= filter_Options$price,
-         !CarrierCode %in% filter_Options$Airline_ex,
-         CarrierCode %in% filter_Options$Airline_in)->final_filtered
-                  
+         !CarrierCode %in% filter_Options$Airline_ex)->final_filtered
+
+if (trip_type == 2) {
+  final_filtered %>% filter(In_No.Stops <= filter_Options$In_Stops,
+                            In_Duration <= filter_Options$In_Duration,
+                            In_DepartureTime >= filter_Options$In_DepartureTime[1], 
+                            In_DepartureTime <= filter_Options$In_DepartureTime[2]) -> final_filtered
+}
+

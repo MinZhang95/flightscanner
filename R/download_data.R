@@ -42,8 +42,8 @@ download_data<- function(trip_type, from, to, date){
         magrittr::set_names(c("LegId","CarrierId","CarrierCode","CarrierName")) %>% 
         nest(-.data$LegId) %>% magrittr::set_names(c('LegId','CarrierInfo'))
       flight <- data$itineraries %>% 
-        left_join(.data$Out,by="OutboundLegId") %>% 
-        left_join(.data$In,by="InboundLegId") %>% 
+        left_join(Out,by="OutboundLegId") %>% 
+        left_join(In,by="InboundLegId") %>% 
         left_join(data$price %>% select(-.data$SearchTime),by=c("OutboundLegId","InboundLegId")) %>% 
         left_join(segment_info,by=c("OutboundLegId"="LegId", "InboundLegId"="LegId"))
       flight %>%

@@ -26,7 +26,7 @@ shinyServer(function(input, output,session) {
   dataset <- eventReactive(
     input$goButton, 
     {withProgress({
-      setProgress(message = "哗啦啦啦哗啦啦...")
+      setProgress(message = "Working Really Hard...")
       if(input$trip_type==1){
         try(download_data(input$trip_type,
                           toupper(input$from),
@@ -114,7 +114,7 @@ shinyServer(function(input, output,session) {
                                label = "Durationn (hours)",ticks = FALSE,
                                min = 0, max = Inf, value = 0),
                    radioButtons("Leave_Stops", label = 'Stops',
-                                choices = list("没有我，哈哈，傻逼了吧；）" = 0),
+                                choices = list("Enter Something" = 0),
                                 selected = 0),
                    sliderInput("Leave_Dep_Time", label = "Departure Time",step = 0.5,ticks = FALSE,
                                min = 0, max = 24, value = c(0, 24)),
@@ -162,7 +162,7 @@ shinyServer(function(input, output,session) {
     if(grepl("non-character",as.character(t))){
       "Error happened: Check the input information and try again!"
     }else{
-      "Search Successed! Click Flight tag for more details~"
+      "Search Successed! Click Flight Tab For More Details:)"
     }
   })
   
@@ -202,7 +202,7 @@ shinyServer(function(input, output,session) {
                 Out_Duration_Hr = round(Out_Duration/60, 1),
                 In_DepartTime = In_DepartureTime,
                 In_Duration_Hr = round(In_Duration/60, 1),
-                Price_USD = Price)
+                Price_USD = Price) %>% 
          select(Price_USD, Out_DepartTime, Out_ArrivalTime, Out_Duration_Hr, Out_No.Stops,
                 In_DepartTime, In_ArrivalTime, In_Duration_Hr, In_No.Stops,
                 CarrierName, LinkURL)

@@ -18,10 +18,10 @@ shinyUI <- fluidPage(
     )    ,
     # filter for places
     column(2,
-           textInput("from", label = 'Where From', value ="")
+           textInput("from", label = 'From', value ="")
     ),
     column(2,
-           textInput("to", label = 'Where To', value ="")
+           textInput("to", label = 'To', value ="")
     ),
     #condtional panel for dates
     column(4,

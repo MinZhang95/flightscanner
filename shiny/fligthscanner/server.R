@@ -159,7 +159,8 @@ shinyServer(function(input, output,session) {
  
    output$Search_res <- renderText({
     t<- dataset()
-    if(grepl("non-character",as.character(t))){
+    
+    if(!grepl("tbl",as.character(class(t)[2]))){
       "Error happened: Check the input information and try again!"
     }else{
       "Search Successed! Click Flight Tab For More Details:)"
@@ -213,7 +214,7 @@ shinyServer(function(input, output,session) {
    
   
   output$IATAtable <- renderDataTable({
-    airports %>% 
+    airports %>% filter(IATA!="") %>% 
       select(Name, City, Country, IATA, Latitude, Longitude)
    
   },options = list(pageLength =10))

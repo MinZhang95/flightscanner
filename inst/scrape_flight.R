@@ -13,8 +13,10 @@ library(flightcrawl)
 # usethis::use_git_config()
 # usethis::use_github(auth_token = "")
 # usethis::use_package("httr")
+# usethis::use_pkgdown()
 
 devtools::document()
+pkgdown::build_site()
 
 
 # ----------------------------------------------------------------------------

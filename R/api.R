@@ -183,7 +183,7 @@ PollSession <- function(sessionKey, respondPOST = NULL,
 
   resp <- GET(url, add_headers(header), path = path, query = query)
   flag <- CheckStatus(resp)
-  if (content(resp)$Status != "UpdatesComplete") warning("Data Updating is not Complete.")
+  if (content(resp)$Status != "UpdatesComplete") warning("Data Updating is not Complete.", call. = F)
   resp
 }
 

@@ -13,25 +13,27 @@ library(flightcrawl)
 # usethis::use_git_config()
 # usethis::use_github(auth_token = "")
 # usethis::use_package("httr")
+# usethis::use_pkgdown()
 
 devtools::document()
+pkgdown::build_site()
 
 
 # ----------------------------------------------------------------------------
 # header information
 SetAPI(host = "skyscanner-skyscanner-flight-search-v1.p.rapidapi.com",
        key = "3e85a0e43cmshac6dba6fde57066p1c1145jsn1e6f8c3d0e33")
-getOption("API")
+# getOption("API")
 
 
 ### Create session - Live Flight Search
-resp.post <- CreateSession(orig = "SEA", dest = "PVG", startDate = "2019-05-01", returnDate = "2019-05-10")
-resp.post
+resp.post <- CreateSession(orig = "SEA", dest = "PVG", startDate = "2019-06-01", returnDate = "2019-07-01")
+# resp.post
 
 
 ### Poll session - Live Flight Search
 resp.get <- PollSession(respondPOST = resp.post)
-resp.get
+# resp.get
 
 res <- content(resp.get)
 

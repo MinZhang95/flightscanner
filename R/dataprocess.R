@@ -26,7 +26,7 @@ GetData <- function(x, ...) UseMethod("GetData")
 
 
 #' @describeIn GetData Get data from API response.
-#' @export
+#' @method GetData response
 GetData.response <- function(x, ...) {
   list(price = GetPrice(x),
        itineraries = GetItineraries(x),
@@ -39,7 +39,7 @@ GetData.response <- function(x, ...) {
 
 
 #' @describeIn GetData Get data from SQLite connection.
-#' @export
+#' @method GetData SQLiteConnection
 GetData.SQLiteConnection <- function(x, lazy = F, ...) {
   if (lazy) {
     list(price = tbl(x, from = "price"),
@@ -61,4 +61,25 @@ GetData.SQLiteConnection <- function(x, lazy = F, ...) {
          agents = dbReadTable(x, "agent") %>% as.tbl(),
          places = dbReadTable(x, "place") %>% as.tbl())
   }
+}
+
+
+#' Does the time fall in specified range?
+#' @description This is a compare function of time.
+#' It extracts the hours, minutes and seconds to check if it falls in specified time range.
+#'
+#' @param x A \code{POSIXt} class vector.
+#' @param interval A character vector of boundary values,
+#' each element should be in format: \code{"\%H:\%M"}.
+#' 
+#' @return \code{TRUE} or \code{FALSE}.
+#' @export
+#'
+#' @examples
+#' x <- lubridate::ymd_hms("2019-01-02 07:30:00")
+#' BetweenTime(x, c("7:30", "8:00"))
+#' BetweenTime(x, c("6:00", "7:29"))
+BetweenTime <- function(x, interval) {
+  x <- lubridate::as.duration(x - lubridate::floor_date(x, unit = "day"))
+  x >= lubridate::hm(interval[1]) & x <= lubridate::hm(interval[2])
 }

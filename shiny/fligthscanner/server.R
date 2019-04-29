@@ -175,7 +175,9 @@ shinyServer(function(input, output,session) {
          filter(Out_No.Stops <= input$Leave_Stops,
                 Out_Duration <= input$Leave_Duration * 60, 
                 hour(Out_DepartureTime)+minute(Out_DepartureTime)/60 >= input$Leave_Dep_Time[1], 
-                hour(Out_DepartureTime)+minute(Out_DepartureTime)/60 <= input$Leave_Dep_Time[2], 
+                hour(Out_DepartureTime)+minute(Out_DepartureTime)/60 <= input$Leave_Dep_Time[2],
+                hour(Out_ArrivalTime)+minute(Out_ArrivalTime)/60 >= input$Leave_Arr_Time[1], 
+                hour(Out_ArrivalTime)+minute(Out_ArrivalTime)/60 <= input$Leave_Arr_Time[2],
                 Price <= input$price, 
                 CarrierName %in% input$Airline_In, 
                 !CarrierName %in% input$Airline_Ex)  %>% 
@@ -193,13 +195,17 @@ shinyServer(function(input, output,session) {
                 Out_Duration <= input$Leave_Duration * 60, 
                 hour(Out_DepartureTime)+minute(Out_DepartureTime)/60 >= input$Leave_Dep_Time[1], 
                 hour(Out_DepartureTime)+minute(Out_DepartureTime)/60 <= input$Leave_Dep_Time[2], 
+                hour(Out_ArrivalTime)+minute(Out_ArrivalTime)/60 >= input$Leave_Arr_Time[1], 
+                hour(Out_ArrivalTime)+minute(Out_ArrivalTime)/60 <= input$Leave_Arr_Time[2],
                 Price <= input$price, 
                 CarrierName %in% input$Airline_In,
                 !CarrierName %in% input$Airline_Ex) %>% 
          filter(In_No.Stops <= input$Back_Stops,
                 In_Duration <= input$Back_Duration * 60,
                 hour(In_DepartureTime)+minute(In_DepartureTime)/60 >= input$Back_Dep_Time[1], 
-                hour(In_DepartureTime)+minute(In_DepartureTime)/60 <= input$Back_Dep_Time[2]) %>%
+                hour(In_DepartureTime)+minute(In_DepartureTime)/60 <= input$Back_Dep_Time[2], 
+                hour(In_ArrivalTime)+minute(In_ArrivalTime)/60 >= input$Back_Arr_Time[1], 
+                hour(In_ArrivalTime)+minute(In_ArrivalTime)/60 <= input$Back_Arr_Time[2] ) %>%
          mutate(Out_DepartTime = Out_DepartureTime,
                 Out_Duration_Hr = round(Out_Duration/60, 1),
                 In_DepartTime = In_DepartureTime,

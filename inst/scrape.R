@@ -1,10 +1,8 @@
 rm(list = ls())
 library(flightscanner)
 
-# devtools::document()
 # usethis::use_readme_rmd()
-# usethis::use_readme_md()
-# usethis::use_gpl3_license("Yang Qiao")
+# usethis::use_gpl3_license("Dapeng Hu;Yang Qiao;Min Zhang;Xin Zhang;Zerui Zhang")
 # usethis::use_r("")
 # usethis::use_pipe()
 # usethis::use_testthat()

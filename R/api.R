@@ -276,7 +276,6 @@ CheckStatus <- function(x) {
 #' @param x A \code{\link[httr:response]{response()}} object.
 #'
 #' @return Session key.
-#' @export
 #'
 #' @examples
 #' \dontrun{

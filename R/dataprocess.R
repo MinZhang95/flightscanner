@@ -85,6 +85,40 @@ BetweenTime <- function(x, interval) {
 }
 
 
+#' Is there any duplicate rows?
+#' @description Check if there is any duplicate rows indexed by given columns.
+#' If YES, it will give warning.
+#'
+#' @param .data A data.frame.
+#' @param .vars Names of Columns to group by. If missing, use the first column name.
+#'
+#' @return \code{TRUE} if there exists duplicate rows, otherwise \code{FALSE}.
+#'
+#' @examples
+#' \dontrun{
+#' # Get data from API
+#' SetAPI("skyscanner-skyscanner-flight-search-v1.p.rapidapi.com", "YOUR_API_KEY")
+#' resp <- CreateSession(origin = "SFO", destination = "LHR", startDate = "2019-07-01")
+#' resp <- PollSession(respondPOST = resp)
+#' data <- GetData(resp)
+#' CheckDuplicate(data$carriers)
+#' }
+CheckDuplicate <- function(.data, .vars) {
+  name <- names(.data)
+  
+  if (!missing(.vars)) {
+  } else if ((.vars <- "Id") %in% name) {
+  } else if (all((.vars <- c("OutboundLegId", "InboundLegId")) %in% name)) {
+  } else .vars <- name[1]
+  
+  x <- filter(group_by(.data, !!!syms(.vars)), n() > 1)
+  if (NROW(x)) {
+    warning(deparse(substitute(.data)), " has duplicate ", paste(.vars, collapse = ", "), ".", call. = FALSE)
+    TRUE
+  } else FALSE
+}
+
+
 #' Filter flights with matching conditions.
 #' @description Choose flight itineraries that match the filter conditions.
 #'

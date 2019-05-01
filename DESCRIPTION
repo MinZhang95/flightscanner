@@ -2,8 +2,12 @@ Package: flightscanner
 Type: Package
 Title: Flight Information
 Version: 0.1.0
-Author: Yang Qiao
-Maintainer: Yang Qiao <yourself@somewhere.net>
+Authors@R: c(
+    person("Min", "Zhang", email = "yourself@somewhere.net", role = c("aut", "cre")),
+    person("Dapeng", "Hu", email = "yourself@somewhere.net", role = "aut"),
+    person("Yang", "Qiao", email = "yourself@somewhere.net", role = "aut"),
+    person("Xin", "Zhang", email = "yourself@somewhere.net", role = "aut"),
+    person("Zerui", "Zhang", email = "yourself@somewhere.net", role = "aut"))
 Description: More about what it does (maybe more than one line)
     Use four spaces when indenting paragraphs within the Description.
 License: GPL-3

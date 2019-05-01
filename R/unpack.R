@@ -1,38 +1,3 @@
-#' Is there any duplicate rows?
-#' @description Check if there is any duplicate rows indexed by given columns.
-#' If YES, it will give warning.
-#'
-#' @param .data A data.frame.
-#' @param .vars Names of Columns to group by. If missing, use the first column name.
-#'
-#' @return \code{TRUE} if there exists duplicate rows, otherwise \code{FALSE}.
-#' @export
-#'
-#' @examples
-#' \dontrun{
-#' # Get data from API
-#' SetAPI("skyscanner-skyscanner-flight-search-v1.p.rapidapi.com", "YOUR_API_KEY")
-#' resp <- CreateSession(origin = "SFO", destination = "LHR", startDate = "2019-07-01")
-#' resp <- PollSession(respondPOST = resp)
-#' data <- GetData(resp)
-#' CheckDuplicate(data$carriers)
-#' }
-CheckDuplicate <- function(.data, .vars) {
-  name <- names(.data)
-  
-  if (!missing(.vars)) {
-  } else if ((.vars <- "Id") %in% name) {
-  } else if (all((.vars <- c("OutboundLegId", "InboundLegId")) %in% name)) {
-  } else .vars <- name[1]
-  
-  x <- filter(group_by(.data, !!!syms(.vars)), n() > 1)
-  if (NROW(x)) {
-    warning(deparse(substitute(.data)), " has duplicate ", paste(.vars, collapse = ", "), ".", call. = FALSE)
-    TRUE
-  } else FALSE
-}
-
-
 #' Extract price information from request response.
 #' @description Extract information from request response of live flight search endpoint.
 #' Information includes the SearchTime, ItineraryId (OutboundLegId, InboundLegId), and PricingOptions.
@@ -43,7 +8,6 @@ CheckDuplicate <- function(.data, .vars) {
 #'
 #' @return A tibble.
 #' @import dplyr
-#' @export
 #'
 #' @examples
 #' \dontrun{
@@ -70,7 +34,6 @@ GetPrice <- function(x) {
 #'
 #' @return A tibble.
 #' @import dplyr purrr
-#' @export
 #'
 #' @examples
 #' \dontrun{
@@ -105,7 +68,6 @@ GetItineraries <- function(x, price = FALSE) {
 #'
 #' @return A tibble.
 #' @import dplyr purrr
-#' @export
 #'
 #' @examples
 #' \dontrun{
@@ -157,7 +119,6 @@ GetLegs <- function(x) {
 #'
 #' @return A tibble.
 #' @import dplyr purrr
-#' @export
 #'
 #' @examples
 #' \dontrun{
@@ -189,7 +150,6 @@ GetSegments <- function(x) {
 #'
 #' @return A tibble.
 #' @import dplyr purrr
-#' @export
 #'
 #' @examples
 #' \dontrun{
@@ -215,7 +175,6 @@ GetCarriers <- function(x) {
 #'
 #' @return A tibble.
 #' @import dplyr purrr
-#' @export
 #'
 #' @examples
 #' \dontrun{
@@ -241,7 +200,6 @@ GetAgents <- function(x) {
 #'
 #' @return A tibble.
 #' @import dplyr purrr
-#' @export
 #'
 #' @examples
 #' \dontrun{

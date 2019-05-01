@@ -73,9 +73,11 @@ dbAppendTableNew <- function(conn, name, value, ...) {
   value <- ListUnpack(value, mutate = TRUE)
   
   sum(sapply(1:NROW(value), function(i) {
-    x <- tryCatch(dbAppendTable(conn, name, value[i, , drop = FALSE], ...), error = function(e) {
-      if (grepl("^UNIQUE constraint failed", e$message)) 0 else stop(e)
-    })
+    x <- tryCatch(dbAppendTable(conn, name, value[i, , drop = FALSE], ...),
+                  warning = function(w) 1,
+                  error = function(e) {
+                    if (grepl("^UNIQUE constraint failed", e$message)) 0 else stop(e)
+                  })
     if (inherits(x, "error")) stop(x) else x
   }))
 }

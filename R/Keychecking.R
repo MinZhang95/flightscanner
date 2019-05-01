@@ -1,8 +1,5 @@
 #' Check the API key.
 #' @description Check the API key. This function will automatically run when loading the package.
-#'
-#' @export
-#'
 CheckAPIkey <- function() {
   host <- "skyscanner-skyscanner-flight-search-v1.p.rapidapi.com"
   website <- "https://rapidapi.com/skyscanner/api/skyscanner-flight-search"

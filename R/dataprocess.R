@@ -101,7 +101,7 @@ BetweenTime <- function(x, interval) {
 #' resp <- CreateSession(origin = "SFO", destination = "LHR", startDate = "2019-07-01")
 #' resp <- PollSession(respondPOST = resp)
 #' data <- GetData(resp)
-#' CheckDuplicate(data$carriers)
+#' sapply(data, CheckDuplicate)
 #' }
 CheckDuplicate <- function(.data, .vars) {
   name <- names(.data)

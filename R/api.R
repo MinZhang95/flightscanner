@@ -276,13 +276,6 @@ CheckStatus <- function(x) {
 #' @param x A \code{\link[httr:response]{response()}} object.
 #'
 #' @return Session key.
-#'
-#' @examples
-#' \dontrun{
-#' SetAPI("skyscanner-skyscanner-flight-search-v1.p.rapidapi.com", "YOUR_API_KEY")
-#' resp <- CreateSession(origin = "SFO", destination = "LHR", startDate = "2019-07-01")
-#' SessionKey(resp)
-#' }
 SessionKey <- function(x) {
   location <- headers(x)$location
   y <- strsplit(location, "/")[[1]]

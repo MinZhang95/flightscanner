@@ -2,22 +2,22 @@
 % Please edit documentation in R/download_data.R
 \name{download_data}
 \alias{download_data}
-\title{Download data}
+\title{Download data.}
 \usage{
 download_data(trip_type, from, to, date)
 }
 \arguments{
-\item{trip_type}{The trip type}
+\item{trip_type}{The trip type.}
 
-\item{from}{Where from}
+\item{from}{Where from.}
 
-\item{to}{Where to}
+\item{to}{Where to.}
 
-\item{date}{date}
+\item{date}{Date.}
 }
 \value{
-a data frame
+A data frame.
 }
 \description{
-Download data
+Download data.
 }

@@ -37,8 +37,8 @@ ListUnpack <- function(x, mutate = FALSE, vars = NULL) {
 }
 
 
-#' @export
 #' @rdname ListUnpack
+#' @export
 ListPack <- function(x, mutate = FALSE, vars = NULL, vars.time = vars(ends_with("Time")),
                      tz = "UTC") {
   if (!mutate) {
@@ -52,7 +52,7 @@ ListPack <- function(x, mutate = FALSE, vars = NULL, vars.time = vars(ends_with(
 
 #' Insert rows into a table.
 #' @description Insert rows into a table.
-#' If the table has key, it will ignore the duplicated rows indexed by the key.
+#' If the table has key, it will ignore the duplicate rows indexed by the key.
 #' It assumes that the table has been created beforehand.
 #'
 #' @param conn A \code{\link[RSQLite:SQLiteConnection-class]{SQLiteConnection}} object,

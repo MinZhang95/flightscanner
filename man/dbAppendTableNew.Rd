@@ -19,7 +19,7 @@ The column names must be consistent with those in the target table in the databa
 }
 \description{
 Insert rows into a table.
-If the table has key, it will ignore the duplicated rows indexed by the key.
+If the table has key, it will ignore the duplicate rows indexed by the key.
 It assumes that the table has been created beforehand.
 }
 \examples{

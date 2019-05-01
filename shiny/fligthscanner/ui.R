@@ -1,8 +1,9 @@
-library(leaflet)
-library(shiny)
+library(flightscanner)
 library(dplyr)
+library(leaflet)
 library(tidyr)
 library(lubridate)
+library(shiny)
 
 data("airports")
 

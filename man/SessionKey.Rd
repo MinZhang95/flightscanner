@@ -16,10 +16,3 @@ Session key.
 Extract session key from request response.
 The last value of location header contains the session key which is required when polling the session.
 }
-\examples{
-\dontrun{
-SetAPI("skyscanner-skyscanner-flight-search-v1.p.rapidapi.com", "YOUR_API_KEY")
-resp <- CreateSession(origin = "SFO", destination = "LHR", startDate = "2019-07-01")
-SessionKey(resp)
-}
-}

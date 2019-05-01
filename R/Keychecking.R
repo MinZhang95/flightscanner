@@ -3,8 +3,9 @@
 CheckAPIkey <- function() {
   host <- "skyscanner-skyscanner-flight-search-v1.p.rapidapi.com"
   website <- "https://rapidapi.com/skyscanner/api/skyscanner-flight-search"
+  filename <- "API_key.txt"
   
-  if (!file.exists("API_key.txt")) {
+  if (!file.exists(filename)) {
     cli::cat_line("API key is required!", col = "red")
     cli::cat_line("See the following instruction for the Key:")
     cli::cat_bullet("1. Browse and Log In: \n\t", website)
@@ -17,12 +18,12 @@ CheckAPIkey <- function() {
     
     key <- readline("")
     if (key != "") {
-      utils::write.table(key, file = "API_key.txt", quote = FALSE, row.names = FALSE, col.names = FALSE)
+      utils::write.table(key, file = filename, quote = FALSE, row.names = FALSE, col.names = FALSE)
       SetAPI(host, key)
       cli::cat_line("Welcome to FlightScanner!")
     }
   } else {
-    key <- tryCatch(utils::read.table(file = "API_key.txt", stringsAsFactors = FALSE),
+    key <- tryCatch(utils::read.table(file = filename, stringsAsFactors = FALSE),
                     warning = function(w) {}, error = function(e) {})[1, 1]
     url <- paste0("https://", host, "/apiservices/reference/v1.0/currencies")
     resp <- GET(url, add_headers(MakeHeader(host, key)))
@@ -30,6 +31,6 @@ CheckAPIkey <- function() {
     if (!suppressWarnings(CheckStatus(resp))) {
       cli::cat_line("Welcome to FlightScanner!")
       SetAPI(host, key)
-    } else cli::cat_line("Check your API key or network connection")
+    } else cli::cat_line("Check your API key or network connection.")
   }
 }

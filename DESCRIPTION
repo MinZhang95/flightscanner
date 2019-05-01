@@ -25,6 +25,7 @@ Imports:
     RSQLite,
     cli
 Suggests: 
-    testthat
+    testthat,
+    covr
 URL: https://github.com/MinZhang95/flightscanner
 BugReports: https://github.com/MinZhang95/flightscanner/issues

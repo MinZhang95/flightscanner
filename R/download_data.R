@@ -4,7 +4,6 @@
 #' @param from Where from
 #' @param to Where to
 #' @param date date
-#' @import dplyr
 #' @import tidyr
 #' @importFrom rlang .data
 #' @return a data frame

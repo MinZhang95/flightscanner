@@ -10,7 +10,7 @@ GetData(x, ...)
 
 \method{GetData}{response}(x, ...)
 
-\method{GetData}{SQLiteConnection}(x, lazy = F, ...)
+\method{GetData}{SQLiteConnection}(x, lazy = FALSE, ...)
 }
 \arguments{
 \item{x}{An object to get data from.}

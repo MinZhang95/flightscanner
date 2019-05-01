@@ -116,9 +116,9 @@ and also transform columns between datetime and character.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>ListUnpack</span>(<span class='no'>x</span>, <span class='kw'>mutate</span> <span class='kw'>=</span> <span class='no'>F</span>, <span class='kw'>vars</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
+    <pre class="usage"><span class='fu'>ListUnpack</span>(<span class='no'>x</span>, <span class='kw'>mutate</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>vars</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
 
-<span class='fu'>ListPack</span>(<span class='no'>x</span>, <span class='kw'>mutate</span> <span class='kw'>=</span> <span class='no'>F</span>, <span class='kw'>vars</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+<span class='fu'>ListPack</span>(<span class='no'>x</span>, <span class='kw'>mutate</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>vars</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>vars.time</span> <span class='kw'>=</span> <span class='fu'>vars</span>(<span class='fu'>ends_with</span>(<span class='st'>"Time"</span>)), <span class='kw'>tz</span> <span class='kw'>=</span> <span class='st'>"UTC"</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -131,7 +131,7 @@ and also transform columns between datetime and character.</p>
     <tr>
       <th>mutate</th>
       <td><p>If <code>TRUE</code>, apply the function on the given columns.
-If FALSE, apply the function on the object.</p></td>
+If <code>FALSE</code>, apply the function on the object.</p></td>
     </tr>
     <tr>
       <th>vars, vars.time</th>

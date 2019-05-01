@@ -1,4 +1,4 @@
 .onLoad <- function(libname, pkgname) {
-  Key_checking()
+  CheckAPIkey()
   invisible()
 }

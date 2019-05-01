@@ -15,7 +15,7 @@ A tibble.
 \description{
 Extract information from request response of live flight search endpoint.
 Information includes the LegId, SegmentIds, OriginId, DestinationId,
-DepartureTime, ArrivalTime, Duration, No.Stops, Directionality, and Stops.
+DepartureTime, ArrivalTime, Duration, No.Stops, and Stops.
 
 Stops contains the StopId, and Layover.
 }

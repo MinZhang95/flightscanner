@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Check status of request response. — CheckStatus • flightscanner</title>
+<title>Is there any duplicate rows? — CheckDuplicate • flightscanner</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,10 +30,10 @@
 
 
 
-<meta property="og:title" content="Check status of request response. — CheckStatus" />
+<meta property="og:title" content="Is there any duplicate rows? — CheckDuplicate" />
 
-<meta property="og:description" content="Extract the http status code and convert it into a human readable message.
-Give warning if has an error." />
+<meta property="og:description" content="Check if there is any duplicate rows indexed by given columns.
+If YES, it will give warning." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -100,34 +100,47 @@ Give warning if has an error." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Check status of request response.</h1>
-    <small class="dont-index">Source: <a href='https://github.com/MinZhang95/flightscanner/blob/master/R/api.R'><code>R/api.R</code></a></small>
-    <div class="hidden name"><code>CheckStatus.Rd</code></div>
+    <h1>Is there any duplicate rows?</h1>
+    <small class="dont-index">Source: <a href='https://github.com/MinZhang95/flightscanner/blob/master/R/unpack.R'><code>R/unpack.R</code></a></small>
+    <div class="hidden name"><code>CheckDuplicate.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Extract the http status code and convert it into a human readable message.
-Give warning if has an error.</p>
+    <p>Check if there is any duplicate rows indexed by given columns.
+If YES, it will give warning.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>CheckStatus</span>(<span class='no'>x</span>)</pre>
+    <pre class="usage"><span class='fu'>CheckDuplicate</span>(<span class='no'>.data</span>, <span class='no'>.vars</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>x</th>
-      <td><p>A <code><a href='https://www.rdocumentation.org/packages/httr/topics/response'>response()</a></code> object or a number.</p></td>
+      <th>.data</th>
+      <td><p>A data.frame.</p></td>
+    </tr>
+    <tr>
+      <th>.vars</th>
+      <td><p>Names of Columns to group by. If missing, use the first column name.</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p><code>TRUE</code> if has an error, otherwise <code>FALSE</code>.</p>
+    <p><code>TRUE</code> if there exists duplicate rows, otherwise <code>FALSE</code>.</p>
     
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><span class='co'># NOT RUN {</span>
+<span class='co'># Get data from API</span>
+<span class='fu'><a href='SetAPI.html'>SetAPI</a></span>(<span class='st'>"skyscanner-skyscanner-flight-search-v1.p.rapidapi.com"</span>, <span class='st'>"YOUR_API_KEY"</span>)
+<span class='no'>resp</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='CreateSession.html'>CreateSession</a></span>(<span class='kw'>origin</span> <span class='kw'>=</span> <span class='st'>"SFO"</span>, <span class='kw'>destination</span> <span class='kw'>=</span> <span class='st'>"LHR"</span>, <span class='kw'>startDate</span> <span class='kw'>=</span> <span class='st'>"2019-07-01"</span>)
+<span class='no'>resp</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='PollSession.html'>PollSession</a></span>(<span class='kw'>respondPOST</span> <span class='kw'>=</span> <span class='no'>resp</span>)
+<span class='no'>data</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='GetData.html'>GetData</a></span>(<span class='no'>resp</span>)
+<span class='fu'>CheckDuplicate</span>(<span class='no'>data</span>$<span class='no'>carriers</span>)
+<span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -135,7 +148,9 @@ Give warning if has an error.</p>
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
-          </ul>
+      
+      <li><a href="#examples">Examples</a></li>
+    </ul>
 
   </div>
 </div>

@@ -181,9 +181,12 @@ PollSession <- function(sessionKey, respondPOST = NULL,
                 inboundArriveStartTime = inboundArriveStartTime,
                 inboundArriveEndTime = inboundArriveEndTime)
 
-  resp <- GET(url, add_headers(header), path = path, query = query)
+  for (count in 0:100) {
+    resp <- GET(url, add_headers(header), path = path, query = query)
+    if (content(resp)$Status == "UpdatesComplete") break
+  }
+  if (count) message("Try to update data ", count, " times.")
   flag <- CheckStatus(resp)
-  if (content(resp)$Status != "UpdatesComplete") warning("Data Updating is not Complete.", call. = F)
   resp
 }
 
@@ -256,13 +259,13 @@ BrowseFlight <- function(endpoint = c("quotes", "routes", "dates"),
 #'
 #' @param x A \code{\link[httr:response]{response()}} object or a number.
 #'
-#' @return 1 if has an error, otherwise 0.
+#' @return \code{TRUE} if has an error, otherwise \code{FALSE}.
 CheckStatus <- function(x) {
   # warn_for_status(x)
   if (http_error(x)) {
     warning(http_status(x)$message)
-    1
-  } else 0
+    TRUE
+  } else FALSE
 }
 
 

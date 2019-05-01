@@ -4,7 +4,7 @@
 \alias{GetItineraries}
 \title{Extract itinerary information from request response.}
 \usage{
-GetItineraries(x, price = F)
+GetItineraries(x, price = FALSE)
 }
 \arguments{
 \item{x}{A request object.}

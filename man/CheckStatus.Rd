@@ -10,7 +10,7 @@ CheckStatus(x)
 \item{x}{A \code{\link[httr:response]{response()}} object or a number.}
 }
 \value{
-1 if has an error, otherwise 0.
+\code{TRUE} if has an error, otherwise \code{FALSE}.
 }
 \description{
 Extract the http status code and convert it into a human readable message.

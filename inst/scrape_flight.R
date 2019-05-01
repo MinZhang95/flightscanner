@@ -1,5 +1,5 @@
 rm(list = ls())
-library(flightcrawl)
+library(flightscanner)
 
 # devtools::document()
 # usethis::use_readme_rmd()
@@ -14,6 +14,8 @@ library(flightcrawl)
 # usethis::use_github(auth_token = "")
 # usethis::use_package("httr")
 # usethis::use_pkgdown()
+usethis::use_travis()
+usethis::use_coverage()
 
 devtools::document()
 pkgdown::build_site()
@@ -27,7 +29,7 @@ SetAPI(host = "skyscanner-skyscanner-flight-search-v1.p.rapidapi.com",
 
 
 ### Create session - Live Flight Search
-resp.post <- CreateSession(orig = "SEA", dest = "PVG", startDate = "2019-06-01", returnDate = "2019-07-01")
+resp.post <- CreateSession(orig = "SEA", dest = "PVG", startDate = "2019-06-15")
 # resp.post
 
 
@@ -35,28 +37,28 @@ resp.post <- CreateSession(orig = "SEA", dest = "PVG", startDate = "2019-06-01",
 resp.get <- PollSession(respondPOST = resp.post)
 # resp.get
 
-res <- content(resp.get)
+res <- httr::content(resp.get)
 
 
 ### Browse Quotes - Browse Flight Prices
 resp.quote <- BrowseFlight("quotes", orig = "DSM", dest = "DTW", start = "2019-05-01", return = NULL)
 resp.quote
-headers(resp.quote)
+httr::headers(resp.quote)
 glimpse(resp.quote)
-content(resp.quote)
+httr::content(resp.quote)
 
 
 ### Browse Routes - Browse Flight Prices
 resp.route <- BrowseFlight("routes", orig = "DSM", dest = "DTW", start = "2019-05-01", return = NULL)
 resp.route
-headers(resp.route)
+httr::headers(resp.route)
 glimpse(resp.route)
-content(resp.route)
+httr::content(resp.route)
 
 
 ### Browse Dates - Browse Flight Prices
 resp.date <- BrowseFlight("dates", orig = "DSM", dest = "DTW", start = "2019-05-01", return = NULL)
 resp.date
-headers(resp.date)
+httr::headers(resp.date)
 glimpse(resp.date)
-content(resp.date)
+httr::content(resp.date)

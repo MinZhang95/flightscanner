@@ -1,3 +1,5 @@
+^codecov\.yml$
+^\.travis\.yml$
 ^docs$
 ^_pkgdown\.yml$
 ^LICENSE\.md$
@@ -5,3 +7,5 @@
 ^README\.md$
 ^.*\.Rproj$
 ^\.Rproj\.user$
+^shiny$
+^API_key\.txt$

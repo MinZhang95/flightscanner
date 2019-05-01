@@ -3,7 +3,7 @@
 \docType{data}
 \name{airports}
 \alias{airports}
-\title{a data contain the airports information}
+\title{A data contain the airports information.}
 \format{A data frame with 6344 observations on the following 11 variables.}
 \source{
 \url{http://www.OpenFlights.org/data.html}
@@ -12,6 +12,7 @@
 airports
 }
 \description{
-Airports of the World (from http://www.OpenFlights.org)
+Airports of the World,
+from \url{http://www.OpenFlights.org}.
 }
 \keyword{datasets}

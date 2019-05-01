@@ -1,10 +1,39 @@
+dump()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+####################################
 Sys.getenv()
 system()
 
 rstudioapi::getPersistentValue
 rstudioapi::jobRunScript()
 rstudioapi::selectFile()
-
+rstudioapi::documentSave(1)
+rstudioapi::getActiveDocumentContext()
 
 Sys.info()["sysname"]
 .Platform$OS.type
@@ -12,28 +41,15 @@ R.version$os
 
 rappdirs:::get_os()
 
-get_os <- function() {
-  if (.Platform$OS.type == "windows") { 
-    "win"
-  } else if (Sys.info()["sysname"] == "Darwin") {
-    "mac" 
-  } else if (.Platform$OS.type == "unix") { 
-    "unix"
-  } else {
-    stop("Unknown OS")
-  }
-}
-
 
 library(taskscheduleR)  # Windows
 library(cronR)  # Unix/Linux
 
-library(cronR)
 cron_rstudioaddin()
 
-
-
 f <- system.file(package = "cronR", "extdata", "helloworld.R")
+f <- file.path(getwd(), "inst/test/helloworld.R")
+
 cmd <- cron_rscript(f, rscript_args = c("productx", "20160101"))
 ## Every minute
 cron_add(cmd, frequency = 'minutely', id = 'job1', description = 'Customers')
@@ -47,12 +63,9 @@ cron_add(cmd, frequency = 'monthly', id = 'job4', at = '10:30', days_of_month = 
 cron_njobs()
 cron_ls()
 ## Remove all scheduled jobs
-cron_clear(ask=FALSE)
+cron_clear(ask = FALSE)
 cron_ls()
 
-
-cron_rstudioaddin()
-
-
+save()
 
 

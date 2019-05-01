@@ -93,6 +93,7 @@ BetweenTime <- function(x, interval) {
 #' @param .vars Names of Columns to group by. If missing, use the first column name.
 #'
 #' @return \code{TRUE} if there exists duplicate rows, otherwise \code{FALSE}.
+#' @export
 #'
 #' @examples
 #' \dontrun{
@@ -182,9 +183,10 @@ FilterFlight <- function(x, max_price = Inf, max_duration = Inf,
                    & all(!.$CarrierCode %in% toupper(carrier_exclude))))
   
   # filter itineraries by time
+  my_join <- if (all(x$itineraries$InboundLegId == "")) left_join else inner_join
   itineraries_info <- x$itineraries %>%
     inner_join(rename_all(legs_info, ~ paste0("OutboundLeg", .)), by = "OutboundLegId") %>%
-    inner_join(rename_all(legs_info, ~ paste0("InboundLeg", .)), by = "InboundLegId") %>%
+    my_join(rename_all(legs_info, ~ paste0("InboundLeg", .)), by = "InboundLegId") %>%
     filter(BetweenTime(!!sym("OutboundLegDepartureTime"), out_departure)
            & BetweenTime(!!sym("OutboundLegArrivalTime"), out_arrival)
            & (BetweenTime(!!sym("InboundLegDepartureTime"), in_departure)

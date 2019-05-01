@@ -1,0 +1,7 @@
+1. Pull down the Apple menu and choose ‘System Preferences’
+2. Choose “Security & Privacy” control panel
+3. Now select the “Privacy” tab, then from the left-side menu select “Full Disk Access”
+4. Click the lock icon in the lower left corner of the preference panel and authenticate with an admin level login
+5. Now click the [+] plus button to add an application with full disk access
+6. Navigate to the /Applications/ folder and choose “RStudio.app” to grant RStudio with Full Disk Access privileges
+7. Relaunch RStudio, the “Operation not permitted” error messages will be gone

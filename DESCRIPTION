@@ -29,6 +29,8 @@ Imports:
     RSQLite,
     cli
 Suggests: 
+    cronR,
+    taskscheduleR,
     testthat,
     covr
 URL: https://github.com/MinZhang95/flightscanner

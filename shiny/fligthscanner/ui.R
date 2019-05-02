@@ -59,7 +59,8 @@ shinyUI <- fluidPage(
            tabsetPanel(
              tabPanel("Airport Map", 
                       leafletOutput("map"),
-                      h3(textOutput("Search_res"),align = "center")),
+                      h3(textOutput("Search_res"),align = "center"),
+                      h3(textOutput("value"),align = "center")),
              tabPanel("Flights", 
                       
                       column(3,

@@ -7,19 +7,11 @@ library(shiny)
 
 data("airports")
 
-## all input variables
-# trip_type
-# from/to
-# date
-# price
-# Incl. Airline/Excl. Airline
-# Leave/Back + _ + Duration/Stops/Dep_Time/Arr_Time
-
 shinyServer(function(input, output, session) {
   output$ui_date <- renderUI({
     dateInput("date3", "Arr. Date", 
               min = input$date2,
-              value = input$date2 + 7, 
+              value = input$date2+7, 
               format = "mm/dd/yy") 
   })
   
@@ -28,10 +20,19 @@ shinyServer(function(input, output, session) {
     input$goButton, {
       withProgress({
         setProgress(message = "Working Really Hard...")
-        resp.get <- CreateSession(orig = input$from, dest = input$to,
+        if(input$trip_type==1){
+        resp.get <- CreateSession(orig = input$from, 
+                                  dest = input$to,
                                   startDate = input$date1, 
-                                  returnDate = input$date2) %>%
+                                  returnDate = NULL) %>%
           PollSession(respondPOST = .)
+        }else{
+          resp.get <- CreateSession(orig = input$from, 
+                                    dest = input$to,
+                                    startDate = input$date2, 
+                                    returnDate = input$date3) %>%
+            PollSession(respondPOST = .)  
+          }
         GetData(resp.get)
       })
     })
@@ -40,9 +41,9 @@ shinyServer(function(input, output, session) {
   output$ui <- renderUI({ 
     wellPanel(
       sliderInput("price", label = "Price (USD)", 
-                  min = min(bind_rows(data$price$PricingOptions)$Price),
-                  max = max(bind_rows(data$price$PricingOptions)$Price), 
-                  value = max(bind_rows(data$price$PricingOptions)$Price),
+                  min = min(bind_rows(dataset()$price$PricingOptions)$Price),
+                  max = max(bind_rows(dataset()$price$PricingOptions)$Price), 
+                  value = max(bind_rows(dataset()$price$PricingOptions)$Price),
                   ticks = FALSE)
       ,
       tabsetPanel(
@@ -108,14 +109,16 @@ shinyServer(function(input, output, session) {
     }
   })
   
+  output$value <- renderPrint({ c(input$date1,input$date2,input$date3) })
+  
   output$table <- renderDataTable({
     data <- dataset()
     FilterFlight(data, max_price = input$price, max_duration = input$Duration,
                  max_stops = input$Stops, layover = c(60, 240),
                  carrier_include = input$`Incl. Airline`,
                  carrier_exclude = input$`Excl. Airline`,
-                 out_departure = input$Leave_Dep_Time, out_arrival = input$Leave_Arr_Time,
-                 in_departure = input$Back_Dep_Time, in_arrival = input$Back_Arr_Time) %>%
+                 out_departure = input$Leave_Dep_Time*60, out_arrival = input$Leave_Arr_Time*60,
+                 in_departure = input$Back_Dep_Time*60, in_arrival = input$Back_Arr_Time*60) %>%
       select(-ends_with("LegSegments"), -ends_with("LegStops")) %>%
       tidyr::unnest(!!sym("PricingOptions"))
   }, escape = FALSE, options = list(pageLength = 10))

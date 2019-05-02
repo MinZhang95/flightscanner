@@ -133,7 +133,7 @@ Information includes the PlaceId, ParentId, Code, Type and Name.</p>
 <span class='fu'><a href='SetAPI.html'>SetAPI</a></span>(<span class='st'>"skyscanner-skyscanner-flight-search-v1.p.rapidapi.com"</span>, <span class='st'>"YOUR_API_KEY"</span>)
 <span class='no'>resp</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='CreateSession.html'>CreateSession</a></span>(<span class='kw'>origin</span> <span class='kw'>=</span> <span class='st'>"SFO"</span>, <span class='kw'>destination</span> <span class='kw'>=</span> <span class='st'>"LHR"</span>, <span class='kw'>startDate</span> <span class='kw'>=</span> <span class='st'>"2019-07-01"</span>)
 <span class='no'>resp</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='PollSession.html'>PollSession</a></span>(<span class='kw'>respondPOST</span> <span class='kw'>=</span> <span class='no'>resp</span>)
-<span class='fu'>GetPlaces</span>(<span class='no'>resp</span>)
+<span class='kw pkg'>flightscanner</span><span class='kw ns'>:::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/flightscanner/topics/GetPlaces'>GetPlaces</a></span>(<span class='no'>resp</span>)
 <span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

@@ -93,7 +93,6 @@ BetweenTime <- function(x, interval) {
 #' @param .vars Names of Columns to group by. If missing, use the first column name.
 #'
 #' @return \code{TRUE} if there exists duplicate rows, otherwise \code{FALSE}.
-#' @export
 #'
 #' @examples
 #' \dontrun{
@@ -102,7 +101,7 @@ BetweenTime <- function(x, interval) {
 #' resp <- CreateSession(origin = "SFO", destination = "LHR", startDate = "2019-07-01")
 #' resp <- PollSession(respondPOST = resp)
 #' data <- GetData(resp)
-#' sapply(data, CheckDuplicate)
+#' sapply(data, flightscanner:::CheckDuplicate)
 #' }
 CheckDuplicate <- function(.data, .vars) {
   name <- names(.data)
@@ -125,17 +124,23 @@ CheckDuplicate <- function(.data, .vars) {
 #'
 #' @param x A list of data.frame.
 #' @param max_price Maximum price.
-#' @param max_duration Maximum duration in minutes, applied to both of outbound and inbound legs.
-#' @param max_stops Maximum number of stops, applied to both of outbound and inbound legs.
+#' @param max_duration Maximum duration in minutes,
+#' applied to both of outbound and inbound legs.
+#' @param max_stops Maximum number of stops,
+#' applied to both of outbound and inbound legs.
 #' @param layover Range of layover in minutes, applied to each stop.
-#' @param carrier_include Include specified carriers, applied to both of outbound and inbound legs.
-#' Must be IATA codes.
-#' @param carrier_exclude Exclude specified carriers, applied to both of outbound and inbound legs.
-#' Must be IATA codes.
-#' @param out_departure Range of outbound departure time, \code{c("hh:mm", "hh:mm")}.
-#' @param out_arrival Range of outbound arrival time, \code{c("hh:mm", "hh:mm")}.
-#' @param in_departure Range of inbound departure time, \code{c("hh:mm", "hh:mm")}.
-#' @param in_arrival Range of inbound arrival time, \code{c("hh:mm", "hh:mm")}.
+#' @param carrier_include Include specified carriers,
+#' applied to both of outbound and inbound legs. Must be IATA codes.
+#' @param carrier_exclude Exclude specified carriers,
+#' applied to both of outbound and inbound legs. Must be IATA codes.
+#' @param out_departure Range of outbound departure time,
+#' \code{"hh:mm"} or numeric values in minutes.
+#' @param out_arrival Range of outbound arrival time,
+#' \code{"hh:mm"} or numeric values in minutes.
+#' @param in_departure Range of inbound departure time,
+#' \code{"hh:mm"} or numeric values in minutes.
+#' @param in_arrival Range of inbound arrival time,
+#' \code{"hh:mm"} or numeric values in minutes.
 #'
 #' @return A tibble of flight itineraries.
 #' @export
@@ -157,6 +162,12 @@ FilterFlight <- function(x, max_price = Inf, max_duration = Inf,
                          carrier_include = unique(x$carriers$Code), carrier_exclude = NULL,
                          out_departure = c("0:00", "24:00"), out_arrival = c("0:00", "24:00"),
                          in_departure = c("0:00", "24:00"), in_arrival = c("0:00", "24:00")) {
+  f <- function(x) {
+    if (is.numeric(x)) {
+      format(as.POSIXct(60 * x, origin = "1970-01-01", tz = "UTC"), "%H:%M")
+    } else x
+  }
+  
   # check duplicate Id
   dup <- sapply(x, CheckDuplicate)
   if (any(dup)) warning("Duplicate Ids are found in table: ",
@@ -187,10 +198,10 @@ FilterFlight <- function(x, max_price = Inf, max_duration = Inf,
   itineraries_info <- x$itineraries %>%
     inner_join(rename_all(legs_info, ~ paste0("OutboundLeg", .)), by = "OutboundLegId") %>%
     my_join(rename_all(legs_info, ~ paste0("InboundLeg", .)), by = "InboundLegId") %>%
-    filter(BetweenTime(!!sym("OutboundLegDepartureTime"), out_departure)
-           & BetweenTime(!!sym("OutboundLegArrivalTime"), out_arrival)
-           & (BetweenTime(!!sym("InboundLegDepartureTime"), in_departure)
-              & BetweenTime(!!sym("InboundLegArrivalTime"), in_arrival)
+    filter(BetweenTime(!!sym("OutboundLegDepartureTime"), f(out_departure))
+           & BetweenTime(!!sym("OutboundLegArrivalTime"), f(out_arrival))
+           & (BetweenTime(!!sym("InboundLegDepartureTime"), f(in_departure))
+              & BetweenTime(!!sym("InboundLegArrivalTime"), f(in_arrival))
               | !!sym("InboundLegId") == ""))
   
   # filter price

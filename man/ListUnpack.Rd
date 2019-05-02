@@ -34,10 +34,10 @@ If applying this function to a data.frame, it will do this on each rows of given
 and also transform columns between datetime and character.
 }
 \examples{
-s <- ListUnpack(LETTERS)
-ListPack(s)
-d <- ListUnpack(iris, mutate = TRUE, vars = "Species")
-d <- ListPack(d, mutate = TRUE, vars = "Species")
+s <- flightscanner:::ListUnpack(LETTERS)
+flightscanner:::ListPack(s)
+d <- flightscanner:::ListUnpack(iris, mutate = TRUE, vars = "Species")
+d <- flightscanner:::ListPack(d, mutate = TRUE, vars = "Species")
 d$Species <- unlist(d$Species)
 d
 }

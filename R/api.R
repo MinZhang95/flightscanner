@@ -104,7 +104,7 @@ CreateSession <- function(origin, destination, startDate, returnDate = NULL,
 #' @param respondPOST Return object of \code{\link{CreateSession}}.
 #' @param sortType (OPTIONAL) The parameter to sort results on.
 #' Can be carrier, duration, outboundarrivetime, outbounddeparttime, inboundarrivetime, inbounddeparttime, price.
-#' @param sortOrder (OPTIONAL) The sort order. 'asc' or 'desc'.
+#' @param sortOrder (OPTIONAL) The sort order. \code{"asc"} or \code{"desc"}.
 #' @param duration (OPTIONAL) Filter for maximum duration in minutes. Integer between 0 and 1800.
 #' @param stops (OPTIONAL) Filter by number of stops. 0: direct flights only. 1: flights with one stop only.
 #' To show all flights do not use (only supports values 0 and 1).

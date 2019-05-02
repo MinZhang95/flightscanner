@@ -21,6 +21,6 @@ Information includes the AgentId, Name, ImageURL, and Type.
 SetAPI("skyscanner-skyscanner-flight-search-v1.p.rapidapi.com", "YOUR_API_KEY")
 resp <- CreateSession(origin = "SFO", destination = "LHR", startDate = "2019-07-01")
 resp <- PollSession(respondPOST = resp)
-GetAgents(resp)
+flightscanner:::GetAgents(resp)
 }
 }

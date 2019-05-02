@@ -15,13 +15,12 @@
 #' If \code{NULL}, use the current time zone.
 #'
 #' @return Transformed object.
-#' @export
 #'
 #' @examples
-#' s <- ListUnpack(LETTERS)
-#' ListPack(s)
-#' d <- ListUnpack(iris, mutate = TRUE, vars = "Species")
-#' d <- ListPack(d, mutate = TRUE, vars = "Species")
+#' s <- flightscanner:::ListUnpack(LETTERS)
+#' flightscanner:::ListPack(s)
+#' d <- flightscanner:::ListUnpack(iris, mutate = TRUE, vars = "Species")
+#' d <- flightscanner:::ListPack(d, mutate = TRUE, vars = "Species")
 #' d$Species <- unlist(d$Species)
 #' d
 ListUnpack <- function(x, mutate = FALSE, vars = NULL) {
@@ -38,7 +37,6 @@ ListUnpack <- function(x, mutate = FALSE, vars = NULL) {
 
 
 #' @rdname ListUnpack
-#' @export
 ListPack <- function(x, mutate = FALSE, vars = NULL, vars.time = vars(ends_with("Time")),
                      tz = "UTC") {
   if (!mutate) {

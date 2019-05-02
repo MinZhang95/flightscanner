@@ -14,7 +14,7 @@
 #' SetAPI("skyscanner-skyscanner-flight-search-v1.p.rapidapi.com", "YOUR_API_KEY")
 #' resp <- CreateSession(origin = "SFO", destination = "LHR", startDate = "2019-07-01")
 #' resp <- PollSession(respondPOST = resp)
-#' GetPrice(resp)
+#' flightscanner:::GetPrice(resp)
 #' }
 GetPrice <- function(x) {
   if (!inherits(x, "response")) stop("x should be a response() object.")
@@ -40,7 +40,7 @@ GetPrice <- function(x) {
 #' SetAPI("skyscanner-skyscanner-flight-search-v1.p.rapidapi.com", "YOUR_API_KEY")
 #' resp <- CreateSession(origin = "SFO", destination = "LHR", startDate = "2019-07-01")
 #' resp <- PollSession(respondPOST = resp)
-#' GetItineraries(resp)
+#' flightscanner:::GetItineraries(resp)
 #' }
 GetItineraries <- function(x, price = FALSE) {
   if (inherits(x, "response")) x <- content(x)
@@ -74,7 +74,7 @@ GetItineraries <- function(x, price = FALSE) {
 #' SetAPI("skyscanner-skyscanner-flight-search-v1.p.rapidapi.com", "YOUR_API_KEY")
 #' resp <- CreateSession(origin = "SFO", destination = "LHR", startDate = "2019-07-01")
 #' resp <- PollSession(respondPOST = resp)
-#' GetLegs(resp)
+#' flightscanner:::GetLegs(resp)
 #' }
 GetLegs <- function(x) {
   if (inherits(x, "response")) x <- content(x)
@@ -125,7 +125,7 @@ GetLegs <- function(x) {
 #' SetAPI("skyscanner-skyscanner-flight-search-v1.p.rapidapi.com", "YOUR_API_KEY")
 #' resp <- CreateSession(origin = "SFO", destination = "LHR", startDate = "2019-07-01")
 #' resp <- PollSession(respondPOST = resp)
-#' GetSegments(resp)
+#' flightscanner:::GetSegments(resp)
 #' }
 GetSegments <- function(x) {
   if (inherits(x, "response")) x <- content(x)
@@ -156,7 +156,7 @@ GetSegments <- function(x) {
 #' SetAPI("skyscanner-skyscanner-flight-search-v1.p.rapidapi.com", "YOUR_API_KEY")
 #' resp <- CreateSession(origin = "SFO", destination = "LHR", startDate = "2019-07-01")
 #' resp <- PollSession(respondPOST = resp)
-#' GetCarriers(resp)
+#' flightscanner:::GetCarriers(resp)
 #' }
 GetCarriers <- function(x) {
   if (inherits(x, "response")) x <- content(x)
@@ -181,7 +181,7 @@ GetCarriers <- function(x) {
 #' SetAPI("skyscanner-skyscanner-flight-search-v1.p.rapidapi.com", "YOUR_API_KEY")
 #' resp <- CreateSession(origin = "SFO", destination = "LHR", startDate = "2019-07-01")
 #' resp <- PollSession(respondPOST = resp)
-#' GetAgents(resp)
+#' flightscanner:::GetAgents(resp)
 #' }
 GetAgents <- function(x) {
   if (inherits(x, "response")) x <- content(x)
@@ -206,7 +206,7 @@ GetAgents <- function(x) {
 #' SetAPI("skyscanner-skyscanner-flight-search-v1.p.rapidapi.com", "YOUR_API_KEY")
 #' resp <- CreateSession(origin = "SFO", destination = "LHR", startDate = "2019-07-01")
 #' resp <- PollSession(respondPOST = resp)
-#' GetPlaces(resp)
+#' flightscanner:::GetPlaces(resp)
 #' }
 GetPlaces <- function(x) {
   if (inherits(x, "response")) x <- content(x)

@@ -139,7 +139,7 @@ If YES, it will give warning.</p>
 <span class='no'>resp</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='CreateSession.html'>CreateSession</a></span>(<span class='kw'>origin</span> <span class='kw'>=</span> <span class='st'>"SFO"</span>, <span class='kw'>destination</span> <span class='kw'>=</span> <span class='st'>"LHR"</span>, <span class='kw'>startDate</span> <span class='kw'>=</span> <span class='st'>"2019-07-01"</span>)
 <span class='no'>resp</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='PollSession.html'>PollSession</a></span>(<span class='kw'>respondPOST</span> <span class='kw'>=</span> <span class='no'>resp</span>)
 <span class='no'>data</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='GetData.html'>GetData</a></span>(<span class='no'>resp</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/lapply'>sapply</a></span>(<span class='no'>data</span>, <span class='no'>CheckDuplicate</span>)
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/lapply'>sapply</a></span>(<span class='no'>data</span>, <span class='kw pkg'>flightscanner</span><span class='kw ns'>:::</span><span class='no'><a href='https://www.rdocumentation.org/packages/flightscanner/topics/CheckDuplicate'>CheckDuplicate</a></span>)
 <span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

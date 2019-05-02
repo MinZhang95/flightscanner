@@ -30,11 +30,11 @@ data <- GetData(con)  # from SQLite database
 GetData(con, lazy = T)
 
 # check duplicate Id
-sapply(data, CheckDuplicate)  # Leg: 往返时会重复. carriers: Id = 0重复
+sapply(data, flightscanner:::CheckDuplicate)  # Leg: 往返时会重复. carriers: Id = 0重复
 
 # filter flight
 FilterFlight(data)
 FilterFlight(data, max_price = 1000, max_duration = 60 * 24,
-             max_stops = 2, layover = c(60, 180),
+             max_stops = 0, layover = c(60, 180),
              carrier_include = c("UA", "AA", "DL", "CX", "NH", "MU", "HU"),
              carrier_exclude = c("MH", "KE"))

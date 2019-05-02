@@ -22,7 +22,7 @@ PollSession(sessionKey, respondPOST = NULL, sortType = "price",
 \item{sortType}{(OPTIONAL) The parameter to sort results on.
 Can be carrier, duration, outboundarrivetime, outbounddeparttime, inboundarrivetime, inbounddeparttime, price.}
 
-\item{sortOrder}{(OPTIONAL) The sort order. 'asc' or 'desc'.}
+\item{sortOrder}{(OPTIONAL) The sort order. \code{"asc"} or \code{"desc"}.}
 
 \item{duration}{(OPTIONAL) Filter for maximum duration in minutes. Integer between 0 and 1800.}
 

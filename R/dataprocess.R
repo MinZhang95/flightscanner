@@ -125,23 +125,17 @@ CheckDuplicate <- function(.data, .vars) {
 #'
 #' @param x A list of data.frame.
 #' @param max_price Maximum price.
-#' @param max_duration Maximum duration in minutes,
-#' applied to both of outbound and inbound legs.
-#' @param max_stops Maximum number of stops,
-#' applied to both of outbound and inbound legs.
+#' @param max_duration Maximum duration in minutes, applied to both outbound and inbound legs.
+#' @param max_stops Maximum number of stops, applied to both outbound and inbound legs.
 #' @param layover Range of layover in minutes, applied to each stop.
-#' @param carrier_include Include specified carriers,
-#' applied to both of outbound and inbound legs. Must be IATA codes.
-#' @param carrier_exclude Exclude specified carriers,
-#' applied to both of outbound and inbound legs. Must be IATA codes.
-#' @param out_departure Range of outbound departure time,
-#' \code{"hh:mm"} or numeric values in minutes.
-#' @param out_arrival Range of outbound arrival time,
-#' \code{"hh:mm"} or numeric values in minutes.
-#' @param in_departure Range of inbound departure time,
-#' \code{"hh:mm"} or numeric values in minutes.
-#' @param in_arrival Range of inbound arrival time,
-#' \code{"hh:mm"} or numeric values in minutes.
+#' @param carrier_include Include specified carriers, applied to both outbound and inbound legs.
+#' Must be IATA codes.
+#' @param carrier_exclude Exclude specified carriers, applied to both outbound and inbound legs.
+#' Must be IATA codes.
+#' @param out_departure Range of outbound departure time, \code{"hh:mm"} or numeric values in minutes.
+#' @param out_arrival Range of outbound arrival time, \code{"hh:mm"} or numeric values in minutes.
+#' @param in_departure Range of inbound departure time, \code{"hh:mm"} or numeric values in minutes.
+#' @param in_arrival Range of inbound arrival time, \code{"hh:mm"} or numeric values in minutes.
 #'
 #' @return A tibble of flight itineraries.
 #' @export

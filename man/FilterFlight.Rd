@@ -15,31 +15,25 @@ FilterFlight(x, max_price = Inf, max_duration = Inf, max_stops = Inf,
 
 \item{max_price}{Maximum price.}
 
-\item{max_duration}{Maximum duration in minutes,
-applied to both of outbound and inbound legs.}
+\item{max_duration}{Maximum duration in minutes, applied to both outbound and inbound legs.}
 
-\item{max_stops}{Maximum number of stops,
-applied to both of outbound and inbound legs.}
+\item{max_stops}{Maximum number of stops, applied to both outbound and inbound legs.}
 
 \item{layover}{Range of layover in minutes, applied to each stop.}
 
-\item{carrier_include}{Include specified carriers,
-applied to both of outbound and inbound legs. Must be IATA codes.}
+\item{carrier_include}{Include specified carriers, applied to both outbound and inbound legs.
+Must be IATA codes.}
 
-\item{carrier_exclude}{Exclude specified carriers,
-applied to both of outbound and inbound legs. Must be IATA codes.}
+\item{carrier_exclude}{Exclude specified carriers, applied to both outbound and inbound legs.
+Must be IATA codes.}
 
-\item{out_departure}{Range of outbound departure time,
-\code{"hh:mm"} or numeric values in minutes.}
+\item{out_departure}{Range of outbound departure time, \code{"hh:mm"} or numeric values in minutes.}
 
-\item{out_arrival}{Range of outbound arrival time,
-\code{"hh:mm"} or numeric values in minutes.}
+\item{out_arrival}{Range of outbound arrival time, \code{"hh:mm"} or numeric values in minutes.}
 
-\item{in_departure}{Range of inbound departure time,
-\code{"hh:mm"} or numeric values in minutes.}
+\item{in_departure}{Range of inbound departure time, \code{"hh:mm"} or numeric values in minutes.}
 
-\item{in_arrival}{Range of inbound arrival time,
-\code{"hh:mm"} or numeric values in minutes.}
+\item{in_arrival}{Range of inbound arrival time, \code{"hh:mm"} or numeric values in minutes.}
 }
 \value{
 A tibble of flight itineraries.

@@ -173,7 +173,7 @@ dbCreateDB <- function(conn = RSQLite::SQLite(), dbname = "flight.db") {
   if (!dbExistsTable(con, "place")) {
     dbCreateTable(con, SQL("place"), c(Id = "INTEGER PRIMARY KEY NOT NULL",
                                        ParentId = "INTEGER",
-                                       Code = "TEXT NOT NULL",
+                                       Code = "TEXT",
                                        Type = "TEXT NOT NULL",
                                        Name = "TEXT NOT NULL"))
   }

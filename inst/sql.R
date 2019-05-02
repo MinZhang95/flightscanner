@@ -20,7 +20,7 @@ sapply(DBI::dbListTables(con), DBI::dbRemoveTable, conn = con)
 SetAPI(host = "skyscanner-skyscanner-flight-search-v1.p.rapidapi.com",
        key = "3e85a0e43cmshac6dba6fde57066p1c1145jsn1e6f8c3d0e33")
 resp.get <- CreateSession(orig = "DSM", dest = "DTW",
-                          startDate = "2019-06-01", returnDate = "2019-07-01") %>%  # , returnDate = "2019-07-01"
+                          startDate = "2019-06-01") %>%  # , returnDate = "2019-07-01"
   PollSession(respondPOST = .)
 SaveData(con, x = resp.get)
 

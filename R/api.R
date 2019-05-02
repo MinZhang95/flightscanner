@@ -181,7 +181,7 @@ PollSession <- function(sessionKey, respondPOST = NULL,
                 inboundArriveStartTime = inboundArriveStartTime,
                 inboundArriveEndTime = inboundArriveEndTime)
 
-  for (count in 0:100) {
+  for (count in 0:20) {
     resp <- GET(url, add_headers(header), path = path, query = query)
     if (content(resp)$Status == "UpdatesComplete") break
   }

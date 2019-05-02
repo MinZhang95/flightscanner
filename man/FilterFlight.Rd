@@ -6,9 +6,9 @@
 \usage{
 FilterFlight(x, max_price = Inf, max_duration = Inf, max_stops = Inf,
   layover = c(0, Inf), carrier_include = unique(x$carriers$Code),
-  carrier_exclude = NULL, out_departure = c("0:00", "24:00"),
-  out_arrival = c("0:00", "24:00"), in_departure = c("0:00", "24:00"),
-  in_arrival = c("0:00", "24:00"))
+  carrier_exclude = NULL, out_departure = c("00:00", "24:00"),
+  out_arrival = c("00:00", "24:00"), in_departure = c("00:00",
+  "24:00"), in_arrival = c("00:00", "24:00"))
 }
 \arguments{
 \item{x}{A list of data.frame.}

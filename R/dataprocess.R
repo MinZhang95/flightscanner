@@ -113,7 +113,8 @@ CheckDuplicate <- function(.data, .vars) {
   
   x <- filter(group_by(.data, !!!syms(.vars)), n() > 1)
   if (NROW(x)) {
-    warning(deparse(substitute(.data)), " has duplicate ", paste(.vars, collapse = ", "), ".", call. = FALSE)
+    warning(deparse(substitute(.data)), " has duplicate ",
+            paste(.vars, collapse = ", "), ".", call. = FALSE)
     TRUE
   } else FALSE
 }
@@ -160,12 +161,14 @@ CheckDuplicate <- function(.data, .vars) {
 FilterFlight <- function(x, max_price = Inf, max_duration = Inf,
                          max_stops = Inf, layover = c(0, Inf),
                          carrier_include = unique(x$carriers$Code), carrier_exclude = NULL,
-                         out_departure = c("0:00", "24:00"), out_arrival = c("0:00", "24:00"),
-                         in_departure = c("0:00", "24:00"), in_arrival = c("0:00", "24:00")) {
+                         out_departure = c("00:00", "24:00"), out_arrival = c("00:00", "24:00"),
+                         in_departure = c("00:00", "24:00"), in_arrival = c("00:00", "24:00")) {
   f <- function(x) {
     if (is.numeric(x)) {
-      format(as.POSIXct(60 * x, origin = "1970-01-01", tz = "UTC"), "%H:%M")
-    } else x
+      x <- format(as.POSIXct(60 * x, origin = "1970-01-01", tz = "UTC"), "%H:%M")
+      if (x[2] == "00:00") x[2] <- "24:00"
+    }
+    x
   }
   
   # check duplicate Id

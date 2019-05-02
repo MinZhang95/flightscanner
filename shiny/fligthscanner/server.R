@@ -110,12 +110,12 @@ shinyServer(function(input, output, session) {
   
   output$table <- renderDataTable({
     data <- dataset()
-    FilterFlight(data, max_price = 1000, max_duration = 60 * 24,
-                 max_stops = 0, layover = c(60, 180),
-                 carrier_include = c("UA", "AA", "DL", "CX", "NH", "MU", "HU"),
-                 carrier_exclude = c("MH", "KE"),
-                 out_departure = c("0:00", "24:00"), out_arrival = c("0:00", "24:00"),
-                 in_departure = c("0:00", "24:00"), in_arrival = c("0:00", "24:00")) %>%
+    FilterFlight(data, max_price = input$price, max_duration = input$Duration,
+                 max_stops = input$Stops, layover = c(60, 240),
+                 carrier_include = input$`Incl. Airline`,
+                 carrier_exclude = input$`Excl. Airline`,
+                 out_departure = input$Leave_Dep_Time, out_arrival = input$Leave_Arr_Time,
+                 in_departure = input$Back_Dep_Time, in_arrival = input$Back_Arr_Time) %>%
       select(-ends_with("LegSegments"), -ends_with("LegStops")) %>%
       tidyr::unnest(!!sym("PricingOptions"))
   }, escape = FALSE, options = list(pageLength = 10))

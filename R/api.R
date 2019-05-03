@@ -90,11 +90,11 @@ CreateSession <- function(origin, destination, startDate, returnDate = NULL,
   checkmate::assertCharacter(country)
   checkmate::assertCharacter(currency)
   checkmate::assertCharacter(locale)
-  checkmate::assertDate(ymd(startDate))
-  checkmate::assertDate(ymd(returnDate))
+  checkmate::assertDate(lubridate::ymd(startDate))
+  checkmate::assertDate(lubridate::ymd(returnDate))
   
   if(!is.null(returnDate)){
-  checkmate::assert_true(ymd(returnDate) > ymd(startDate))
+  checkmate::assert_true(lubridate::ymd(returnDate) > lubridate::ymd(startDate))
   }
   checkmate::assert_numeric(adults)
 
@@ -262,10 +262,10 @@ BrowseFlight <- function(endpoint = c("quotes", "routes", "dates"),
   checkmate::assertCharacter(country)
   checkmate::assertCharacter(currency)
   checkmate::assertCharacter(locale)
-  checkmate::assertDate(ymd(startDate))
-  checkmate::assertDate(ymd(returnDate))
+  checkmate::assertDate(lubridate::ymd(startDate))
+  checkmate::assertDate(lubridate::ymd(returnDate))
   if(!is.null(returnDate)){
-    checkmate::assert_true(ymd(returnDate) > ymd(startDate))
+    checkmate::assert_true(lubridate::ymd(returnDate) > lubridate::ymd(startDate))
   }
 
   url <- paste0("https://", getOption("API")$host, "/apiservices/browse", endpoint, "/v1.0")

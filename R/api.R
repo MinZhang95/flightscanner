@@ -167,8 +167,6 @@ PollSession <- function(sessionKey, respondPOST = NULL,
                                    "inboundarrivetime", "inbounddeparttime"),
                       sortOrder = c("asc", "desc"))
   # Add checking here.
-  checkmate::assert_choice(sortType, par.options$sortType)
-  checkmate::assert_choice(sortOrder, par.options$sortOrder)
 
   if (missing(sessionKey)) sessionKey <- SessionKey(respondPOST)
   if (!missing(sortType)) sortType <- match.arg(sortType, par.options$sortType)
@@ -195,6 +193,8 @@ PollSession <- function(sessionKey, respondPOST = NULL,
                 inboundDepartEndTime = inboundDepartEndTime,
                 inboundArriveStartTime = inboundArriveStartTime,
                 inboundArriveEndTime = inboundArriveEndTime)
+  checkmate::assert_choice(sortType, par.options$sortType)
+  checkmate::assert_choice(sortOrder, par.options$sortOrder)
 
   for (count in 0:100) {
     resp <- GET(url, add_headers(header), path = path, query = query)

@@ -85,10 +85,16 @@ CreateSession <- function(origin, destination, startDate, returnDate = NULL,
                infants = infants,
                includeCarriers = includeCarriers,
                excludeCarriers = excludeCarriers)
-  checkmate::assertCharacter(origin)
+  checkmate::assertCharacter(c(origin, destination, country, currency, locale))
+  checkmate::assertDate(c(ymd(startDate), ymd(returnDate)))
+  if(!is.null(returnDate)){
+  checkmate::assert_true(ymd(returnDate) > ymd(startDate))
+  }
+  checkmate::assert_numeric(adults)
 
   resp <- POST(url, add_headers(header), body = body, encode = "form")
   flag <- CheckStatus(resp)
+  checkmate::assertClass(resp,"response")
   resp
 }
 
@@ -155,6 +161,8 @@ PollSession <- function(sessionKey, respondPOST = NULL,
                                    "inboundarrivetime", "inbounddeparttime"),
                       sortOrder = c("asc", "desc"))
   # Add checking here.
+  checkmate::assert_choice(sortType, par.options$sortType)
+  checkmate::assert_choice(sortOrder, par.options$sortOrder)
 
   if (missing(sessionKey)) sessionKey <- SessionKey(respondPOST)
   if (!missing(sortType)) sortType <- match.arg(sortType, par.options$sortType)
@@ -188,6 +196,7 @@ PollSession <- function(sessionKey, respondPOST = NULL,
   }
   if (count) message("Try to update data ", count, " times.")
   flag <- CheckStatus(resp)
+  checkmate::assertClass(resp,"response")
   resp
 }
 

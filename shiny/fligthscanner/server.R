@@ -104,7 +104,7 @@ shinyServer(function(input, output, session) {
     }
   })
   
-  output$value <- renderPrint({c(input$date1, input$date2, input$date3)})
+  #output$value <- renderPrint({c(input$date1, input$date2, input$date3)})
   
   output$table <- renderDataTable({
     data <- dataset()

@@ -248,8 +248,14 @@ PollSession <- function(sessionKey, respondPOST = NULL,
 BrowseFlight <- function(endpoint = c("quotes", "routes", "dates"),
                          origin, destination, startDate, returnDate = NULL,
                          country = "US", currency = "USD", locale = "en-US") {
+  checkmate::assert_choice(endpoint, c("quotes", "routes", "dates"))
   endpoint <- match.arg(endpoint)
   # Add checking here.
+  checkmate::assertCharacter(c(origin, destination, country, currency, locale))
+  checkmate::assertDate(c(ymd(startDate), ymd(returnDate)))
+  if(!is.null(returnDate)){
+    checkmate::assert_true(ymd(returnDate) > ymd(startDate))
+  }
 
   url <- paste0("https://", getOption("API")$host, "/apiservices/browse", endpoint, "/v1.0")
   header <- MakeHeader()
@@ -259,6 +265,7 @@ BrowseFlight <- function(endpoint = c("quotes", "routes", "dates"),
 
   resp <- GET(url, add_headers(header), path = path, query = query)
   flag <- CheckStatus(resp)
+  checkmate::assertClass(resp,"response")
   resp
 }
 

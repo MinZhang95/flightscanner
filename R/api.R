@@ -71,7 +71,6 @@ CreateSession <- function(origin, destination, startDate, returnDate = NULL,
   # Add checking here.
 
   url <- paste0("https://", getOption("API")$host, "/apiservices/pricing/v1.0")
-  checkmate::assertCharacter(origin)
   header <- MakeHeader()
   body <- list(cabinClass = cabinClass,
                country = country,
@@ -86,6 +85,7 @@ CreateSession <- function(origin, destination, startDate, returnDate = NULL,
                infants = infants,
                includeCarriers = includeCarriers,
                excludeCarriers = excludeCarriers)
+  checkmate::assertCharacter(origin)
 
   resp <- POST(url, add_headers(header), body = body, encode = "form")
   flag <- CheckStatus(resp)

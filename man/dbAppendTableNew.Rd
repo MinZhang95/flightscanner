@@ -7,23 +7,22 @@
 dbAppendTableNew(conn, name, value, ...)
 }
 \arguments{
-\item{conn}{A \code{\link[RSQLite:SQLiteConnection-class]{SQLiteConnection}} object,
-as returned by \code{\link[DBI:dbConnect]{dbConnect()}}.}
+\item{conn}{A \code{\link[RSQLite:SQLiteConnection-class]{SQLiteConnection}} object, as returned
+by \code{\link[DBI:dbConnect]{dbConnect()}}.}
 
 \item{name}{Name of the table.}
 
-\item{value}{A data frame of values.
-The column names must be consistent with those in the target table in the database.}
+\item{value}{A data frame of values. The column names must be consistent with those in the target
+table in the database.}
 
 \item{...}{Other arguments used by individual methods.}
 }
 \description{
-Insert rows into a table.
-If the table has key, it will ignore the duplicate rows indexed by the key.
-It assumes that the table has been created beforehand.
+Insert rows into a table. If the table has key, it will ignore the duplicate rows
+indexed by the key. It assumes that the table has been created beforehand.
 }
 \examples{
 con <- DBI::dbConnect(RSQLite::SQLite(), ":memory:")
 DBI::dbWriteTable(con, "iris", iris[0, ])
-dbAppendTableNew(con, "iris", iris)
+flightscanner:::dbAppendTableNew(con, "iris", iris)
 }

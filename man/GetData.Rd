@@ -23,9 +23,8 @@ GetData(x, ...)
 A list of tibble.
 }
 \description{
-Get data from source.
-Includes: price, itineraries, legs, segments, carriers, agents, and places.
-Data are in \code{\link[tibble:tibble]{tibble()}} form.
+Get data from source. Includes: price, itineraries, legs, segments, carriers,
+agents, and places. Data are in \code{\link[tibble:tibble]{tibble()}} form.
 }
 \section{Methods (by class)}{
 \itemize{
@@ -39,7 +38,7 @@ Data are in \code{\link[tibble:tibble]{tibble()}} form.
 # Get data from API
 SetAPI("skyscanner-skyscanner-flight-search-v1.p.rapidapi.com", "YOUR_API_KEY")
 resp <- CreateSession(origin = "SFO", destination = "LHR", startDate = "2019-07-01")
-resp <- PollSession(respondPOST = resp)
+resp <- PollSession(resp)
 GetData(resp)
 
 # Get data from SQLite database

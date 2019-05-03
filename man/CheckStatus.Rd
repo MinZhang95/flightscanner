@@ -13,6 +13,6 @@ CheckStatus(x)
 \code{TRUE} if has an error, otherwise \code{FALSE}.
 }
 \description{
-Extract the http status code and convert it into a human readable message.
-Give warning if has an error.
+Extract the http status code and convert it into a human readable message. Give
+warning if has an error.
 }

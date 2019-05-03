@@ -6,17 +6,19 @@
 \usage{
 CreateSession(origin, destination, startDate, returnDate = NULL,
   adults = 1, children = NULL, infants = NULL, country = "US",
-  currency = "USD", locale = "en-US", cabinClass = "economy",
-  includeCarriers = NULL, excludeCarriers = NULL)
+  currency = "USD", locale = "en-US", cabinClass = c("economy",
+  "premiumeconomy", "business", "first"), includeCarriers = NULL,
+  excludeCarriers = NULL)
 }
 \arguments{
 \item{origin}{(REQUIRED) The origin place, can be country, city, airport, in Skyscanner code.}
 
 \item{destination}{(REQUIRED) The destination, can be country, city, airport, in Skyscanner code.}
 
-\item{startDate}{(REQUIRED) The outbound date. Format 'yyyy-mm-dd'.}
+\item{startDate}{(REQUIRED) The outbound date. Format \code{"yyyy-mm-dd"}.}
 
-\item{returnDate}{(OPTIONAL) The return date. Format 'yyyy-mm-dd'. Use NULL for oneway trip.}
+\item{returnDate}{(OPTIONAL) The return date. Format \code{"yyyy-mm-dd"}. Use NULL for oneway
+trip.}
 
 \item{adults}{(REQUIRED) Number of adults (16+ years). Must be between 1 and 8.}
 
@@ -30,18 +32,21 @@ CreateSession(origin, destination, startDate, returnDate = NULL,
 
 \item{locale}{(REQUIRED) The locale you want the results in (ISO locale).}
 
-\item{cabinClass}{(OPTIONAL) The cabin class. Can be 'economy', 'premiumeconomy', 'business', 'first'}
+\item{cabinClass}{(OPTIONAL) The cabin class.
+Can be \code{"economy"}, \code{"premiumeconomy"}, \code{"business"}, \code{"first"}.}
 
-\item{includeCarriers}{(OPTIONAL) Only return results from those carriers. Comma-separated list of carrier ids.}
+\item{includeCarriers}{(OPTIONAL) Only return results from those carriers. Comma-separated list
+of carrier ids.}
 
-\item{excludeCarriers}{(OPTIONAL) Filter out results from those carriers. Comma-separated list of carrier ids.}
+\item{excludeCarriers}{(OPTIONAL) Filter out results from those carriers. Comma-separated list of
+carrier ids.}
 }
 \value{
 A \code{\link[httr:response]{response()}} object of request.
 }
 \description{
-Returns live prices from all our suppliers for the requested flight itinerary.
-This function is POST step. Make sure you have set API using \code{\link{SetAPI}} before.
+Returns live prices from all our suppliers for the requested flight itinerary. This
+function is POST step. Make sure you have set API using \code{\link{SetAPI}} before.
 
 See \url{https://rapidapi.com/skyscanner/api/skyscanner-flight-search}.
 }

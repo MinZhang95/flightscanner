@@ -22,19 +22,18 @@ Args2null <- function(x) {
 
 
 #' Create a cron job.
-#' @description Generate a cron job, and pass it to crontab.
-#' It will automatically scape flight data and save them to a local SQLite database file.
+#' @description Generate a cron job, and pass it to crontab. It will automatically scape flight data
+#' and save them to a local SQLite database file.
 #'
 #' @param origin The origin place, can be country, city, airport, in Skyscanner code.
 #' @param destination The destination, can be country, city, airport, in Skyscanner code.
 #' @param startDate The outbound date. Format 'yyyy-mm-dd'.
 #' @param returnDate The return date. Format 'yyyy-mm-dd'. Use NULL for oneway trip.
 #' @param path Where to put the log, defaults is the current working directory.
-#' @param frequency A character string equal to one of
-#' \code{"minutely"}, \code{"hourly"}, or \code{"daily"}.
-#' @param at The actual time of day at which to execute the command.
-#' When unspecified, we default to "8PM",
-#' when the command is to be run less frequently than \code{"hourly"}.
+#' @param frequency A character string equal to one of \code{"minutely"}, \code{"hourly"}, or
+#' \code{"daily"}.
+#' @param at The actual time of day at which to execute the command. When unspecified, we default to
+#' \code{"8PM"}, when the command is to be run less frequently than \code{"hourly"}.
 #' @param ... Other arguments.
 #'
 #' @export

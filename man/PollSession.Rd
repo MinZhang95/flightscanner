@@ -4,9 +4,10 @@
 \alias{PollSession}
 \title{Poll session of live flight search.}
 \usage{
-PollSession(sessionKey, respondPOST = NULL, sortType = "price",
-  sortOrder = "asc", duration = NULL, stops = NULL,
-  includeCarriers = NULL, excludeCarriers = NULL,
+PollSession(response, sortType = c("price", "duration", "carrier",
+  "outboundarrivetime", "outbounddeparttime", "inboundarrivetime",
+  "inbounddeparttime"), sortOrder = c("asc", "desc"), duration = NULL,
+  stops = NULL, includeCarriers = NULL, excludeCarriers = NULL,
   originAirports = NULL, destinationAirports = NULL,
   outboundDepartTime = NULL, outboundDepartStartTime = NULL,
   outboundDepartEndTime = NULL, outboundArriveStartTime = NULL,
@@ -15,58 +16,69 @@ PollSession(sessionKey, respondPOST = NULL, sortType = "price",
   inboundArriveStartTime = NULL, inboundArriveEndTime = NULL)
 }
 \arguments{
-\item{sessionKey}{The Session key to identify the session.}
+\item{response}{Return object of \code{\link{CreateSession}}.}
 
-\item{respondPOST}{Return object of \code{\link{CreateSession}}.}
-
-\item{sortType}{(OPTIONAL) The parameter to sort results on.
-Can be carrier, duration, outboundarrivetime, outbounddeparttime, inboundarrivetime, inbounddeparttime, price.}
+\item{sortType}{(OPTIONAL) The parameter to sort results on. Can be \code{"price"},
+\code{"duration"}, \code{"carrier"}, \code{"outboundarrivetime"}, \code{"outbounddeparttime"},
+\code{"inboundarrivetime"}, \code{"inbounddeparttime"}.}
 
 \item{sortOrder}{(OPTIONAL) The sort order. \code{"asc"} or \code{"desc"}.}
 
 \item{duration}{(OPTIONAL) Filter for maximum duration in minutes. Integer between 0 and 1800.}
 
-\item{stops}{(OPTIONAL) Filter by number of stops. 0: direct flights only. 1: flights with one stop only.
-To show all flights do not use (only supports values 0 and 1).}
+\item{stops}{(OPTIONAL) Filter by number of stops. 0: direct flights only. 1: flights with one
+stop only. To show all flights do not use (only supports values 0 and 1).}
 
-\item{includeCarriers}{(OPTIONAL) Filter flights by the specified carriers.
-Must be semicolon-separated IATA codes.}
+\item{includeCarriers}{(OPTIONAL) Filter flights by the specified carriers. Must be
+semicolon-separated IATA codes.}
 
-\item{excludeCarriers}{(OPTIONAL) Filter flights by any but the specified carriers.
-Must be semicolon-separated IATA codes.}
+\item{excludeCarriers}{(OPTIONAL) Filter flights by any but the specified carriers. Must be
+semicolon-separated IATA codes.}
 
-\item{originAirports}{(OPTIONAL) Origin airports to filter on. List of airport codes delimited by ';'.}
+\item{originAirports}{(OPTIONAL) Origin airports to filter on. List of airport codes delimited by
+';'.}
 
-\item{destinationAirports}{(OPTIONAL) Destination airports to filter on. List of airport codes delimited by ';'.}
+\item{destinationAirports}{(OPTIONAL) Destination airports to filter on. List of airport codes
+delimited by ';'.}
 
 \item{outboundDepartTime}{(OPTIONAL) Filter for outbound departure time by time period of the day
-(i.e. morning, afternoon, evening). List of day time period delimited by ';' (acceptable values are M, A, E).}
+(i.e. morning, afternoon, evening). List of day time period delimited by ';' (acceptable values
+are \code{"M"}, \code{"A"}, \code{"E"}).}
 
-\item{outboundDepartStartTime}{(OPTIONAL) Filter for start of range for outbound departure time. Format 'hh:mm'.}
+\item{outboundDepartStartTime}{(OPTIONAL) Filter for start of range for outbound departure time.
+Format \code{"hh:mm"}.}
 
-\item{outboundDepartEndTime}{(OPTIONAL) Filter for end of range for outbound departure time. Format 'hh:mm'.}
+\item{outboundDepartEndTime}{(OPTIONAL) Filter for end of range for outbound departure time.
+Format \code{"hh:mm"}.}
 
-\item{outboundArriveStartTime}{(OPTIONAL) Filter for start of range for outbound arrival time. Format 'hh:mm'.}
+\item{outboundArriveStartTime}{(OPTIONAL) Filter for start of range for outbound arrival time.
+Format \code{"hh:mm"}.}
 
-\item{outboundArriveEndTime}{(OPTIONAL) Filter for end of range for outbound arrival time. Format 'hh:mm'.}
+\item{outboundArriveEndTime}{(OPTIONAL) Filter for end of range for outbound arrival time. Format
+\code{"hh:mm"}.}
 
 \item{inboundDepartTime}{(OPTIONAL) Filter for inbound departure time by time period of the day
-(i.e. morning, afternoon, evening). List of day time period delimited by ';' (acceptable values are M, A, E).}
+(i.e. morning, afternoon, evening). List of day time period delimited by ';' (acceptable values
+are \code{"M"}, \code{"A"}, \code{"E"}).}
 
-\item{inboundDepartStartTime}{(OPTIONAL) Filter for start of range for inbound departure time. Format 'hh:mm'.}
+\item{inboundDepartStartTime}{(OPTIONAL) Filter for start of range for inbound departure time.
+Format \code{"hh:mm"}.}
 
-\item{inboundDepartEndTime}{(OPTIONAL) Filter for end of range for inbound departure time. Format 'hh:mm'.}
+\item{inboundDepartEndTime}{(OPTIONAL) Filter for end of range for inbound departure time. Format
+\code{"hh:mm"}.}
 
-\item{inboundArriveStartTime}{(OPTIONAL) Filter for start of range for inbound arrival time. Format 'hh:mm'.}
+\item{inboundArriveStartTime}{(OPTIONAL) Filter for start of range for inbound arrival time.
+Format \code{"hh:mm"}.}
 
-\item{inboundArriveEndTime}{(OPTIONAL) Filter for end of range for inbound arrival time. Format 'hh:mm'.}
+\item{inboundArriveEndTime}{(OPTIONAL) Filter for end of range for inbound arrival time. Format
+\code{"hh:mm"}.}
 }
 \value{
 A \code{\link[httr:response]{response()}} object of request.
 }
 \description{
-Returns live prices from all our suppliers for the requested flight itinerary.
-This function is GET step. Make sure you have set API using \code{\link{SetAPI}} before.
+Returns live prices from all our suppliers for the requested flight itinerary. This
+function is GET step. Make sure you have set API using \code{\link{SetAPI}} before.
 
 See \url{https://rapidapi.com/skyscanner/api/skyscanner-flight-search}.
 }
@@ -74,8 +86,7 @@ See \url{https://rapidapi.com/skyscanner/api/skyscanner-flight-search}.
 \dontrun{
 SetAPI("skyscanner-skyscanner-flight-search-v1.p.rapidapi.com", "YOUR_API_KEY")
 resp <- CreateSession(origin = "SFO", destination = "LHR", startDate = "2019-07-01")
-PollSession(SessionKey(resp))
-PollSession(respondPOST = resp)
+PollSession(resp)
 }
 }
 \seealso{

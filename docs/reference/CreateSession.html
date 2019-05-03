@@ -32,8 +32,8 @@
 
 <meta property="og:title" content="Create session of live flight search. — CreateSession" />
 
-<meta property="og:description" content="Returns live prices from all our suppliers for the requested flight itinerary.
-This function is POST step. Make sure you have set API using SetAPI before.
+<meta property="og:description" content="Returns live prices from all our suppliers for the requested flight itinerary. This
+function is POST step. Make sure you have set API using SetAPI before.
 See https://rapidapi.com/skyscanner/api/skyscanner-flight-search." />
 <meta name="twitter:card" content="summary" />
 
@@ -108,16 +108,17 @@ See https://rapidapi.com/skyscanner/api/skyscanner-flight-search." />
 
     <div class="ref-description">
     
-    <p>Returns live prices from all our suppliers for the requested flight itinerary.
-This function is POST step. Make sure you have set API using <code><a href='SetAPI.html'>SetAPI</a></code> before.</p>
+    <p>Returns live prices from all our suppliers for the requested flight itinerary. This
+function is POST step. Make sure you have set API using <code><a href='SetAPI.html'>SetAPI</a></code> before.</p>
 <p>See <a href='https://rapidapi.com/skyscanner/api/skyscanner-flight-search'>https://rapidapi.com/skyscanner/api/skyscanner-flight-search</a>.</p>
     
     </div>
 
     <pre class="usage"><span class='fu'>CreateSession</span>(<span class='no'>origin</span>, <span class='no'>destination</span>, <span class='no'>startDate</span>, <span class='kw'>returnDate</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>adults</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>children</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>infants</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>country</span> <span class='kw'>=</span> <span class='st'>"US"</span>,
-  <span class='kw'>currency</span> <span class='kw'>=</span> <span class='st'>"USD"</span>, <span class='kw'>locale</span> <span class='kw'>=</span> <span class='st'>"en-US"</span>, <span class='kw'>cabinClass</span> <span class='kw'>=</span> <span class='st'>"economy"</span>,
-  <span class='kw'>includeCarriers</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>excludeCarriers</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+  <span class='kw'>currency</span> <span class='kw'>=</span> <span class='st'>"USD"</span>, <span class='kw'>locale</span> <span class='kw'>=</span> <span class='st'>"en-US"</span>, <span class='kw'>cabinClass</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"economy"</span>,
+  <span class='st'>"premiumeconomy"</span>, <span class='st'>"business"</span>, <span class='st'>"first"</span>), <span class='kw'>includeCarriers</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>excludeCarriers</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -132,11 +133,12 @@ This function is POST step. Make sure you have set API using <code><a href='SetA
     </tr>
     <tr>
       <th>startDate</th>
-      <td><p>(REQUIRED) The outbound date. Format 'yyyy-mm-dd'.</p></td>
+      <td><p>(REQUIRED) The outbound date. Format <code>"yyyy-mm-dd"</code>.</p></td>
     </tr>
     <tr>
       <th>returnDate</th>
-      <td><p>(OPTIONAL) The return date. Format 'yyyy-mm-dd'. Use NULL for oneway trip.</p></td>
+      <td><p>(OPTIONAL) The return date. Format <code>"yyyy-mm-dd"</code>. Use NULL for oneway
+trip.</p></td>
     </tr>
     <tr>
       <th>adults</th>
@@ -164,15 +166,18 @@ This function is POST step. Make sure you have set API using <code><a href='SetA
     </tr>
     <tr>
       <th>cabinClass</th>
-      <td><p>(OPTIONAL) The cabin class. Can be 'economy', 'premiumeconomy', 'business', 'first'</p></td>
+      <td><p>(OPTIONAL) The cabin class.
+Can be <code>"economy"</code>, <code>"premiumeconomy"</code>, <code>"business"</code>, <code>"first"</code>.</p></td>
     </tr>
     <tr>
       <th>includeCarriers</th>
-      <td><p>(OPTIONAL) Only return results from those carriers. Comma-separated list of carrier ids.</p></td>
+      <td><p>(OPTIONAL) Only return results from those carriers. Comma-separated list
+of carrier ids.</p></td>
     </tr>
     <tr>
       <th>excludeCarriers</th>
-      <td><p>(OPTIONAL) Filter out results from those carriers. Comma-separated list of carrier ids.</p></td>
+      <td><p>(OPTIONAL) Filter out results from those carriers. Comma-separated list of
+carrier ids.</p></td>
     </tr>
     </table>
     

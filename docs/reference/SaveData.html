@@ -32,9 +32,9 @@
 
 <meta property="og:title" content="Save data to SQLite database. — SaveData" />
 
-<meta property="og:description" content="Get data from the request response object,
-and save data to the corresponding tables in the SQLite database.
-Tables includes: price, itinerary, leg, segment, carrier, agent, and place." />
+<meta property="og:description" content="Get data from the request response object, and save data to the corresponding tables
+in the SQLite database. Tables includes: price, itinerary, leg, segment, carrier, agent, and
+place." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -108,9 +108,9 @@ Tables includes: price, itinerary, leg, segment, carrier, agent, and place." />
 
     <div class="ref-description">
     
-    <p>Get data from the request response object,
-and save data to the corresponding tables in the SQLite database.
-Tables includes: price, itinerary, leg, segment, carrier, agent, and place.</p>
+    <p>Get data from the request response object, and save data to the corresponding tables
+in the SQLite database. Tables includes: price, itinerary, leg, segment, carrier, agent, and
+place.</p>
     
     </div>
 
@@ -121,8 +121,8 @@ Tables includes: price, itinerary, leg, segment, carrier, agent, and place.</p>
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>conn</th>
-      <td><p>A <code><a href='https://www.rdocumentation.org/packages/RSQLite/topics/SQLiteConnection-class'>SQLiteConnection</a></code> object,
-as returned by <code><a href='https://www.rdocumentation.org/packages/DBI/topics/dbConnect'>dbConnect()</a></code>.</p></td>
+      <td><p>A <code><a href='https://www.rdocumentation.org/packages/RSQLite/topics/SQLiteConnection-class'>SQLiteConnection</a></code> object, as returned
+by <code><a href='https://www.rdocumentation.org/packages/DBI/topics/dbConnect'>dbConnect()</a></code>.</p></td>
     </tr>
     <tr>
       <th>x</th>
@@ -136,7 +136,7 @@ as returned by <code><a href='https://www.rdocumentation.org/packages/DBI/topics
 <span class='co'># Get response from API</span>
 <span class='fu'><a href='SetAPI.html'>SetAPI</a></span>(<span class='st'>"skyscanner-skyscanner-flight-search-v1.p.rapidapi.com"</span>, <span class='st'>"YOUR_API_KEY"</span>)
 <span class='no'>resp</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='CreateSession.html'>CreateSession</a></span>(<span class='kw'>origin</span> <span class='kw'>=</span> <span class='st'>"SFO"</span>, <span class='kw'>destination</span> <span class='kw'>=</span> <span class='st'>"LHR"</span>, <span class='kw'>startDate</span> <span class='kw'>=</span> <span class='st'>"2019-07-01"</span>)
-<span class='no'>resp</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='PollSession.html'>PollSession</a></span>(<span class='kw'>respondPOST</span> <span class='kw'>=</span> <span class='no'>resp</span>)
+<span class='no'>resp</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='PollSession.html'>PollSession</a></span>(<span class='no'>resp</span>)
 
 <span class='co'># Connect to SQLite database</span>
 <span class='no'>con</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='dbCreateDB.html'>dbCreateDB</a></span>(<span class='kw'>dbname</span> <span class='kw'>=</span> <span class='st'>"flight.db"</span>)

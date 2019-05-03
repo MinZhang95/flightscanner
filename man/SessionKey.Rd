@@ -13,6 +13,6 @@ SessionKey(x)
 Session key.
 }
 \description{
-Extract session key from request response.
-The last value of location header contains the session key which is required when polling the session.
+Extract session key from request response. The last value of location header
+contains the session key which is required when polling the session.
 }

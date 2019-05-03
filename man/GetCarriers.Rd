@@ -20,7 +20,12 @@ Information includes the CarrierId, Code, Name, and ImageURL.
 \dontrun{
 SetAPI("skyscanner-skyscanner-flight-search-v1.p.rapidapi.com", "YOUR_API_KEY")
 resp <- CreateSession(origin = "SFO", destination = "LHR", startDate = "2019-07-01")
-resp <- PollSession(respondPOST = resp)
+resp <- PollSession(resp)
 flightscanner:::GetCarriers(resp)
 }
+}
+\seealso{
+\code{\link{GetPrice}}, \code{\link{GetItineraries}}, \code{\link{GetLegs}},
+\code{\link{GetSegments}}, \code{\link{GetCarriers}}, \code{\link{GetAgents}},
+\code{\link{GetPlaces}}.
 }

@@ -19,9 +19,9 @@ cat(sprintf("API Key: %s\n", getOption("API")$key))
 cat("Command Line Arguments: ", args[-1], "\n")
 
 con <- dbCreateDB(dbname = file.path(args[1], "flight.db"))
-resp.post <- CreateSession(orig = args[2], dest = args[3], startDate = args[4],
+resp <- CreateSession(orig = args[2], dest = args[3], startDate = args[4],
                            returnDate = flightscanner:::Args2null(args[5]))
-resp.get <- PollSession(respondPOST = resp.post)
-SaveData(con, x = resp.get)
+resp <- PollSession(resp)
+SaveData(con, x = resp)
 DBI::dbDisconnect(con)
 cat("\n\n")

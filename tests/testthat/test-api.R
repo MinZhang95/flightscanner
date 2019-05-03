@@ -1,5 +1,5 @@
 context("test-api")
 
-test_that("multiplication works", {
-  expect_equal(2 * 2, 4)
+test_that("origin is a string", {
+  expect_error(CreateSession(origin = 123, destination = "DSM", startDate = "2019-06-10"))
 })

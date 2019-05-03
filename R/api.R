@@ -71,6 +71,7 @@ CreateSession <- function(origin, destination, startDate, returnDate = NULL,
   # Add checking here.
 
   url <- paste0("https://", getOption("API")$host, "/apiservices/pricing/v1.0")
+  checkmate::assertCharacter(origin)
   header <- MakeHeader()
   body <- list(cabinClass = cabinClass,
                country = country,
@@ -104,7 +105,7 @@ CreateSession <- function(origin, destination, startDate, returnDate = NULL,
 #' @param respondPOST Return object of \code{\link{CreateSession}}.
 #' @param sortType (OPTIONAL) The parameter to sort results on.
 #' Can be carrier, duration, outboundarrivetime, outbounddeparttime, inboundarrivetime, inbounddeparttime, price.
-#' @param sortOrder (OPTIONAL) The sort order. \code{"asc"} or \code{"desc"}.
+#' @param sortOrder (OPTIONAL) The sort order. 'asc' or 'desc'.
 #' @param duration (OPTIONAL) Filter for maximum duration in minutes. Integer between 0 and 1800.
 #' @param stops (OPTIONAL) Filter by number of stops. 0: direct flights only. 1: flights with one stop only.
 #' To show all flights do not use (only supports values 0 and 1).
@@ -181,7 +182,7 @@ PollSession <- function(sessionKey, respondPOST = NULL,
                 inboundArriveStartTime = inboundArriveStartTime,
                 inboundArriveEndTime = inboundArriveEndTime)
 
-  for (count in 0:20) {
+  for (count in 0:100) {
     resp <- GET(url, add_headers(header), path = path, query = query)
     if (content(resp)$Status == "UpdatesComplete") break
   }

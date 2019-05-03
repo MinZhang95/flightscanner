@@ -26,7 +26,8 @@ Imports:
     stringr,
     DBI (>= 0.3.0),
     RSQLite,
-    cli
+    cli,
+    checkmate
 Suggests: 
     cronR,
     testthat,

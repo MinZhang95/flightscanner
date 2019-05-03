@@ -85,8 +85,14 @@ CreateSession <- function(origin, destination, startDate, returnDate = NULL,
                infants = infants,
                includeCarriers = includeCarriers,
                excludeCarriers = excludeCarriers)
-  checkmate::assertCharacter(c(origin, destination, country, currency, locale))
-  checkmate::assertDate(c(ymd(startDate), ymd(returnDate)))
+  checkmate::assertCharacter(origin)
+  checkmate::assertCharacter(destination)
+  checkmate::assertCharacter(country)
+  checkmate::assertCharacter(currency)
+  checkmate::assertCharacter(locale)
+  checkmate::assertDate(ymd(startDate))
+  checkmate::assertDate(ymd(returnDate))
+  
   if(!is.null(returnDate)){
   checkmate::assert_true(ymd(returnDate) > ymd(startDate))
   }
@@ -251,8 +257,13 @@ BrowseFlight <- function(endpoint = c("quotes", "routes", "dates"),
   checkmate::assert_choice(endpoint, c("quotes", "routes", "dates"))
   endpoint <- match.arg(endpoint)
   # Add checking here.
-  checkmate::assertCharacter(c(origin, destination, country, currency, locale))
-  checkmate::assertDate(c(ymd(startDate), ymd(returnDate)))
+  checkmate::assertCharacter(origin)
+  checkmate::assertCharacter(destination)
+  checkmate::assertCharacter(country)
+  checkmate::assertCharacter(currency)
+  checkmate::assertCharacter(locale)
+  checkmate::assertDate(ymd(startDate))
+  checkmate::assertDate(ymd(returnDate))
   if(!is.null(returnDate)){
     checkmate::assert_true(ymd(returnDate) > ymd(startDate))
   }

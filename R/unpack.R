@@ -52,7 +52,6 @@ GetPrice <- function(x) {
 #' flightscanner:::GetItineraries(resp)
 #' }
 GetItineraries <- function(x, price = FALSE) {
-  checkmate::assertClass(resp, "response")
   if (inherits(x, "response")) x <- content(x)
   
   x$Itineraries %>% map_df(function(y) {
@@ -64,6 +63,7 @@ GetItineraries <- function(x, price = FALSE) {
       }) %>% arrange(!!sym("Price")) %>% list()
     tab
   })
+  checkmate::assertClass(resp, "response")
 }
 
 

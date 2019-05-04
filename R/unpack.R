@@ -23,10 +23,10 @@
 #' }
 GetPrice <- function(x) {
   if (!inherits(x, "response")) stop("x should be a response() object.")
-  tab <- GetItineraries(x, price = TRUE)
-  tab$SearchTime <- lubridate::with_tz(lubridate::ymd_hms(x$date, tz = "GMT"))
-  tab <- select(tab, "SearchTime", everything())
-  checkmate::assert_tibble(tab)
+  df <- GetItineraries(x, price = TRUE)
+  df$SearchTime <- lubridate::with_tz(lubridate::ymd_hms(x$date, tz = "GMT"))
+  df <- select(df, "SearchTime", everything())
+  checkmate::assert_tibble(df)
 }
 
 
@@ -54,7 +54,7 @@ GetPrice <- function(x) {
 GetItineraries <- function(x, price = FALSE) {
   if (inherits(x, "response")) x <- content(x)
   
-  x$Itineraries %>% map_df(function(y) {
+  df <- x$Itineraries %>% map_df(function(y) {
     tab <- tibble(OutboundLegId = y$OutboundLegId,
                   InboundLegId = ifelse(is.null(y$InboundLegId), "", y$InboundLegId))
     if (price)
@@ -62,8 +62,8 @@ GetItineraries <- function(x, price = FALSE) {
         tibble(AgentId = z$Agents[[1]], Price = z$Price, LinkURL = z$DeeplinkUrl)
       }) %>% arrange(!!sym("Price")) %>% list()
     tab
-    checkmate::assert_tibble(tab)
   })
+  checkmate::assert_tibble(df)
 }
 
 
@@ -94,7 +94,7 @@ GetLegs <- function(x) {
   if (inherits(x, "response")) x <- content(x)
   info <- GetSegments(x)
   
-  x$Legs %>% map_df(function(y) {
+  df <- x$Legs %>% map_df(function(y) {
     n <- length(y$SegmentIds)
     idx <- unlist(y$SegmentIds) + 1
     
@@ -120,6 +120,8 @@ GetLegs <- function(x) {
            Stops = list(data.frame(StopId = stopId, Layover = layover)))
   }) %>% group_by(!!sym("Id")) %>% filter(row_number() == n()) %>% ungroup()
   # select the last row of duplicated Ids
+  
+  checkmate::assert_tibble(df)
 }
 
 
@@ -148,7 +150,7 @@ GetSegments <- function(x) {
   if (inherits(x, "response")) x <- content(x)
   fmt <- "%y%m%d%H%M"
   
-  x$Segments %>% map_df(as_tibble) %>%
+  df <- x$Segments %>% map_df(as_tibble) %>%
     select("Id":"ArrivalDateTime", "Duration", everything(), -"JourneyMode", -"Directionality") %>%
     mutate_at(c("DepartureDateTime", "ArrivalDateTime"), lubridate::ymd_hms) %>%
     mutate(Id = paste(!!sym("OriginStation"), format(!!sym("DepartureDateTime"), fmt),
@@ -157,6 +159,8 @@ GetSegments <- function(x) {
     rename(OriginId = "OriginStation", DestinationId = "DestinationStation",
            DepartureTime = "DepartureDateTime", ArrivalTime = "ArrivalDateTime",
            CarrierId = "Carrier", OperatingCarrierId = "OperatingCarrier")
+  
+  checkmate::assert_tibble(df)
 }
 
 
@@ -182,9 +186,10 @@ GetSegments <- function(x) {
 #' }
 GetCarriers <- function(x) {
   if (inherits(x, "response")) x <- content(x)
-  x$Carriers %>% map_df(as_tibble) %>%
+  df <- x$Carriers %>% map_df(as_tibble) %>%
     select(-"DisplayCode") %>% rename(ImageURL = "ImageUrl") %>%
     group_by(!!sym("Id")) %>% filter(row_number() == 1) %>% ungroup()
+  checkmate::assert_tibble(df)
 }
 
 
@@ -210,9 +215,10 @@ GetCarriers <- function(x) {
 #' }
 GetAgents <- function(x) {
   if (inherits(x, "response")) x <- content(x)
-  x$Agents %>% map_df(as_tibble) %>%
+  df <- x$Agents %>% map_df(as_tibble) %>%
     select(-"ImageUrl", everything(), -"Status", -"OptimisedForMobile") %>%
     rename(ImageURL = "ImageUrl")
+  checkmate::assert_tibble(df)
 }
 
 
@@ -238,5 +244,6 @@ GetAgents <- function(x) {
 #' }
 GetPlaces <- function(x) {
   if (inherits(x, "response")) x <- content(x)
-  x$Places %>% map_df(as_tibble) %>% select("Id", "ParentId", everything())
+  df <- x$Places %>% map_df(as_tibble) %>% select("Id", "ParentId", everything())
+  checkmate::assert_tibble(df)
 }

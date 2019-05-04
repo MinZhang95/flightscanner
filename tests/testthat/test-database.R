@@ -16,3 +16,10 @@ test_that("ListPack works",{
   expect_true(is.list(res2$Species))
   }
 )
+
+test_that("dbAppendTableNew works", {
+  con <- DBI::dbConnect(RSQLite::SQLite(), ":memory:")
+  DBI::dbWriteTable(con, "iris", iris[0, ])
+  expect_true(is.numeric(flightscanner:::dbAppendTableNew(con, "iris", iris)))
+  expect_error(flightscanner:::dbAppendTableNew(con, "iris", iris$Species))
+})

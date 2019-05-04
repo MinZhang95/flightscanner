@@ -63,7 +63,6 @@ GetItineraries <- function(x, price = FALSE) {
       }) %>% arrange(!!sym("Price")) %>% list()
     tab
   })
-  checkmate::assertClass(resp, "response")
 }
 
 

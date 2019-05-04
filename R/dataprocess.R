@@ -77,6 +77,8 @@ GetData.SQLiteConnection <- function(x, lazy = FALSE, ...) {
 #' BetweenTime(x, c("7:30", "8:00"))
 #' BetweenTime(x, c("6:00", "7:29"))
 BetweenTime <- function(x, interval) {
+  checkmate::assertPOSIXct(x)
+  checkmate::assertCharacter(interval)
   x <- lubridate::as.duration(x - lubridate::floor_date(x, unit = "day"))
   x >= lubridate::hm(interval[1]) & x <= lubridate::hm(interval[2])
 }

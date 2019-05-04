@@ -23,3 +23,12 @@ test_that("dbAppendTableNew works", {
   expect_true(is.numeric(flightscanner:::dbAppendTableNew(con, "iris", iris)))
   expect_error(flightscanner:::dbAppendTableNew(con, "iris", iris$Species))
 })
+
+test_that("dbCreateDB works",{
+  expect_error(dbCreateDB(c(0,1), dbname = "flight.db"))
+  con1 <- RSQLite::SQLite()
+  expect_s4_class(dbCreateDB(con1, dbname = "flight.db"), "SQLiteConnection")
+  con2 <- dbConnect(RSQLite::SQLite())
+  expect_s4_class(dbCreateDB(con2, dbname = "flight.db"), "SQLiteConnection")
+  unlink("flight.db")
+})

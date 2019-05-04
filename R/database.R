@@ -110,7 +110,7 @@ dbCreateDB <- function(conn = RSQLite::SQLite(), dbname = "flight.db") {
     con <- conn
   } else if (inherits(conn, "SQLiteDriver") && dbCanConnect(conn)) {
     con <- dbConnect(conn, dbname = dbname)
-  } else return (1)
+  } else stop()
   
   if (!dbExistsTable(con, "price")) {
     dbCreateTable(con, SQL("price"), c(SearchTime = "TEXT NOT NULL",

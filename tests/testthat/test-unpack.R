@@ -10,3 +10,7 @@ test_that("GetPrice works", {
   expect_true(is.tbl(GetPrice(response)))
 })
 
+test_that("GetItineraries works", {
+  expect_true(is.tbl(GetItineraries(response)))
+})
+

@@ -62,6 +62,7 @@ GetItineraries <- function(x, price = FALSE) {
         tibble(AgentId = z$Agents[[1]], Price = z$Price, LinkURL = z$DeeplinkUrl)
       }) %>% arrange(!!sym("Price")) %>% list()
     tab
+    checkmate::assert_tibble(tab)
   })
 }
 

@@ -9,15 +9,15 @@ BetweenTime(x, interval)
 \arguments{
 \item{x}{A \code{POSIXt} class vector.}
 
-\item{interval}{A character vector of boundary values,
-each element should be in format: \code{"\%H:\%M"}.}
+\item{interval}{A character vector of boundary values, each element should be in format
+\code{"hh:mm"}.}
 }
 \value{
 \code{TRUE} or \code{FALSE}.
 }
 \description{
-This is a compare function of time.
-It extracts the hours, minutes and seconds to check if it falls in specified time range.
+This is a compare function of time. It extracts the hours, minutes and seconds to
+check if it falls in specified time range.
 }
 \examples{
 x <- lubridate::ymd_hms("2019-01-02 07:30:00")

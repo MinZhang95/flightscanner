@@ -1,6 +1,7 @@
 #' Extract price information from request response.
 #' @description Extract information from request response of live flight search endpoint.
-#' Information includes the SearchTime, ItineraryId (OutboundLegId, InboundLegId), and PricingOptions.
+#' Information includes the SearchTime, ItineraryId (OutboundLegId, InboundLegId), and
+#' PricingOptions.
 #'
 #' PricingOptions contains the AgentId, Price, and LinkURL.
 #'
@@ -9,16 +10,19 @@
 #' @return A tibble.
 #' @import dplyr
 #'
+#' @seealso \code{\link{GetPrice}}, \code{\link{GetItineraries}}, \code{\link{GetLegs}},
+#' \code{\link{GetSegments}}, \code{\link{GetCarriers}}, \code{\link{GetAgents}},
+#' \code{\link{GetPlaces}}.
+#'
 #' @examples
 #' \dontrun{
 #' SetAPI("skyscanner-skyscanner-flight-search-v1.p.rapidapi.com", "YOUR_API_KEY")
 #' resp <- CreateSession(origin = "SFO", destination = "LHR", startDate = "2019-07-01")
-#' resp <- PollSession(respondPOST = resp)
+#' resp <- PollSession(resp)
 #' flightscanner:::GetPrice(resp)
 #' }
 GetPrice <- function(x) {
   if (!inherits(x, "response")) stop("x should be a response() object.")
-  
   tab <- GetItineraries(x, price = TRUE)
   tab$SearchTime <- lubridate::with_tz(lubridate::ymd_hms(x$date, tz = "GMT"))
   select(tab, "SearchTime", everything())
@@ -34,12 +38,16 @@ GetPrice <- function(x) {
 #'
 #' @return A tibble.
 #' @import dplyr purrr
+#' 
+#' @seealso \code{\link{GetPrice}}, \code{\link{GetItineraries}}, \code{\link{GetLegs}},
+#' \code{\link{GetSegments}}, \code{\link{GetCarriers}}, \code{\link{GetAgents}},
+#' \code{\link{GetPlaces}}.
 #'
 #' @examples
 #' \dontrun{
 #' SetAPI("skyscanner-skyscanner-flight-search-v1.p.rapidapi.com", "YOUR_API_KEY")
 #' resp <- CreateSession(origin = "SFO", destination = "LHR", startDate = "2019-07-01")
-#' resp <- PollSession(respondPOST = resp)
+#' resp <- PollSession(resp)
 #' flightscanner:::GetItineraries(resp)
 #' }
 GetItineraries <- function(x, price = FALSE) {
@@ -59,8 +67,8 @@ GetItineraries <- function(x, price = FALSE) {
 
 #' Extract leg information from request response.
 #' @description Extract information from request response of live flight search endpoint.
-#' Information includes the LegId, SegmentIds, OriginId, DestinationId,
-#' DepartureTime, ArrivalTime, Duration, No.Stops, and Stops.
+#' Information includes the LegId, SegmentIds, OriginId, DestinationId, DepartureTime, ArrivalTime,
+#' Duration, No.Stops, and Stops.
 #'
 #' Stops contains the StopId, and Layover.
 #'
@@ -68,17 +76,20 @@ GetItineraries <- function(x, price = FALSE) {
 #'
 #' @return A tibble.
 #' @import dplyr purrr
+#' 
+#' @seealso \code{\link{GetPrice}}, \code{\link{GetItineraries}}, \code{\link{GetLegs}},
+#' \code{\link{GetSegments}}, \code{\link{GetCarriers}}, \code{\link{GetAgents}},
+#' \code{\link{GetPlaces}}.
 #'
 #' @examples
 #' \dontrun{
 #' SetAPI("skyscanner-skyscanner-flight-search-v1.p.rapidapi.com", "YOUR_API_KEY")
 #' resp <- CreateSession(origin = "SFO", destination = "LHR", startDate = "2019-07-01")
-#' resp <- PollSession(respondPOST = resp)
+#' resp <- PollSession(resp)
 #' flightscanner:::GetLegs(resp)
 #' }
 GetLegs <- function(x) {
   if (inherits(x, "response")) x <- content(x)
-  
   info <- GetSegments(x)
   
   x$Legs %>% map_df(function(y) {
@@ -119,23 +130,28 @@ GetLegs <- function(x) {
 #'
 #' @return A tibble.
 #' @import dplyr purrr
+#' 
+#' @seealso \code{\link{GetPrice}}, \code{\link{GetItineraries}}, \code{\link{GetLegs}},
+#' \code{\link{GetSegments}}, \code{\link{GetCarriers}}, \code{\link{GetAgents}},
+#' \code{\link{GetPlaces}}.
 #'
 #' @examples
 #' \dontrun{
 #' SetAPI("skyscanner-skyscanner-flight-search-v1.p.rapidapi.com", "YOUR_API_KEY")
 #' resp <- CreateSession(origin = "SFO", destination = "LHR", startDate = "2019-07-01")
-#' resp <- PollSession(respondPOST = resp)
+#' resp <- PollSession(resp)
 #' flightscanner:::GetSegments(resp)
 #' }
 GetSegments <- function(x) {
   if (inherits(x, "response")) x <- content(x)
-  
   fmt <- "%y%m%d%H%M"
+  
   x$Segments %>% map_df(as_tibble) %>%
     select("Id":"ArrivalDateTime", "Duration", everything(), -"JourneyMode", -"Directionality") %>%
     mutate_at(c("DepartureDateTime", "ArrivalDateTime"), lubridate::ymd_hms) %>%
-    mutate(Id = paste(!!sym("OriginStation"), format(!!sym("DepartureDateTime"), fmt), !!sym("Carrier"),
-                      !!sym("DestinationStation"), format(!!sym("ArrivalDateTime"), fmt), sep = "-")) %>%
+    mutate(Id = paste(!!sym("OriginStation"), format(!!sym("DepartureDateTime"), fmt),
+                      !!sym("Carrier"), !!sym("DestinationStation"),
+                      format(!!sym("ArrivalDateTime"), fmt), sep = "-")) %>%
     rename(OriginId = "OriginStation", DestinationId = "DestinationStation",
            DepartureTime = "DepartureDateTime", ArrivalTime = "ArrivalDateTime",
            CarrierId = "Carrier", OperatingCarrierId = "OperatingCarrier")
@@ -150,17 +166,20 @@ GetSegments <- function(x) {
 #'
 #' @return A tibble.
 #' @import dplyr purrr
+#' 
+#' @seealso \code{\link{GetPrice}}, \code{\link{GetItineraries}}, \code{\link{GetLegs}},
+#' \code{\link{GetSegments}}, \code{\link{GetCarriers}}, \code{\link{GetAgents}},
+#' \code{\link{GetPlaces}}.
 #'
 #' @examples
 #' \dontrun{
 #' SetAPI("skyscanner-skyscanner-flight-search-v1.p.rapidapi.com", "YOUR_API_KEY")
 #' resp <- CreateSession(origin = "SFO", destination = "LHR", startDate = "2019-07-01")
-#' resp <- PollSession(respondPOST = resp)
+#' resp <- PollSession(resp)
 #' flightscanner:::GetCarriers(resp)
 #' }
 GetCarriers <- function(x) {
   if (inherits(x, "response")) x <- content(x)
-  
   x$Carriers %>% map_df(as_tibble) %>%
     select(-"DisplayCode") %>% rename(ImageURL = "ImageUrl") %>%
     group_by(!!sym("Id")) %>% filter(row_number() == 1) %>% ungroup()
@@ -175,17 +194,20 @@ GetCarriers <- function(x) {
 #'
 #' @return A tibble.
 #' @import dplyr purrr
+#' 
+#' @seealso \code{\link{GetPrice}}, \code{\link{GetItineraries}}, \code{\link{GetLegs}},
+#' \code{\link{GetSegments}}, \code{\link{GetCarriers}}, \code{\link{GetAgents}},
+#' \code{\link{GetPlaces}}.
 #'
 #' @examples
 #' \dontrun{
 #' SetAPI("skyscanner-skyscanner-flight-search-v1.p.rapidapi.com", "YOUR_API_KEY")
 #' resp <- CreateSession(origin = "SFO", destination = "LHR", startDate = "2019-07-01")
-#' resp <- PollSession(respondPOST = resp)
+#' resp <- PollSession(resp)
 #' flightscanner:::GetAgents(resp)
 #' }
 GetAgents <- function(x) {
   if (inherits(x, "response")) x <- content(x)
-  
   x$Agents %>% map_df(as_tibble) %>%
     select(-"ImageUrl", everything(), -"Status", -"OptimisedForMobile") %>%
     rename(ImageURL = "ImageUrl")
@@ -200,16 +222,19 @@ GetAgents <- function(x) {
 #'
 #' @return A tibble.
 #' @import dplyr purrr
+#' 
+#' @seealso \code{\link{GetPrice}}, \code{\link{GetItineraries}}, \code{\link{GetLegs}},
+#' \code{\link{GetSegments}}, \code{\link{GetCarriers}}, \code{\link{GetAgents}},
+#' \code{\link{GetPlaces}}.
 #'
 #' @examples
 #' \dontrun{
 #' SetAPI("skyscanner-skyscanner-flight-search-v1.p.rapidapi.com", "YOUR_API_KEY")
 #' resp <- CreateSession(origin = "SFO", destination = "LHR", startDate = "2019-07-01")
-#' resp <- PollSession(respondPOST = resp)
+#' resp <- PollSession(resp)
 #' flightscanner:::GetPlaces(resp)
 #' }
 GetPlaces <- function(x) {
   if (inherits(x, "response")) x <- content(x)
-  
   x$Places %>% map_df(as_tibble) %>% select("Id", "ParentId", everything())
 }

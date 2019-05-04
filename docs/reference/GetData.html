@@ -32,9 +32,8 @@
 
 <meta property="og:title" content="Get data from source. — GetData" />
 
-<meta property="og:description" content="Get data from source.
-Includes: price, itineraries, legs, segments, carriers, agents, and places.
-Data are in tibble() form." />
+<meta property="og:description" content="Get data from source. Includes: price, itineraries, legs, segments, carriers,
+agents, and places. Data are in tibble() form." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -108,9 +107,8 @@ Data are in tibble() form." />
 
     <div class="ref-description">
     
-    <p>Get data from source.
-Includes: price, itineraries, legs, segments, carriers, agents, and places.
-Data are in <code><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble()</a></code> form.</p>
+    <p>Get data from source. Includes: price, itineraries, legs, segments, carriers,
+agents, and places. Data are in <code><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble()</a></code> form.</p>
     
     </div>
 
@@ -156,7 +154,7 @@ Data are in <code><a href='https://tibble.tidyverse.org/reference/tibble.html'>t
 <span class='co'># Get data from API</span>
 <span class='fu'><a href='SetAPI.html'>SetAPI</a></span>(<span class='st'>"skyscanner-skyscanner-flight-search-v1.p.rapidapi.com"</span>, <span class='st'>"YOUR_API_KEY"</span>)
 <span class='no'>resp</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='CreateSession.html'>CreateSession</a></span>(<span class='kw'>origin</span> <span class='kw'>=</span> <span class='st'>"SFO"</span>, <span class='kw'>destination</span> <span class='kw'>=</span> <span class='st'>"LHR"</span>, <span class='kw'>startDate</span> <span class='kw'>=</span> <span class='st'>"2019-07-01"</span>)
-<span class='no'>resp</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='PollSession.html'>PollSession</a></span>(<span class='kw'>respondPOST</span> <span class='kw'>=</span> <span class='no'>resp</span>)
+<span class='no'>resp</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='PollSession.html'>PollSession</a></span>(<span class='no'>resp</span>)
 <span class='fu'>GetData</span>(<span class='no'>resp</span>)
 
 <span class='co'># Get data from SQLite database</span>

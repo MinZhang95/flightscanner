@@ -7,14 +7,14 @@
 dbCreateDB(conn = RSQLite::SQLite(), dbname = "flight.db")
 }
 \arguments{
-\item{conn}{A \code{\link[RSQLite:SQLiteDriver-class]{SQLiteDriver}}
-or \code{\link[RSQLite:SQLiteConnection-class]{SQLiteConnection}}.}
+\item{conn}{A \code{\link[RSQLite:SQLiteDriver-class]{SQLiteDriver}} or
+\code{\link[RSQLite:SQLiteConnection-class]{SQLiteConnection}}.}
 
 \item{dbname}{The path to the database file. Don't use two exceptions:
 \itemize{
   \item{
-  \code{""} will create a temporary on-disk database.
-  The file will be deleted when the connection is closed.
+  \code{""} will create a temporary on-disk database. The file will be deleted when the
+  connection is closed.
   }
   \item{
   \code{":memory:"} or \code{"file::memory:"} will create a temporary in-memory database.
@@ -22,12 +22,12 @@ or \code{\link[RSQLite:SQLiteConnection-class]{SQLiteConnection}}.}
 }}
 }
 \value{
-An object of class \code{\link[RSQLite:SQLiteConnection-class]{SQLiteConnection}}.
-If can't connect to SQLite driver, return 1.
+An object of class \code{\link[RSQLite:SQLiteConnection-class]{SQLiteConnection}}. If
+can't connect to SQLite driver, return 1.
 }
 \description{
-Connect to a SQLite database file. And check it the following tables exists:
-price, itinerary, leg, segment, carrier, agent, and place. If not, create them.
+Connect to a SQLite database file. And check it the following tables exists: price,
+itinerary, leg, segment, carrier, agent, and place. If not, create them.
 }
 \examples{
 \dontrun{

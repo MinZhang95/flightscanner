@@ -1,7 +1,6 @@
 #' Get data from source.
-#' @description Get data from source.
-#' Includes: price, itineraries, legs, segments, carriers, agents, and places.
-#' Data are in \code{\link[tibble:tibble]{tibble()}} form.
+#' @description Get data from source. Includes: price, itineraries, legs, segments, carriers,
+#' agents, and places. Data are in \code{\link[tibble:tibble]{tibble()}} form.
 #'
 #' @param x An object to get data from.
 #' @param ... Further arguments passed to methods.
@@ -15,7 +14,7 @@
 #' # Get data from API
 #' SetAPI("skyscanner-skyscanner-flight-search-v1.p.rapidapi.com", "YOUR_API_KEY")
 #' resp <- CreateSession(origin = "SFO", destination = "LHR", startDate = "2019-07-01")
-#' resp <- PollSession(respondPOST = resp)
+#' resp <- PollSession(resp)
 #' GetData(resp)
 #'
 #' # Get data from SQLite database
@@ -50,27 +49,25 @@ GetData.SQLiteConnection <- function(x, lazy = FALSE, ...) {
          agents = tbl(x, from = "agent"),
          places = tbl(x, from = "place"))
   } else {
-    list(price = dbReadTable(x, "price") %>% as.tbl() %>%
+    list(price = dbReadTable(x, "price") %>%
            ListPack(mutate = TRUE, vars = "PricingOptions", tz = NULL),
-         itineraries = dbReadTable(x, "itinerary") %>% as.tbl(),
-         legs = dbReadTable(x, "leg") %>% as.tbl() %>%
-           ListPack(mutate = TRUE, vars = c("SegmentIds", "Stops")),
-         segments = dbReadTable(x, "segment") %>% as.tbl() %>%
-           ListPack(mutate = TRUE),
-         carriers = dbReadTable(x, "carrier") %>% as.tbl(),
-         agents = dbReadTable(x, "agent") %>% as.tbl(),
-         places = dbReadTable(x, "place") %>% as.tbl())
+         itineraries = dbReadTable(x, "itinerary"),
+         legs = dbReadTable(x, "leg") %>% ListPack(mutate = TRUE, vars = c("SegmentIds", "Stops")),
+         segments = dbReadTable(x, "segment") %>% ListPack(mutate = TRUE),
+         carriers = dbReadTable(x, "carrier"),
+         agents = dbReadTable(x, "agent"),
+         places = dbReadTable(x, "place")) %>% lapply(as.tbl)
   }
 }
 
 
 #' Does the time fall in specified range?
-#' @description This is a compare function of time.
-#' It extracts the hours, minutes and seconds to check if it falls in specified time range.
+#' @description This is a compare function of time. It extracts the hours, minutes and seconds to
+#' check if it falls in specified time range.
 #'
 #' @param x A \code{POSIXt} class vector.
-#' @param interval A character vector of boundary values,
-#' each element should be in format: \code{"\%H:\%M"}.
+#' @param interval A character vector of boundary values, each element should be in format
+#' \code{"hh:mm"}.
 #' 
 #' @return \code{TRUE} or \code{FALSE}.
 #' @export
@@ -86,8 +83,8 @@ BetweenTime <- function(x, interval) {
 
 
 #' Is there any duplicate rows?
-#' @description Check if there is any duplicate rows indexed by given columns.
-#' If YES, it will give warning.
+#' @description Check if there is any duplicate rows indexed by given columns. If YES, it will give
+#' warning.
 #'
 #' @param .data A data.frame.
 #' @param .vars Names of Columns to group by. If missing, use the first column name.
@@ -99,7 +96,7 @@ BetweenTime <- function(x, interval) {
 #' # Get data from API
 #' SetAPI("skyscanner-skyscanner-flight-search-v1.p.rapidapi.com", "YOUR_API_KEY")
 #' resp <- CreateSession(origin = "SFO", destination = "LHR", startDate = "2019-07-01")
-#' resp <- PollSession(respondPOST = resp)
+#' resp <- PollSession(resp)
 #' data <- GetData(resp)
 #' sapply(data, flightscanner:::CheckDuplicate)
 #' }
@@ -132,7 +129,8 @@ CheckDuplicate <- function(.data, .vars) {
 #' Must be IATA codes.
 #' @param carrier_exclude Exclude specified carriers, applied to both outbound and inbound legs.
 #' Must be IATA codes.
-#' @param out_departure Range of outbound departure time, \code{"hh:mm"} or numeric values in minutes.
+#' @param out_departure Range of outbound departure time, \code{"hh:mm"} or numeric values in
+#' minutes.
 #' @param out_arrival Range of outbound arrival time, \code{"hh:mm"} or numeric values in minutes.
 #' @param in_departure Range of inbound departure time, \code{"hh:mm"} or numeric values in minutes.
 #' @param in_arrival Range of inbound arrival time, \code{"hh:mm"} or numeric values in minutes.
@@ -145,7 +143,7 @@ CheckDuplicate <- function(.data, .vars) {
 #' SetAPI("skyscanner-skyscanner-flight-search-v1.p.rapidapi.com", "YOUR_API_KEY")
 #' resp <- CreateSession(origin = "SFO", destination = "LHR",
 #'                       startDate = "2019-07-01", returnDate = "2019-07-10")
-#' resp <- PollSession(respondPOST = resp)
+#' resp <- PollSession(resp)
 #' data <- GetData(resp)
 #' FilterFlight(data, max_price = 1000, max_duration = 60 * 24,
 #'              max_stops = 2, layover = c(60, 240),

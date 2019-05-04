@@ -7,22 +7,22 @@
 SaveData(conn, x)
 }
 \arguments{
-\item{conn}{A \code{\link[RSQLite:SQLiteConnection-class]{SQLiteConnection}} object,
-as returned by \code{\link[DBI:dbConnect]{dbConnect()}}.}
+\item{conn}{A \code{\link[RSQLite:SQLiteConnection-class]{SQLiteConnection}} object, as returned
+by \code{\link[DBI:dbConnect]{dbConnect()}}.}
 
 \item{x}{A \code{\link[httr:response]{response()}} object.}
 }
 \description{
-Get data from the request response object,
-and save data to the corresponding tables in the SQLite database.
-Tables includes: price, itinerary, leg, segment, carrier, agent, and place.
+Get data from the request response object, and save data to the corresponding tables
+in the SQLite database. Tables includes: price, itinerary, leg, segment, carrier, agent, and
+place.
 }
 \examples{
 \dontrun{
 # Get response from API
 SetAPI("skyscanner-skyscanner-flight-search-v1.p.rapidapi.com", "YOUR_API_KEY")
 resp <- CreateSession(origin = "SFO", destination = "LHR", startDate = "2019-07-01")
-resp <- PollSession(respondPOST = resp)
+resp <- PollSession(resp)
 
 # Connect to SQLite database
 con <- dbCreateDB(dbname = "flight.db")

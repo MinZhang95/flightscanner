@@ -32,8 +32,8 @@
 
 <meta property="og:title" content="Poll session of live flight search. — PollSession" />
 
-<meta property="og:description" content="Returns live prices from all our suppliers for the requested flight itinerary.
-This function is GET step. Make sure you have set API using SetAPI before.
+<meta property="og:description" content="Returns live prices from all our suppliers for the requested flight itinerary. This
+function is GET step. Make sure you have set API using SetAPI before.
 See https://rapidapi.com/skyscanner/api/skyscanner-flight-search." />
 <meta name="twitter:card" content="summary" />
 
@@ -108,15 +108,16 @@ See https://rapidapi.com/skyscanner/api/skyscanner-flight-search." />
 
     <div class="ref-description">
     
-    <p>Returns live prices from all our suppliers for the requested flight itinerary.
-This function is GET step. Make sure you have set API using <code><a href='SetAPI.html'>SetAPI</a></code> before.</p>
+    <p>Returns live prices from all our suppliers for the requested flight itinerary. This
+function is GET step. Make sure you have set API using <code><a href='SetAPI.html'>SetAPI</a></code> before.</p>
 <p>See <a href='https://rapidapi.com/skyscanner/api/skyscanner-flight-search'>https://rapidapi.com/skyscanner/api/skyscanner-flight-search</a>.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>PollSession</span>(<span class='no'>sessionKey</span>, <span class='kw'>respondPOST</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>sortType</span> <span class='kw'>=</span> <span class='st'>"price"</span>,
-  <span class='kw'>sortOrder</span> <span class='kw'>=</span> <span class='st'>"asc"</span>, <span class='kw'>duration</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>stops</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>includeCarriers</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>excludeCarriers</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+    <pre class="usage"><span class='fu'>PollSession</span>(<span class='no'>response</span>, <span class='kw'>sortType</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"price"</span>, <span class='st'>"duration"</span>, <span class='st'>"carrier"</span>,
+  <span class='st'>"outboundarrivetime"</span>, <span class='st'>"outbounddeparttime"</span>, <span class='st'>"inboundarrivetime"</span>,
+  <span class='st'>"inbounddeparttime"</span>), <span class='kw'>sortOrder</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"asc"</span>, <span class='st'>"desc"</span>), <span class='kw'>duration</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>stops</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>includeCarriers</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>excludeCarriers</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>originAirports</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>destinationAirports</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>outboundDepartTime</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>outboundDepartStartTime</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>outboundDepartEndTime</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>outboundArriveStartTime</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
@@ -128,17 +129,14 @@ This function is GET step. Make sure you have set API using <code><a href='SetAP
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>sessionKey</th>
-      <td><p>The Session key to identify the session.</p></td>
-    </tr>
-    <tr>
-      <th>respondPOST</th>
+      <th>response</th>
       <td><p>Return object of <code><a href='CreateSession.html'>CreateSession</a></code>.</p></td>
     </tr>
     <tr>
       <th>sortType</th>
-      <td><p>(OPTIONAL) The parameter to sort results on.
-Can be carrier, duration, outboundarrivetime, outbounddeparttime, inboundarrivetime, inbounddeparttime, price.</p></td>
+      <td><p>(OPTIONAL) The parameter to sort results on. Can be <code>"price"</code>,
+<code>"duration"</code>, <code>"carrier"</code>, <code>"outboundarrivetime"</code>, <code>"outbounddeparttime"</code>,
+<code>"inboundarrivetime"</code>, <code>"inbounddeparttime"</code>.</p></td>
     </tr>
     <tr>
       <th>sortOrder</th>
@@ -150,68 +148,80 @@ Can be carrier, duration, outboundarrivetime, outbounddeparttime, inboundarrivet
     </tr>
     <tr>
       <th>stops</th>
-      <td><p>(OPTIONAL) Filter by number of stops. 0: direct flights only. 1: flights with one stop only.
-To show all flights do not use (only supports values 0 and 1).</p></td>
+      <td><p>(OPTIONAL) Filter by number of stops. 0: direct flights only. 1: flights with one
+stop only. To show all flights do not use (only supports values 0 and 1).</p></td>
     </tr>
     <tr>
       <th>includeCarriers</th>
-      <td><p>(OPTIONAL) Filter flights by the specified carriers.
-Must be semicolon-separated IATA codes.</p></td>
+      <td><p>(OPTIONAL) Filter flights by the specified carriers. Must be
+semicolon-separated IATA codes.</p></td>
     </tr>
     <tr>
       <th>excludeCarriers</th>
-      <td><p>(OPTIONAL) Filter flights by any but the specified carriers.
-Must be semicolon-separated IATA codes.</p></td>
+      <td><p>(OPTIONAL) Filter flights by any but the specified carriers. Must be
+semicolon-separated IATA codes.</p></td>
     </tr>
     <tr>
       <th>originAirports</th>
-      <td><p>(OPTIONAL) Origin airports to filter on. List of airport codes delimited by ';'.</p></td>
+      <td><p>(OPTIONAL) Origin airports to filter on. List of airport codes delimited by
+';'.</p></td>
     </tr>
     <tr>
       <th>destinationAirports</th>
-      <td><p>(OPTIONAL) Destination airports to filter on. List of airport codes delimited by ';'.</p></td>
+      <td><p>(OPTIONAL) Destination airports to filter on. List of airport codes
+delimited by ';'.</p></td>
     </tr>
     <tr>
       <th>outboundDepartTime</th>
       <td><p>(OPTIONAL) Filter for outbound departure time by time period of the day
-(i.e. morning, afternoon, evening). List of day time period delimited by ';' (acceptable values are M, A, E).</p></td>
+(i.e. morning, afternoon, evening). List of day time period delimited by ';' (acceptable values
+are <code>"M"</code>, <code>"A"</code>, <code>"E"</code>).</p></td>
     </tr>
     <tr>
       <th>outboundDepartStartTime</th>
-      <td><p>(OPTIONAL) Filter for start of range for outbound departure time. Format 'hh:mm'.</p></td>
+      <td><p>(OPTIONAL) Filter for start of range for outbound departure time.
+Format <code>"hh:mm"</code>.</p></td>
     </tr>
     <tr>
       <th>outboundDepartEndTime</th>
-      <td><p>(OPTIONAL) Filter for end of range for outbound departure time. Format 'hh:mm'.</p></td>
+      <td><p>(OPTIONAL) Filter for end of range for outbound departure time.
+Format <code>"hh:mm"</code>.</p></td>
     </tr>
     <tr>
       <th>outboundArriveStartTime</th>
-      <td><p>(OPTIONAL) Filter for start of range for outbound arrival time. Format 'hh:mm'.</p></td>
+      <td><p>(OPTIONAL) Filter for start of range for outbound arrival time.
+Format <code>"hh:mm"</code>.</p></td>
     </tr>
     <tr>
       <th>outboundArriveEndTime</th>
-      <td><p>(OPTIONAL) Filter for end of range for outbound arrival time. Format 'hh:mm'.</p></td>
+      <td><p>(OPTIONAL) Filter for end of range for outbound arrival time. Format
+<code>"hh:mm"</code>.</p></td>
     </tr>
     <tr>
       <th>inboundDepartTime</th>
       <td><p>(OPTIONAL) Filter for inbound departure time by time period of the day
-(i.e. morning, afternoon, evening). List of day time period delimited by ';' (acceptable values are M, A, E).</p></td>
+(i.e. morning, afternoon, evening). List of day time period delimited by ';' (acceptable values
+are <code>"M"</code>, <code>"A"</code>, <code>"E"</code>).</p></td>
     </tr>
     <tr>
       <th>inboundDepartStartTime</th>
-      <td><p>(OPTIONAL) Filter for start of range for inbound departure time. Format 'hh:mm'.</p></td>
+      <td><p>(OPTIONAL) Filter for start of range for inbound departure time.
+Format <code>"hh:mm"</code>.</p></td>
     </tr>
     <tr>
       <th>inboundDepartEndTime</th>
-      <td><p>(OPTIONAL) Filter for end of range for inbound departure time. Format 'hh:mm'.</p></td>
+      <td><p>(OPTIONAL) Filter for end of range for inbound departure time. Format
+<code>"hh:mm"</code>.</p></td>
     </tr>
     <tr>
       <th>inboundArriveStartTime</th>
-      <td><p>(OPTIONAL) Filter for start of range for inbound arrival time. Format 'hh:mm'.</p></td>
+      <td><p>(OPTIONAL) Filter for start of range for inbound arrival time.
+Format <code>"hh:mm"</code>.</p></td>
     </tr>
     <tr>
       <th>inboundArriveEndTime</th>
-      <td><p>(OPTIONAL) Filter for end of range for inbound arrival time. Format 'hh:mm'.</p></td>
+      <td><p>(OPTIONAL) Filter for end of range for inbound arrival time. Format
+<code>"hh:mm"</code>.</p></td>
     </tr>
     </table>
     
@@ -228,8 +238,7 @@ Must be semicolon-separated IATA codes.</p></td>
     <pre class="examples"><span class='co'># NOT RUN {</span>
 <span class='fu'><a href='SetAPI.html'>SetAPI</a></span>(<span class='st'>"skyscanner-skyscanner-flight-search-v1.p.rapidapi.com"</span>, <span class='st'>"YOUR_API_KEY"</span>)
 <span class='no'>resp</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='CreateSession.html'>CreateSession</a></span>(<span class='kw'>origin</span> <span class='kw'>=</span> <span class='st'>"SFO"</span>, <span class='kw'>destination</span> <span class='kw'>=</span> <span class='st'>"LHR"</span>, <span class='kw'>startDate</span> <span class='kw'>=</span> <span class='st'>"2019-07-01"</span>)
-<span class='fu'>PollSession</span>(<span class='fu'><a href='SessionKey.html'>SessionKey</a></span>(<span class='no'>resp</span>))
-<span class='fu'>PollSession</span>(<span class='kw'>respondPOST</span> <span class='kw'>=</span> <span class='no'>resp</span>)
+<span class='fu'>PollSession</span>(<span class='no'>resp</span>)
 <span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

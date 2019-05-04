@@ -15,9 +15,8 @@ SetAPI(host, key)
 A list of hostname and key.
 }
 \description{
-Set API hostname and key globally.
-
-See \url{https://rapidapi.com/skyscanner/api/skyscanner-flight-search}.
+Set API hostname and key globally. See
+\url{https://rapidapi.com/skyscanner/api/skyscanner-flight-search}.
 }
 \examples{
 \dontrun{

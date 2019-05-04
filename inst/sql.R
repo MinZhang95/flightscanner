@@ -21,7 +21,7 @@ SetAPI(host = "skyscanner-skyscanner-flight-search-v1.p.rapidapi.com",
        key = "3e85a0e43cmshac6dba6fde57066p1c1145jsn1e6f8c3d0e33")
 resp.get <- CreateSession(orig = "DSM", dest = "DTW",
                           startDate = "2019-06-01") %>%  # , returnDate = "2019-07-01"
-  PollSession(respondPOST = .)
+  PollSession()
 SaveData(con, x = resp.get)
 
 # extract data
@@ -35,7 +35,7 @@ sapply(data, flightscanner:::CheckDuplicate)  # Leg: 往返时会重复. carrier
 # filter flight
 FilterFlight(data)
 FilterFlight(data, max_price = 1000, max_duration = 60 * 24,
-             max_stops = 0, layover = c(1L, 5L) * 60,
+             max_stops = 2, layover = c(1L, 5L) * 60,
              carrier_include = c("UA", "AA", "DL", "CX", "NH", "MU", "HU"),
              carrier_exclude = c("MH", "KE"))
 

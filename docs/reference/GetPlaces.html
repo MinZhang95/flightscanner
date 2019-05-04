@@ -127,12 +127,18 @@ Information includes the PlaceId, ParentId, Code, Type and Name.</p>
 
     <p>A tibble.</p>
     
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p><code><a href='GetPrice.html'>GetPrice</a></code>, <code><a href='GetItineraries.html'>GetItineraries</a></code>, <code><a href='GetLegs.html'>GetLegs</a></code>,
+<code><a href='GetSegments.html'>GetSegments</a></code>, <code><a href='GetCarriers.html'>GetCarriers</a></code>, <code><a href='GetAgents.html'>GetAgents</a></code>,
+<code>GetPlaces</code>.</p></div>
+    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><span class='co'># NOT RUN {</span>
 <span class='fu'><a href='SetAPI.html'>SetAPI</a></span>(<span class='st'>"skyscanner-skyscanner-flight-search-v1.p.rapidapi.com"</span>, <span class='st'>"YOUR_API_KEY"</span>)
 <span class='no'>resp</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='CreateSession.html'>CreateSession</a></span>(<span class='kw'>origin</span> <span class='kw'>=</span> <span class='st'>"SFO"</span>, <span class='kw'>destination</span> <span class='kw'>=</span> <span class='st'>"LHR"</span>, <span class='kw'>startDate</span> <span class='kw'>=</span> <span class='st'>"2019-07-01"</span>)
-<span class='no'>resp</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='PollSession.html'>PollSession</a></span>(<span class='kw'>respondPOST</span> <span class='kw'>=</span> <span class='no'>resp</span>)
+<span class='no'>resp</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='PollSession.html'>PollSession</a></span>(<span class='no'>resp</span>)
 <span class='kw pkg'>flightscanner</span><span class='kw ns'>:::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/flightscanner/topics/GetPlaces'>GetPlaces</a></span>(<span class='no'>resp</span>)
 <span class='co'># }</span></pre>
   </div>
@@ -142,6 +148,8 @@ Information includes the PlaceId, ParentId, Code, Type and Name.</p>
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
+
+      <li><a href="#see-also">See also</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>

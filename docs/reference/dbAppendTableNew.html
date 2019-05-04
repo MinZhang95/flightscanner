@@ -32,9 +32,8 @@
 
 <meta property="og:title" content="Insert rows into a table. — dbAppendTableNew" />
 
-<meta property="og:description" content="Insert rows into a table.
-If the table has key, it will ignore the duplicate rows indexed by the key.
-It assumes that the table has been created beforehand." />
+<meta property="og:description" content="Insert rows into a table. If the table has key, it will ignore the duplicate rows
+indexed by the key. It assumes that the table has been created beforehand." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -108,9 +107,8 @@ It assumes that the table has been created beforehand." />
 
     <div class="ref-description">
     
-    <p>Insert rows into a table.
-If the table has key, it will ignore the duplicate rows indexed by the key.
-It assumes that the table has been created beforehand.</p>
+    <p>Insert rows into a table. If the table has key, it will ignore the duplicate rows
+indexed by the key. It assumes that the table has been created beforehand.</p>
     
     </div>
 
@@ -121,8 +119,8 @@ It assumes that the table has been created beforehand.</p>
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>conn</th>
-      <td><p>A <code><a href='https://www.rdocumentation.org/packages/RSQLite/topics/SQLiteConnection-class'>SQLiteConnection</a></code> object,
-as returned by <code><a href='https://www.rdocumentation.org/packages/DBI/topics/dbConnect'>dbConnect()</a></code>.</p></td>
+      <td><p>A <code><a href='https://www.rdocumentation.org/packages/RSQLite/topics/SQLiteConnection-class'>SQLiteConnection</a></code> object, as returned
+by <code><a href='https://www.rdocumentation.org/packages/DBI/topics/dbConnect'>dbConnect()</a></code>.</p></td>
     </tr>
     <tr>
       <th>name</th>
@@ -130,8 +128,8 @@ as returned by <code><a href='https://www.rdocumentation.org/packages/DBI/topics
     </tr>
     <tr>
       <th>value</th>
-      <td><p>A data frame of values.
-The column names must be consistent with those in the target table in the database.</p></td>
+      <td><p>A data frame of values. The column names must be consistent with those in the target
+table in the database.</p></td>
     </tr>
     <tr>
       <th>...</th>
@@ -143,7 +141,7 @@ The column names must be consistent with those in the target table in the databa
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='no'>con</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>DBI</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/DBI/topics/dbConnect'>dbConnect</a></span>(<span class='kw pkg'>RSQLite</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/RSQLite/topics/SQLite'>SQLite</a></span>(), <span class='st'>":memory:"</span>)
 <span class='kw pkg'>DBI</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/DBI/topics/dbWriteTable'>dbWriteTable</a></span>(<span class='no'>con</span>, <span class='st'>"iris"</span>, <span class='no'>iris</span>[<span class='fl'>0</span>, ])
-<span class='fu'>dbAppendTableNew</span>(<span class='no'>con</span>, <span class='st'>"iris"</span>, <span class='no'>iris</span>)</div><div class='output co'>#&gt; [1] 150</div></pre>
+<span class='kw pkg'>flightscanner</span><span class='kw ns'>:::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/flightscanner/topics/dbAppendTableNew'>dbAppendTableNew</a></span>(<span class='no'>con</span>, <span class='st'>"iris"</span>, <span class='no'>iris</span>)</div><div class='output co'>#&gt; [1] 150</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

@@ -9,16 +9,17 @@ BrowseFlight(endpoint = c("quotes", "routes", "dates"), origin,
   currency = "USD", locale = "en-US")
 }
 \arguments{
-\item{endpoint}{Endpoint to choose. One of 'quotes', 'routes', 'dates'.}
+\item{endpoint}{Endpoint to choose. One of \code{"quotes"}, \code{"routes"}, \code{"dates"}.}
 
 \item{origin}{(REQUIRED) The origin place, can be country, city, airport, in Skyscanner code.}
 
 \item{destination}{(REQUIRED) The destination, can be country, city, airport, in Skyscanner code.}
 
-\item{startDate}{(REQUIRED) The outbound date. Format 'yyyy-mm-dd', 'yyyy-mm' or 'anytime'.}
+\item{startDate}{(REQUIRED) The outbound date. Format \code{"yyyy-mm-dd"}, \code{"yyyy-mm"} or
+\code{"anytime"}.}
 
-\item{returnDate}{(OPTIONAL) The return date. Format 'yyyy-mm-dd', 'yyyy-mm' or 'anytime'.
-Use NULL for oneway trip.}
+\item{returnDate}{(OPTIONAL) The return date. Format \code{"yyyy-mm-dd"}, \code{"yyyy-mm"} or
+\code{"anytime"}. Use NULL for oneway trip.}
 
 \item{country}{(REQUIRED) The market country your user is in.}
 
@@ -30,9 +31,9 @@ Use NULL for oneway trip.}
 A \code{\link[httr:response]{response()}} object of request.
 }
 \description{
-Gets you information about flights from the skyscanner cache.
-It might be slightly outdated in comparison to live search, but more detailed and immediate.
-Make sure you have set API using \code{\link{SetAPI}} before.
+Gets you information about flights from the skyscanner cache. It might be slightly
+outdated in comparison to live search, but more detailed and immediate. Make sure you have set
+API using \code{\link{SetAPI}} before.
 
 See \url{https://rapidapi.com/skyscanner/api/skyscanner-flight-search}.
 }
@@ -40,16 +41,16 @@ See \url{https://rapidapi.com/skyscanner/api/skyscanner-flight-search}.
 The \code{endpoint} argument:
 \describe{
   \item{\code{'quotes'}}{
-  Returns the cheapest quotes that meet your query.
-  The prices come from our cached prices resulting from our users' searches.
+  Returns the cheapest quotes that meet your query. The prices come from our cached prices
+  resulting from our users' searches.
   }
   \item{\code{'routes'}}{
-  Similar to Browse Quotes but with the quotes grouped by routes.
-  This provides the cheapest destinations (countries, cities or airports) from our cached data.
+  Similar to Browse Quotes but with the quotes grouped by routes. This provides the cheapest
+  destinations (countries, cities or airports) from our cached data.
   }
   \item{\code{'dates'}}{
-  Similar to Browse Quotes but with the quotes grouped by outbound and inbound date.
-  Useful to find the lowest price for a given route, over either a month or a 12 month period.
+  Similar to Browse Quotes but with the quotes grouped by outbound and inbound date. Useful to
+  find the lowest price for a given route, over either a month or a 12 month period.
   }
 }
 }

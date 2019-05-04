@@ -32,9 +32,9 @@
 
 <meta property="og:title" content="Browse flight prices from the skyscanner cache. — BrowseFlight" />
 
-<meta property="og:description" content="Gets you information about flights from the skyscanner cache.
-It might be slightly outdated in comparison to live search, but more detailed and immediate.
-Make sure you have set API using SetAPI before.
+<meta property="og:description" content="Gets you information about flights from the skyscanner cache. It might be slightly
+outdated in comparison to live search, but more detailed and immediate. Make sure you have set
+API using SetAPI before.
 See https://rapidapi.com/skyscanner/api/skyscanner-flight-search." />
 <meta name="twitter:card" content="summary" />
 
@@ -109,9 +109,9 @@ See https://rapidapi.com/skyscanner/api/skyscanner-flight-search." />
 
     <div class="ref-description">
     
-    <p>Gets you information about flights from the skyscanner cache.
-It might be slightly outdated in comparison to live search, but more detailed and immediate.
-Make sure you have set API using <code><a href='SetAPI.html'>SetAPI</a></code> before.</p>
+    <p>Gets you information about flights from the skyscanner cache. It might be slightly
+outdated in comparison to live search, but more detailed and immediate. Make sure you have set
+API using <code><a href='SetAPI.html'>SetAPI</a></code> before.</p>
 <p>See <a href='https://rapidapi.com/skyscanner/api/skyscanner-flight-search'>https://rapidapi.com/skyscanner/api/skyscanner-flight-search</a>.</p>
     
     </div>
@@ -125,7 +125,7 @@ Make sure you have set API using <code><a href='SetAPI.html'>SetAPI</a></code> b
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>endpoint</th>
-      <td><p>Endpoint to choose. One of 'quotes', 'routes', 'dates'.</p></td>
+      <td><p>Endpoint to choose. One of <code>"quotes"</code>, <code>"routes"</code>, <code>"dates"</code>.</p></td>
     </tr>
     <tr>
       <th>origin</th>
@@ -137,12 +137,13 @@ Make sure you have set API using <code><a href='SetAPI.html'>SetAPI</a></code> b
     </tr>
     <tr>
       <th>startDate</th>
-      <td><p>(REQUIRED) The outbound date. Format 'yyyy-mm-dd', 'yyyy-mm' or 'anytime'.</p></td>
+      <td><p>(REQUIRED) The outbound date. Format <code>"yyyy-mm-dd"</code>, <code>"yyyy-mm"</code> or
+<code>"anytime"</code>.</p></td>
     </tr>
     <tr>
       <th>returnDate</th>
-      <td><p>(OPTIONAL) The return date. Format 'yyyy-mm-dd', 'yyyy-mm' or 'anytime'.
-Use NULL for oneway trip.</p></td>
+      <td><p>(OPTIONAL) The return date. Format <code>"yyyy-mm-dd"</code>, <code>"yyyy-mm"</code> or
+<code>"anytime"</code>. Use NULL for oneway trip.</p></td>
     </tr>
     <tr>
       <th>country</th>
@@ -165,12 +166,12 @@ Use NULL for oneway trip.</p></td>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>The <code>endpoint</code> argument:</p><dl class='dl-horizontal'>
-  <dt><code>'quotes'</code></dt><dd><p>Returns the cheapest quotes that meet your query.
-  The prices come from our cached prices resulting from our users' searches.</p></dd>
-  <dt><code>'routes'</code></dt><dd><p>Similar to Browse Quotes but with the quotes grouped by routes.
-  This provides the cheapest destinations (countries, cities or airports) from our cached data.</p></dd>
-  <dt><code>'dates'</code></dt><dd><p>Similar to Browse Quotes but with the quotes grouped by outbound and inbound date.
-  Useful to find the lowest price for a given route, over either a month or a 12 month period.</p></dd>
+  <dt><code>'quotes'</code></dt><dd><p>Returns the cheapest quotes that meet your query. The prices come from our cached prices
+  resulting from our users' searches.</p></dd>
+  <dt><code>'routes'</code></dt><dd><p>Similar to Browse Quotes but with the quotes grouped by routes. This provides the cheapest
+  destinations (countries, cities or airports) from our cached data.</p></dd>
+  <dt><code>'dates'</code></dt><dd><p>Similar to Browse Quotes but with the quotes grouped by outbound and inbound date. Useful to
+  find the lowest price for a given route, over either a month or a 12 month period.</p></dd>
 </dl>
     
 

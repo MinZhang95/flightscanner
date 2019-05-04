@@ -1,7 +1,6 @@
 #' Set API hostname and key.
-#' @description Set API hostname and key globally.
-#'
-#' See \url{https://rapidapi.com/skyscanner/api/skyscanner-flight-search}.
+#' @description Set API hostname and key globally. See
+#' \url{https://rapidapi.com/skyscanner/api/skyscanner-flight-search}.
 #'
 #' @param host API hostname.
 #' @param key API key.
@@ -34,8 +33,8 @@ MakeHeader <- function(host, key, type) {
 
 
 #' Create session of live flight search.
-#' @description Returns live prices from all our suppliers for the requested flight itinerary.
-#' This function is POST step. Make sure you have set API using \code{\link{SetAPI}} before.
+#' @description Returns live prices from all our suppliers for the requested flight itinerary. This
+#' function is POST step. Make sure you have set API using \code{\link{SetAPI}} before.
 #'
 #' See \url{https://rapidapi.com/skyscanner/api/skyscanner-flight-search}.
 #'
@@ -43,17 +42,21 @@ MakeHeader <- function(host, key, type) {
 #'
 #' @param origin (REQUIRED) The origin place, can be country, city, airport, in Skyscanner code.
 #' @param destination (REQUIRED) The destination, can be country, city, airport, in Skyscanner code.
-#' @param startDate (REQUIRED) The outbound date. Format 'yyyy-mm-dd'.
-#' @param returnDate (OPTIONAL) The return date. Format 'yyyy-mm-dd'. Use NULL for oneway trip.
+#' @param startDate (REQUIRED) The outbound date. Format \code{"yyyy-mm-dd"}.
+#' @param returnDate (OPTIONAL) The return date. Format \code{"yyyy-mm-dd"}. Use NULL for oneway
+#' trip.
 #' @param adults (REQUIRED) Number of adults (16+ years). Must be between 1 and 8.
 #' @param children (OPTIONAL) Number of children (1-16 years). Can be between 0 and 8.
 #' @param infants (OPTIONAL) Number of infants (under 12 months). Can be between 0 and 8.
 #' @param country (REQUIRED) The market/country your user is in.
 #' @param currency (REQUIRED) The currency you want the prices in.
 #' @param locale (REQUIRED) The locale you want the results in (ISO locale).
-#' @param cabinClass (OPTIONAL) The cabin class. Can be 'economy', 'premiumeconomy', 'business', 'first'
-#' @param includeCarriers (OPTIONAL) Only return results from those carriers. Comma-separated list of carrier ids.
-#' @param excludeCarriers (OPTIONAL) Filter out results from those carriers. Comma-separated list of carrier ids.
+#' @param cabinClass (OPTIONAL) The cabin class.
+#' Can be \code{"economy"}, \code{"premiumeconomy"}, \code{"business"}, \code{"first"}.
+#' @param includeCarriers (OPTIONAL) Only return results from those carriers. Comma-separated list
+#' of carrier ids.
+#' @param excludeCarriers (OPTIONAL) Filter out results from those carriers. Comma-separated list of
+#' carrier ids.
 #'
 #' @return A \code{\link[httr:response]{response()}} object of request.
 #' @import httr
@@ -67,9 +70,20 @@ MakeHeader <- function(host, key, type) {
 CreateSession <- function(origin, destination, startDate, returnDate = NULL,
                           adults = 1, children = NULL, infants = NULL,
                           country = "US", currency = "USD", locale = "en-US",
-                          cabinClass = "economy", includeCarriers = NULL, excludeCarriers = NULL) {
-  # Add checking here.
-
+                          cabinClass = c("economy", "premiumeconomy", "business", "first"),
+                          includeCarriers = NULL, excludeCarriers = NULL) {
+  cabinClass <- match.arg(cabinClass)
+  checkmate::assertCharacter(origin)
+  checkmate::assertCharacter(destination)
+  checkmate::assertCharacter(country)
+  checkmate::assertCharacter(currency)
+  checkmate::assertCharacter(locale)
+  checkmate::assert_numeric(adults)
+  checkmate::assertDate(lubridate::ymd(startDate))
+  checkmate::assertDate(lubridate::ymd(returnDate))
+  if (!is.null(returnDate))
+    checkmate::assert_true(lubridate::ymd(returnDate) > lubridate::ymd(startDate))
+  
   url <- paste0("https://", getOption("API")$host, "/apiservices/pricing/v1.0")
   header <- MakeHeader()
   body <- list(cabinClass = cabinClass,
@@ -85,60 +99,60 @@ CreateSession <- function(origin, destination, startDate, returnDate = NULL,
                infants = infants,
                includeCarriers = includeCarriers,
                excludeCarriers = excludeCarriers)
-  checkmate::assertCharacter(origin)
-  checkmate::assertCharacter(destination)
-  checkmate::assertCharacter(country)
-  checkmate::assertCharacter(currency)
-  checkmate::assertCharacter(locale)
-  checkmate::assertDate(lubridate::ymd(startDate))
-  checkmate::assertDate(lubridate::ymd(returnDate))
   
-  if(!is.null(returnDate)){
-  checkmate::assert_true(lubridate::ymd(returnDate) > lubridate::ymd(startDate))
-  }
-  checkmate::assert_numeric(adults)
-
   resp <- POST(url, add_headers(header), body = body, encode = "form")
   flag <- CheckStatus(resp)
-  checkmate::assertClass(resp,"response")
+  checkmate::assertClass(resp, "response")
   resp
 }
 
 
 #' Poll session of live flight search.
-#' @description Returns live prices from all our suppliers for the requested flight itinerary.
-#' This function is GET step. Make sure you have set API using \code{\link{SetAPI}} before.
+#' @description Returns live prices from all our suppliers for the requested flight itinerary. This
+#' function is GET step. Make sure you have set API using \code{\link{SetAPI}} before.
 #'
 #' See \url{https://rapidapi.com/skyscanner/api/skyscanner-flight-search}.
 #'
 #' @seealso \code{\link{CreateSession}}.
 #'
-#' @param sessionKey The Session key to identify the session.
-#' @param respondPOST Return object of \code{\link{CreateSession}}.
-#' @param sortType (OPTIONAL) The parameter to sort results on.
-#' Can be carrier, duration, outboundarrivetime, outbounddeparttime, inboundarrivetime, inbounddeparttime, price.
-#' @param sortOrder (OPTIONAL) The sort order. 'asc' or 'desc'.
+#' @param response Return object of \code{\link{CreateSession}}.
+#' @param sortType (OPTIONAL) The parameter to sort results on. Can be \code{"price"},
+#' \code{"duration"}, \code{"carrier"}, \code{"outboundarrivetime"}, \code{"outbounddeparttime"},
+#' \code{"inboundarrivetime"}, \code{"inbounddeparttime"}.
+#' @param sortOrder (OPTIONAL) The sort order. \code{"asc"} or \code{"desc"}.
 #' @param duration (OPTIONAL) Filter for maximum duration in minutes. Integer between 0 and 1800.
-#' @param stops (OPTIONAL) Filter by number of stops. 0: direct flights only. 1: flights with one stop only.
-#' To show all flights do not use (only supports values 0 and 1).
-#' @param includeCarriers (OPTIONAL) Filter flights by the specified carriers.
-#' Must be semicolon-separated IATA codes.
-#' @param excludeCarriers (OPTIONAL) Filter flights by any but the specified carriers.
-#' Must be semicolon-separated IATA codes.
-#' @param originAirports (OPTIONAL) Origin airports to filter on. List of airport codes delimited by ';'.
-#' @param destinationAirports (OPTIONAL) Destination airports to filter on. List of airport codes delimited by ';'.
+#' @param stops (OPTIONAL) Filter by number of stops. 0: direct flights only. 1: flights with one
+#' stop only. To show all flights do not use (only supports values 0 and 1).
+#' @param includeCarriers (OPTIONAL) Filter flights by the specified carriers. Must be
+#' semicolon-separated IATA codes.
+#' @param excludeCarriers (OPTIONAL) Filter flights by any but the specified carriers. Must be
+#' semicolon-separated IATA codes.
+#' @param originAirports (OPTIONAL) Origin airports to filter on. List of airport codes delimited by
+#' ';'.
+#' @param destinationAirports (OPTIONAL) Destination airports to filter on. List of airport codes
+#' delimited by ';'.
 #' @param outboundDepartTime (OPTIONAL) Filter for outbound departure time by time period of the day
-#' (i.e. morning, afternoon, evening). List of day time period delimited by ';' (acceptable values are M, A, E).
-#' @param outboundDepartStartTime (OPTIONAL) Filter for start of range for outbound departure time. Format 'hh:mm'.
-#' @param outboundDepartEndTime (OPTIONAL) Filter for end of range for outbound departure time. Format 'hh:mm'.
-#' @param outboundArriveStartTime (OPTIONAL) Filter for start of range for outbound arrival time. Format 'hh:mm'.
-#' @param outboundArriveEndTime (OPTIONAL) Filter for end of range for outbound arrival time. Format 'hh:mm'.
+#' (i.e. morning, afternoon, evening). List of day time period delimited by ';' (acceptable values
+#' are \code{"M"}, \code{"A"}, \code{"E"}).
+#' @param outboundDepartStartTime (OPTIONAL) Filter for start of range for outbound departure time.
+#' Format \code{"hh:mm"}.
+#' @param outboundDepartEndTime (OPTIONAL) Filter for end of range for outbound departure time.
+#' Format \code{"hh:mm"}.
+#' @param outboundArriveStartTime (OPTIONAL) Filter for start of range for outbound arrival time.
+#' Format \code{"hh:mm"}.
+#' @param outboundArriveEndTime (OPTIONAL) Filter for end of range for outbound arrival time. Format
+#' \code{"hh:mm"}.
 #' @param inboundDepartTime (OPTIONAL) Filter for inbound departure time by time period of the day
-#' (i.e. morning, afternoon, evening). List of day time period delimited by ';' (acceptable values are M, A, E).
-#' @param inboundDepartStartTime (OPTIONAL) Filter for start of range for inbound departure time. Format 'hh:mm'.
-#' @param inboundDepartEndTime (OPTIONAL) Filter for end of range for inbound departure time. Format 'hh:mm'.
-#' @param inboundArriveStartTime (OPTIONAL) Filter for start of range for inbound arrival time. Format 'hh:mm'.
-#' @param inboundArriveEndTime (OPTIONAL) Filter for end of range for inbound arrival time. Format 'hh:mm'.
+#' (i.e. morning, afternoon, evening). List of day time period delimited by ';' (acceptable values
+#' are \code{"M"}, \code{"A"}, \code{"E"}).
+#' @param inboundDepartStartTime (OPTIONAL) Filter for start of range for inbound departure time.
+#' Format \code{"hh:mm"}.
+#' @param inboundDepartEndTime (OPTIONAL) Filter for end of range for inbound departure time. Format
+#' \code{"hh:mm"}.
+#' @param inboundArriveStartTime (OPTIONAL) Filter for start of range for inbound arrival time.
+#' Format \code{"hh:mm"}.
+#' @param inboundArriveEndTime (OPTIONAL) Filter for end of range for inbound arrival time. Format
+#' \code{"hh:mm"}.
 #'
 #' @return A \code{\link[httr:response]{response()}} object of request.
 #' @import httr
@@ -148,11 +162,12 @@ CreateSession <- function(origin, destination, startDate, returnDate = NULL,
 #' \dontrun{
 #' SetAPI("skyscanner-skyscanner-flight-search-v1.p.rapidapi.com", "YOUR_API_KEY")
 #' resp <- CreateSession(origin = "SFO", destination = "LHR", startDate = "2019-07-01")
-#' PollSession(SessionKey(resp))
-#' PollSession(respondPOST = resp)
+#' PollSession(resp)
 #' }
-PollSession <- function(sessionKey, respondPOST = NULL,
-                        sortType = "price", sortOrder = "asc",
+PollSession <- function(response, sortType = c("price", "duration", "carrier",
+                                               "outboundarrivetime", "outbounddeparttime",
+                                               "inboundarrivetime", "inbounddeparttime"),
+                        sortOrder = c("asc", "desc"),
                         duration = NULL, stops = NULL,
                         includeCarriers = NULL, excludeCarriers = NULL,
                         originAirports = NULL, destinationAirports = NULL,
@@ -162,19 +177,14 @@ PollSession <- function(sessionKey, respondPOST = NULL,
                         inboundDepartTime = NULL,
                         inboundDepartStartTime = NULL, inboundDepartEndTime = NULL,
                         inboundArriveStartTime = NULL, inboundArriveEndTime = NULL) {
-  par.options <- list(sortType = c("price", "duration", "carrier",
-                                   "outboundarrivetime", "outbounddeparttime",
-                                   "inboundarrivetime", "inbounddeparttime"),
-                      sortOrder = c("asc", "desc"))
   # Add checking here.
-
-  if (missing(sessionKey)) sessionKey <- SessionKey(respondPOST)
-  if (!missing(sortType)) sortType <- match.arg(sortType, par.options$sortType)
-  if (!missing(sortOrder)) sortOrder <- match.arg(sortOrder, par.options$sortOrder)
-
+  sortType <- match.arg(sortType)
+  sortOrder <- match.arg(sortOrder)
+  checkmate::assertClass(response, "response")
+  
   url <- paste0("https://", getOption("API")$host, "/apiservices/pricing/uk2/v1.0")
   header <- MakeHeader()
-  path <- c(parse_url(url)$path, sessionKey)
+  path <- c(parse_url(url)$path, SessionKey(response))
   query <- list(sortType = sortType,
                 sortOrder = sortOrder,
                 duration = duration,
@@ -193,49 +203,48 @@ PollSession <- function(sessionKey, respondPOST = NULL,
                 inboundDepartEndTime = inboundDepartEndTime,
                 inboundArriveStartTime = inboundArriveStartTime,
                 inboundArriveEndTime = inboundArriveEndTime)
-  checkmate::assert_choice(sortType, par.options$sortType)
-  checkmate::assert_choice(sortOrder, par.options$sortOrder)
-
+  
   for (count in 0:100) {
     resp <- GET(url, add_headers(header), path = path, query = query)
     if (content(resp)$Status == "UpdatesComplete") break
   }
   if (count) message("Try to update data ", count, " times.")
   flag <- CheckStatus(resp)
-  checkmate::assertClass(resp,"response")
+  checkmate::assertClass(resp, "response")
   resp
 }
 
 
 #' Browse flight prices from the skyscanner cache.
-#' @description Gets you information about flights from the skyscanner cache.
-#' It might be slightly outdated in comparison to live search, but more detailed and immediate.
-#' Make sure you have set API using \code{\link{SetAPI}} before.
+#' @description Gets you information about flights from the skyscanner cache. It might be slightly
+#' outdated in comparison to live search, but more detailed and immediate. Make sure you have set
+#' API using \code{\link{SetAPI}} before.
 #'
 #' See \url{https://rapidapi.com/skyscanner/api/skyscanner-flight-search}.
 #'
 #' @details The \code{endpoint} argument:
 #' \describe{
 #'   \item{\code{'quotes'}}{
-#'   Returns the cheapest quotes that meet your query.
-#'   The prices come from our cached prices resulting from our users' searches.
+#'   Returns the cheapest quotes that meet your query. The prices come from our cached prices
+#'   resulting from our users' searches.
 #'   }
 #'   \item{\code{'routes'}}{
-#'   Similar to Browse Quotes but with the quotes grouped by routes.
-#'   This provides the cheapest destinations (countries, cities or airports) from our cached data.
+#'   Similar to Browse Quotes but with the quotes grouped by routes. This provides the cheapest
+#'   destinations (countries, cities or airports) from our cached data.
 #'   }
 #'   \item{\code{'dates'}}{
-#'   Similar to Browse Quotes but with the quotes grouped by outbound and inbound date.
-#'   Useful to find the lowest price for a given route, over either a month or a 12 month period.
+#'   Similar to Browse Quotes but with the quotes grouped by outbound and inbound date. Useful to
+#'   find the lowest price for a given route, over either a month or a 12 month period.
 #'   }
 #' }
 #'
-#' @param endpoint Endpoint to choose. One of 'quotes', 'routes', 'dates'.
+#' @param endpoint Endpoint to choose. One of \code{"quotes"}, \code{"routes"}, \code{"dates"}.
 #' @param origin (REQUIRED) The origin place, can be country, city, airport, in Skyscanner code.
 #' @param destination (REQUIRED) The destination, can be country, city, airport, in Skyscanner code.
-#' @param startDate (REQUIRED) The outbound date. Format 'yyyy-mm-dd', 'yyyy-mm' or 'anytime'.
-#' @param returnDate (OPTIONAL) The return date. Format 'yyyy-mm-dd', 'yyyy-mm' or 'anytime'.
-#' Use NULL for oneway trip.
+#' @param startDate (REQUIRED) The outbound date. Format \code{"yyyy-mm-dd"}, \code{"yyyy-mm"} or
+#' \code{"anytime"}.
+#' @param returnDate (OPTIONAL) The return date. Format \code{"yyyy-mm-dd"}, \code{"yyyy-mm"} or
+#' \code{"anytime"}. Use NULL for oneway trip.
 #' @param country (REQUIRED) The market country your user is in.
 #' @param currency (REQUIRED) The currency you want the prices in.
 #' @param locale (REQUIRED) The locale you want the results in (ISO locale).
@@ -254,9 +263,7 @@ PollSession <- function(sessionKey, respondPOST = NULL,
 BrowseFlight <- function(endpoint = c("quotes", "routes", "dates"),
                          origin, destination, startDate, returnDate = NULL,
                          country = "US", currency = "USD", locale = "en-US") {
-  checkmate::assert_choice(endpoint, c("quotes", "routes", "dates"))
   endpoint <- match.arg(endpoint)
-  # Add checking here.
   checkmate::assertCharacter(origin)
   checkmate::assertCharacter(destination)
   checkmate::assertCharacter(country)
@@ -264,26 +271,25 @@ BrowseFlight <- function(endpoint = c("quotes", "routes", "dates"),
   checkmate::assertCharacter(locale)
   checkmate::assertDate(lubridate::ymd(startDate))
   checkmate::assertDate(lubridate::ymd(returnDate))
-  if(!is.null(returnDate)){
+  if(!is.null(returnDate))
     checkmate::assert_true(lubridate::ymd(returnDate) > lubridate::ymd(startDate))
-  }
-
+  
   url <- paste0("https://", getOption("API")$host, "/apiservices/browse", endpoint, "/v1.0")
   header <- MakeHeader()
   path <- c(parse_url(url)$path, country, currency, locale,
             paste0(origin, "-sky"), paste0(destination, "-sky"), startDate)
   query <- list(inboundpartialdate = returnDate)
-
+  
   resp <- GET(url, add_headers(header), path = path, query = query)
   flag <- CheckStatus(resp)
-  checkmate::assertClass(resp,"response")
+  checkmate::assertClass(resp, "response")
   resp
 }
 
 
 #' Check status of request response.
-#' @description Extract the http status code and convert it into a human readable message.
-#' Give warning if has an error.
+#' @description Extract the http status code and convert it into a human readable message. Give
+#' warning if has an error.
 #'
 #' @param x A \code{\link[httr:response]{response()}} object or a number.
 #'
@@ -298,8 +304,8 @@ CheckStatus <- function(x) {
 
 
 #' Extract session key from request response.
-#' @description Extract session key from request response.
-#' The last value of location header contains the session key which is required when polling the session.
+#' @description Extract session key from request response. The last value of location header
+#' contains the session key which is required when polling the session.
 #'
 #' @param x A \code{\link[httr:response]{response()}} object.
 #'

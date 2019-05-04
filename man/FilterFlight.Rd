@@ -27,7 +27,8 @@ Must be IATA codes.}
 \item{carrier_exclude}{Exclude specified carriers, applied to both outbound and inbound legs.
 Must be IATA codes.}
 
-\item{out_departure}{Range of outbound departure time, \code{"hh:mm"} or numeric values in minutes.}
+\item{out_departure}{Range of outbound departure time, \code{"hh:mm"} or numeric values in
+minutes.}
 
 \item{out_arrival}{Range of outbound arrival time, \code{"hh:mm"} or numeric values in minutes.}
 
@@ -46,7 +47,7 @@ Choose flight itineraries that match the filter conditions.
 SetAPI("skyscanner-skyscanner-flight-search-v1.p.rapidapi.com", "YOUR_API_KEY")
 resp <- CreateSession(origin = "SFO", destination = "LHR",
                       startDate = "2019-07-01", returnDate = "2019-07-10")
-resp <- PollSession(respondPOST = resp)
+resp <- PollSession(resp)
 data <- GetData(resp)
 FilterFlight(data, max_price = 1000, max_duration = 60 * 24,
              max_stops = 2, layover = c(60, 240),

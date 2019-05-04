@@ -1,0 +1,8 @@
+sqlite3 flight.db
+
+.table
+.header on
+.mode column
+.schema
+
+select `SearchTime`, `OutboundLegId`, `InboundLegId` from price;

@@ -19,18 +19,17 @@ CreateJob(origin, destination, startDate, returnDate = NULL,
 
 \item{path}{Where to put the log, defaults is the current working directory.}
 
-\item{frequency}{A character string equal to one of
-\code{"minutely"}, \code{"hourly"}, or \code{"daily"}.}
+\item{frequency}{A character string equal to one of \code{"minutely"}, \code{"hourly"}, or
+\code{"daily"}.}
 
-\item{at}{The actual time of day at which to execute the command.
-When unspecified, we default to "8PM",
-when the command is to be run less frequently than \code{"hourly"}.}
+\item{at}{The actual time of day at which to execute the command. When unspecified, we default to
+\code{"8PM"}, when the command is to be run less frequently than \code{"hourly"}.}
 
 \item{...}{Other arguments.}
 }
 \description{
-Generate a cron job, and pass it to crontab.
-It will automatically scape flight data and save them to a local SQLite database file.
+Generate a cron job, and pass it to crontab. It will automatically scape flight data
+and save them to a local SQLite database file.
 }
 \examples{
 \dontrun{

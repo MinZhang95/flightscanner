@@ -32,8 +32,8 @@
 
 <meta property="og:title" content="Is there any duplicate rows? — CheckDuplicate" />
 
-<meta property="og:description" content="Check if there is any duplicate rows indexed by given columns.
-If YES, it will give warning." />
+<meta property="og:description" content="Check if there is any duplicate rows indexed by given columns. If YES, it will give
+warning." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -107,8 +107,8 @@ If YES, it will give warning." />
 
     <div class="ref-description">
     
-    <p>Check if there is any duplicate rows indexed by given columns.
-If YES, it will give warning.</p>
+    <p>Check if there is any duplicate rows indexed by given columns. If YES, it will give
+warning.</p>
     
     </div>
 
@@ -137,7 +137,7 @@ If YES, it will give warning.</p>
 <span class='co'># Get data from API</span>
 <span class='fu'><a href='SetAPI.html'>SetAPI</a></span>(<span class='st'>"skyscanner-skyscanner-flight-search-v1.p.rapidapi.com"</span>, <span class='st'>"YOUR_API_KEY"</span>)
 <span class='no'>resp</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='CreateSession.html'>CreateSession</a></span>(<span class='kw'>origin</span> <span class='kw'>=</span> <span class='st'>"SFO"</span>, <span class='kw'>destination</span> <span class='kw'>=</span> <span class='st'>"LHR"</span>, <span class='kw'>startDate</span> <span class='kw'>=</span> <span class='st'>"2019-07-01"</span>)
-<span class='no'>resp</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='PollSession.html'>PollSession</a></span>(<span class='kw'>respondPOST</span> <span class='kw'>=</span> <span class='no'>resp</span>)
+<span class='no'>resp</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='PollSession.html'>PollSession</a></span>(<span class='no'>resp</span>)
 <span class='no'>data</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='GetData.html'>GetData</a></span>(<span class='no'>resp</span>)
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/lapply'>sapply</a></span>(<span class='no'>data</span>, <span class='kw pkg'>flightscanner</span><span class='kw ns'>:::</span><span class='no'><a href='https://www.rdocumentation.org/packages/flightscanner/topics/CheckDuplicate'>CheckDuplicate</a></span>)
 <span class='co'># }</span></pre>

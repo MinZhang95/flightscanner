@@ -1,7 +1,7 @@
 context("test-database")
 
 test_that("ListUnpack works", {
-  expect_error(ListUnpack(x=2, mutate = TRUE))
+  expect_error(ListUnpack(x = 2, mutate = TRUE))
   res1 <- ListUnpack(iris, mutate = TRUE)
   expect_true(is.list(res1))
   res2 <- ListUnpack(iris, mutate = TRUE, vars = "Species")
@@ -9,7 +9,7 @@ test_that("ListUnpack works", {
 })
 
 test_that("ListPack works",{
-  expect_error(ListPack(x=2, mutate = TRUE))
+  expect_error(ListPack(x = 2, mutate = TRUE))
   res1 <- ListPack(iris, mutate = FALSE)
   expect_true(is.numeric(res1))
   res2 <- ListPack(iris, mutate = TRUE, vars = "Species")

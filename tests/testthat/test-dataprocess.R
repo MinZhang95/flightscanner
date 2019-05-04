@@ -1,11 +1,13 @@
 context("test-dataprocess")
 
-CreateSession_eg <- CreateSession(origin = "DSM", destination = "ORD", startDate = "2019-06-10")
-PollSession_eg <- PollSession(response = CreateSession_eg)
+name <- load("resptest.rda")
+response <- get(name)
+con <- DBI::dbConnect(RSQLite::SQLite(), dbname = "flighttest.db")
 
 test_that("GetData function works", {
   expect_error(GetData(x = 123))
-  testthat::expect_is(GetData(x = PollSession_eg), "list")
+  testthat::expect_is(GetData(x = response), "list")
+  testthat::expect_is(GetData(x = con), "list")
 })
 
 test_that("BetweenTime function works", {

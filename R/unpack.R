@@ -25,7 +25,7 @@ GetPrice <- function(x) {
   if (!inherits(x, "response")) stop("x should be a response() object.")
   tab <- GetItineraries(x, price = TRUE)
   tab$SearchTime <- lubridate::with_tz(lubridate::ymd_hms(x$date, tz = "GMT"))
-  select(tab, "SearchTime", everything())
+  tab <- select(tab, "SearchTime", everything())
   checkmate::assert_tibble(tab)
 }
 

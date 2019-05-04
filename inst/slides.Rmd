@@ -1,7 +1,7 @@
 ---
 title: "FlightScanner"
 subtitle: ""
-author: "Snedecor Monster--Yang Qiao"
+author: "Monster 🐑"
 institute: "Snedecor Inc."
 date: "2019/05/03"
 output:
@@ -15,15 +15,15 @@ output:
 
 # Motivation 
 
-- Monster Yang said:" All flights are bad, but some are endurable!"
+- Monster 🐑 said:" All flights are bad, but some are endurable!"
 
-- In 2017, Monster Yang searched the flights from Seattle to Des Moines everyday and found this fucking procedure was fucking terrible -- then he decided to change the world!
+- In 2017, Monster 🐑 searched the flights from Seattle to Des Moines everyday and found this fucking procedure was fucking terrible -- then he decided to change the world!
 
-- During 2018, Monster Yang endured hardships to beat all his coding enemies, and won out from STAT 580, ECE 526...
+- During 2018, Monster 🐑 endured hardships to beat all his coding enemies, and won out from STAT 580, ECE 526...
 
 - In 2019, a trigger emerged: the great STAT 585 encouraged him to push the upgrade of the flight search engine and **FlightScanner** comes to the world!
 
-- In the future, Monster Yang will lead our team to get more further steps and make **FlightScanner** become to only **ONE** flight search engine in the World!
+- In the future, Monster 🐑 will lead our team to get more further steps and make **FlightScanner** become to only **ONE** flight search engine in the World!
 
 ---
 class: inverse, center, middle
@@ -32,7 +32,7 @@ class: inverse, center, middle
 
 ---
 
-# Hello World
+# Hello Monster 🐑!
 
 Install the **FlightScanner** package from [Github](https://github.com/MinZhang95/flightscanner)
 
@@ -45,3 +45,4 @@ devtools::install_github("MinZhang95/flightscanner")
 class: inverse, center, middle
 # Thanks! 
 ![](33ef27238b2e2a6f35c63c89c5d94f84_t.jpeg)
+  

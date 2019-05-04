@@ -26,6 +26,7 @@ GetPrice <- function(x) {
   tab <- GetItineraries(x, price = TRUE)
   tab$SearchTime <- lubridate::with_tz(lubridate::ymd_hms(x$date, tz = "GMT"))
   select(tab, "SearchTime", everything())
+  checkmate::assert_tibble(tab)
 }
 
 
@@ -51,6 +52,7 @@ GetPrice <- function(x) {
 #' flightscanner:::GetItineraries(resp)
 #' }
 GetItineraries <- function(x, price = FALSE) {
+  checkmate::assertClass(resp, "response")
   if (inherits(x, "response")) x <- content(x)
   
   x$Itineraries %>% map_df(function(y) {

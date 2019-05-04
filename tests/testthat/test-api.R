@@ -15,6 +15,7 @@ test_that("CreateSession function inputs and outputs are correct", {
 test_that("PollSession function input sort type and order is correct", {
   expect_error(PollSession(sortType = "time"))
   expect_error(PollSession(sortOrder = "increase"))
+  expect_true(http_status(PollSession(response = CreateSession(origin = "DSM", destination = "ORD", startDate = "2019-06-10")))$category=="Success")
 })
 
 
@@ -23,5 +24,6 @@ test_that("BrowseFlight function's input and output type are correct", {
   #expect_error(BrowseFlight("quote", origin = "DSM", destination  = "DTW", startDate  = "2019-06-10", returnDate = NULL))
   expect_error(BrowseFlight("quotes", origin = 233, destination = "DTW", startDate = "2019-06-01", returnDate = NULL))
   expect_error(BrowseFlight("quotes", origin = "DSM", destination = "DTW", startDate = "2019-06-10", returnDate = "2019-06-01"))
+  expect_true(http_status(BrowseFlight("quotes", origin = "DSM", destination = "DTW", startDate = "2019-06-01", returnDate = NULL))$category=="Success")
 })
 

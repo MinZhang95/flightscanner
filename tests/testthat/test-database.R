@@ -36,4 +36,5 @@ test_that("dbCreateDB works",{
 test_that("SaveData works",{
   con <- dbCreateDB(dbname = "flight.db")
   expect_error(SaveData(con, iris))
+  unlink("flight.db")
 })

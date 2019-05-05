@@ -103,6 +103,7 @@ BetweenTime <- function(x, interval) {
 #' sapply(data, flightscanner:::CheckDuplicate)
 #' }
 CheckDuplicate <- function(.data, .vars) {
+  checkmate::assertTibble(.data)
   name <- names(.data)
   
   if (!missing(.vars)) {
@@ -157,6 +158,16 @@ FilterFlight <- function(x, max_price = Inf, max_duration = Inf,
                          carrier_include = unique(x$carriers$Code), carrier_exclude = NULL,
                          out_departure = c("00:00", "24:00"), out_arrival = c("00:00", "24:00"),
                          in_departure = c("00:00", "24:00"), in_arrival = c("00:00", "24:00")) {
+  checkmate::assert_numeric(max_price)
+  checkmate::assert_numeric(max_duration)
+  checkmate::assert_numeric(max_stops)
+  checkmate::assertVector(layover)
+  checkmate::assertCharacter(carrier_include)
+  # checkmate::assertNull(carrier_exclude)
+  checkmate::assertCharacter(out_departure)
+  checkmate::assertCharacter(out_arrival)
+  checkmate::assertCharacter(in_departure)
+  checkmate::assertCharacter(in_arrival)
   f <- function(x) {
     if (is.numeric(x)) {
       x <- format(as.POSIXct(60 * x, origin = "1970-01-01", tz = "UTC"), "%H:%M")

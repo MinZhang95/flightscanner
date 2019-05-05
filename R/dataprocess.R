@@ -161,13 +161,13 @@ FilterFlight <- function(x, max_price = Inf, max_duration = Inf,
   checkmate::assert_numeric(max_price)
   checkmate::assert_numeric(max_duration)
   checkmate::assert_numeric(max_stops)
-  checkmate::assertVector(layover)
+  checkmate::assertVector(layover, len = 2)
   checkmate::assertCharacter(carrier_include)
   # checkmate::assertNull(carrier_exclude)
-  checkmate::assertCharacter(out_departure)
-  checkmate::assertCharacter(out_arrival)
-  checkmate::assertCharacter(in_departure)
-  checkmate::assertCharacter(in_arrival)
+  checkmate::assertVector(out_departure, len = 2)
+  checkmate::assertVector(out_arrival, len = 2)
+  checkmate::assertVector(in_departure, len = 2)
+  checkmate::assertVector(in_arrival, len = 2)
   f <- function(x) {
     if (is.numeric(x)) {
       x <- format(as.POSIXct(60 * x, origin = "1970-01-01", tz = "UTC"), "%H:%M")

@@ -3,12 +3,12 @@ context("test-dataprocess")
 name <- load("resptest.rda")
 response <- get(name)
 getdata <- GetData(x = response)
-# con <- DBI::dbConnect(RSQLite::SQLite(), dbname = "flighttest.db")
+con <- DBI::dbConnect(RSQLite::SQLite(), dbname = "flighttest.db")
 
 test_that("GetData function works", {
   expect_error(GetData(x = 123))
   testthat::expect_is(getdata, "list")
-  # testthat::expect_is(GetData(x = con), "list")
+  testthat::expect_is(GetData(x = con), "list")
 })
 
 test_that("BetweenTime function works", {
@@ -21,6 +21,7 @@ test_that("CheckDuplicate function works", {
   expect_error(flightscanner:::CheckDuplicate(.data = 123))
   expect_warning(flightscanner:::CheckDuplicate(.data = tibble(OutboundLegId = c(12, 12), InboundLegId = c(34, 34))))
   expect_false(flightscanner:::CheckDuplicate(.data = tibble(OutboundLegId = c(12, 34), InboundLegId = c(56, 78))))
+  expect_false(flightscanner:::CheckDuplicate(.data = tibble(FakeName1 = c(12, 34), FakeName2 = c(56, 78))))
 })
 
 test_that("FilterFlight funtion works", {
@@ -34,7 +35,8 @@ test_that("FilterFlight funtion works", {
   expect_error(FilterFlight(x = getdata, out_arrival = 123))
   expect_error(FilterFlight(x = getdata, in_departure = 123))
   expect_error(FilterFlight(x = getdata, in_arrival = 123))
-  expect_true(is.tbl(FilterFlight(x = getdata)))
+  expect_true(is.tbl(FilterFlight(x = getdata, out_departure = c(0, 24*60))))
+  expect_warning(FilterFlight(x = lapply(getdata, function(t) {t[2, ]=t[1, ]; t})))
 })
 
 

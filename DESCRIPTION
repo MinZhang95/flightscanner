@@ -26,10 +26,9 @@ Imports:
     stringr,
     DBI (>= 0.3.0),
     RSQLite,
-    cli,
+    cronR,
     checkmate
 Suggests: 
-    cronR,
     testthat,
     covr
 URL: https://github.com/MinZhang95/flightscanner

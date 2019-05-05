@@ -19,9 +19,9 @@ Duration, CarrierId, OperatingCarrierId, and FlightNumber.
 }
 \examples{
 \dontrun{
-SetAPI("skyscanner-skyscanner-flight-search-v1.p.rapidapi.com", "YOUR_API_KEY")
-resp <- CreateSession(origin = "SFO", destination = "LHR", startDate = "2019-07-01")
-resp <- PollSession(resp)
+SetAPI("YOUR_API_KEY")
+resp <- apiCreateSession(origin = "SFO", destination = "LHR", startDate = "2019-07-01")
+resp <- apiPollSession(resp)
 flightscanner:::GetSegments(resp)
 }
 }

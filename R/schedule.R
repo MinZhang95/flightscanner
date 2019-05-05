@@ -16,7 +16,7 @@ get_os <- function() {
 #' @param x Argument.
 #'
 #' @return Converted argument.
-Args2null <- function(x) {
+Args2Null <- function(x) {
   if (is.na(x)) NULL else x
 }
 
@@ -40,11 +40,11 @@ Args2null <- function(x) {
 #'
 #' @examples
 #' \dontrun{
-#' CreateJob("SFO", "LHR", "2019-07-01", frequency = "daily", at = "3AM")
-#' CreateJob("SFO", "LHR", "2019-07-01", frequency = "hourly")
-#' CreateJob("SFO", "LHR", "2019-07-01", frequency = "minutely")
+#' cron_create("SFO", "LHR", "2019-07-01", frequency = "daily", at = "3AM")
+#' cron_create("SFO", "LHR", "2019-07-01", frequency = "hourly")
+#' cron_create("SFO", "LHR", "2019-07-01", frequency = "minutely")
 #' }
-CreateJob <- function(origin, destination, startDate, returnDate = NULL, path = getwd(),
+cron_create <- function(origin, destination, startDate, returnDate = NULL, path = getwd(),
                       frequency = c("daily", "hourly", "minutely"), at, ...) {
   frequency <- match.arg(frequency)
   args_flight <- c(origin, destination, startDate, returnDate)
@@ -61,3 +61,21 @@ CreateJob <- function(origin, destination, startDate, returnDate = NULL, path = 
   if (frequency == "daily") args_cron[["at"]] <- if (missing(at)) "8PM" else at
   do.call(cronR::cron_add, args_cron)
 }
+
+
+#' Clear all cron jobs.
+#' @description See \code{cronR::\link[cronR]{cron_clear}} for details.
+#'
+#' @name cron_clear
+#' @export
+#' @importFrom cronR cron_clear
+NULL
+
+
+#' List the contents of a crontab.
+#' @description See \code{cronR::\link[cronR]{cron_ls}} for details.
+#'
+#' @name cron_ls
+#' @export
+#' @importFrom cronR cron_ls
+NULL

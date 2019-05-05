@@ -1,40 +1,40 @@
 context("test-database")
 
-test_that("ListUnpack works", {
-  expect_error(ListUnpack(x = 2, mutate = TRUE))
+test_that("Function ListUnpack doesn't work.", {
+  expect_error(ListUnpack(2, mutate = TRUE))
   res1 <- ListUnpack(iris, mutate = TRUE)
-  expect_true(is.list(res1))
+  expect_type(res1, "list")
   res2 <- ListUnpack(iris, mutate = TRUE, vars = "Species")
-  expect_true(is.character(res2$Species))
+  expect_type(res2$Species, "character")
 })
 
-test_that("ListPack works",{
-  expect_error(ListPack(x = 2, mutate = TRUE))
+test_that("Function ListPack doesn't work.", {
+  expect_error(ListPack(2, mutate = TRUE))
   res1 <- ListPack(iris, mutate = FALSE)
-  expect_true(is.numeric(res1))
+  expect_type(res1, "double")
   res2 <- ListPack(iris, mutate = TRUE, vars = "Species")
-  expect_true(is.list(res2$Species))
-  }
-)
-
-test_that("dbAppendTableNew works", {
-  con <- DBI::dbConnect(RSQLite::SQLite(), ":memory:")
-  DBI::dbWriteTable(con, "iris", iris[0, ])
-  expect_true(is.numeric(flightscanner:::dbAppendTableNew(con, "iris", iris)))
-  expect_error(flightscanner:::dbAppendTableNew(con, "iris", iris$Species))
+  expect_type(res2$Species, "list")
 })
 
-test_that("dbCreateDB works",{
-  expect_error(dbCreateDB(c(0,1), dbname = "flight.db"))
-  con1 <- RSQLite::SQLite()
-  expect_s4_class(dbCreateDB(con1, dbname = "flight.db"), "SQLiteConnection")
-  con2 <- dbConnect(RSQLite::SQLite())
-  expect_s4_class(dbCreateDB(con2, dbname = "flight.db"), "SQLiteConnection")
-  unlink("flight.db")
+test_that("Function dbAppendTableNew doesn't work.", {
+  con <- dbConnect(RSQLite::SQLite(), ":memory:")
+  dbWriteTable(con, "iris", iris[0, ])
+  expect_type(dbAppendTableNew(con, "iris", iris), "double")
+  expect_error(dbAppendTableNew(con, "iris", iris$Species))
+  dbDisconnect(con)
 })
 
-test_that("SaveData works",{
-  con <- dbCreateDB(dbname = "flight.db")
-  expect_error(SaveData(con, iris))
-  unlink("flight.db")
+test_that("Function dbCreateDB doesn't work.", {
+  expect_error(dbCreateDB(c(0, 1), dbname = ":memory:"))
+  driver <- RSQLite::SQLite()
+  expect_s4_class(dbCreateDB(driver, dbname = ":memory:"), "SQLiteConnection")
+  connection <- dbConnect(driver)
+  expect_s4_class(dbCreateDB(connection, dbname = ":memory:"), "SQLiteConnection")
+  dbDisconnect(connection)
+})
+
+test_that("Function dbSaveData doesn't work.", {
+  con <- dbCreateDB(dbname = ":memory:")
+  expect_error(dbSaveData(con, iris))
+  dbDisconnect(con)
 })

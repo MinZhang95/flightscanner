@@ -17,6 +17,9 @@ table in the database.}
 
 \item{...}{Other arguments used by individual methods.}
 }
+\value{
+Number of rows appended successfully.
+}
 \description{
 Insert rows into a table. If the table has key, it will ignore the duplicate rows
 indexed by the key. It assumes that the table has been created beforehand.
@@ -25,4 +28,5 @@ indexed by the key. It assumes that the table has been created beforehand.
 con <- DBI::dbConnect(RSQLite::SQLite(), ":memory:")
 DBI::dbWriteTable(con, "iris", iris[0, ])
 flightscanner:::dbAppendTableNew(con, "iris", iris)
+dbDisconnect(con)
 }

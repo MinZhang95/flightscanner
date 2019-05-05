@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Browse flight prices from the skyscanner cache. — BrowseFlight • flightscanner</title>
+<title>Browse flight prices from the skyscanner cache. — apiBrowseFlight • flightscanner</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,7 +30,7 @@
 
 
 
-<meta property="og:title" content="Browse flight prices from the skyscanner cache. — BrowseFlight" />
+<meta property="og:title" content="Browse flight prices from the skyscanner cache. — apiBrowseFlight" />
 
 <meta property="og:description" content="Gets you information about flights from the skyscanner cache. It might be slightly
 outdated in comparison to live search, but more detailed and immediate. Make sure you have set
@@ -104,7 +104,7 @@ See https://rapidapi.com/skyscanner/api/skyscanner-flight-search." />
     <div class="page-header">
     <h1>Browse flight prices from the skyscanner cache.</h1>
     <small class="dont-index">Source: <a href='https://github.com/MinZhang95/flightscanner/blob/master/R/api.R'><code>R/api.R</code></a></small>
-    <div class="hidden name"><code>BrowseFlight.Rd</code></div>
+    <div class="hidden name"><code>apiBrowseFlight.Rd</code></div>
     </div>
 
     <div class="ref-description">
@@ -116,7 +116,7 @@ API using <code><a href='SetAPI.html'>SetAPI</a></code> before.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>BrowseFlight</span>(<span class='kw'>endpoint</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"quotes"</span>, <span class='st'>"routes"</span>, <span class='st'>"dates"</span>), <span class='no'>origin</span>,
+    <pre class="usage"><span class='fu'>apiBrowseFlight</span>(<span class='kw'>endpoint</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"quotes"</span>, <span class='st'>"routes"</span>, <span class='st'>"dates"</span>), <span class='no'>origin</span>,
   <span class='no'>destination</span>, <span class='no'>startDate</span>, <span class='kw'>returnDate</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>country</span> <span class='kw'>=</span> <span class='st'>"US"</span>,
   <span class='kw'>currency</span> <span class='kw'>=</span> <span class='st'>"USD"</span>, <span class='kw'>locale</span> <span class='kw'>=</span> <span class='st'>"en-US"</span>)</pre>
     
@@ -178,9 +178,9 @@ API using <code><a href='SetAPI.html'>SetAPI</a></code> before.</p>
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><span class='co'># NOT RUN {</span>
 <span class='fu'><a href='SetAPI.html'>SetAPI</a></span>(<span class='st'>"YOUR_API_KEY"</span>)
-<span class='fu'>BrowseFlight</span>(<span class='st'>"quotes"</span>, <span class='kw'>origin</span> <span class='kw'>=</span> <span class='st'>"SFO"</span>, <span class='kw'>destination</span> <span class='kw'>=</span> <span class='st'>"LHR"</span>, <span class='kw'>startDate</span> <span class='kw'>=</span> <span class='st'>"2019-07-01"</span>)
-<span class='fu'>BrowseFlight</span>(<span class='st'>"routes"</span>, <span class='kw'>origin</span> <span class='kw'>=</span> <span class='st'>"SFO"</span>, <span class='kw'>destination</span> <span class='kw'>=</span> <span class='st'>"LHR"</span>, <span class='kw'>startDate</span> <span class='kw'>=</span> <span class='st'>"2019-07-01"</span>)
-<span class='fu'>BrowseFlight</span>(<span class='st'>"dates"</span>, <span class='kw'>origin</span> <span class='kw'>=</span> <span class='st'>"SFO"</span>, <span class='kw'>destination</span> <span class='kw'>=</span> <span class='st'>"LHR"</span>, <span class='kw'>startDate</span> <span class='kw'>=</span> <span class='st'>"2019-07-01"</span>)
+<span class='fu'>apiBrowseFlight</span>(<span class='st'>"quotes"</span>, <span class='kw'>origin</span> <span class='kw'>=</span> <span class='st'>"SFO"</span>, <span class='kw'>destination</span> <span class='kw'>=</span> <span class='st'>"LHR"</span>, <span class='kw'>startDate</span> <span class='kw'>=</span> <span class='st'>"2019-07-01"</span>)
+<span class='fu'>apiBrowseFlight</span>(<span class='st'>"routes"</span>, <span class='kw'>origin</span> <span class='kw'>=</span> <span class='st'>"SFO"</span>, <span class='kw'>destination</span> <span class='kw'>=</span> <span class='st'>"LHR"</span>, <span class='kw'>startDate</span> <span class='kw'>=</span> <span class='st'>"2019-07-01"</span>)
+<span class='fu'>apiBrowseFlight</span>(<span class='st'>"dates"</span>, <span class='kw'>origin</span> <span class='kw'>=</span> <span class='st'>"SFO"</span>, <span class='kw'>destination</span> <span class='kw'>=</span> <span class='st'>"LHR"</span>, <span class='kw'>startDate</span> <span class='kw'>=</span> <span class='st'>"2019-07-01"</span>)
 <span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

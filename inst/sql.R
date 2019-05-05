@@ -11,26 +11,26 @@ pkgdown::build_site()
 con <- dbCreateDB(dbname = "inst/flight.db")
 con <- DBI::dbConnect(RSQLite::SQLite(), dbname = "inst/flight.db")
 # dbDisconnect(con)
-DBI::dbListTables(con)
+dbListTables(con)
 
 # remove all tables
-sapply(DBI::dbListTables(con), DBI::dbRemoveTable, conn = con)
+sapply(dbListTables(con), DBI::dbRemoveTable, conn = con)
 
 # write data into database
-SetAPI(host = "skyscanner-skyscanner-flight-search-v1.p.rapidapi.com",
-       key = "3e85a0e43cmshac6dba6fde57066p1c1145jsn1e6f8c3d0e33")
-resp.get <- CreateSession(orig = "DSM", dest = "DTW",
-                          startDate = "2019-06-01") %>%  # , returnDate = "2019-07-01"
-  PollSession()
-SaveData(con, x = resp.get)
+SetAPI("3e85a0e43cmshac6dba6fde57066p1c1145jsn1e6f8c3d0e33")
+resp.get <- apiCreateSession(orig = "DSM", dest = "DTW",
+                             startDate = "2019-06-01") %>%  # , returnDate = "2019-07-01"
+  apiPollSession()
+dbSaveData(con, x = resp.get)
 
 # extract data
 data <- GetData(resp.get)  # from API response
 data <- GetData(con)  # from SQLite database
-GetData(con, lazy = T)
 
 # check duplicate Id
-sapply(data, flightscanner:::CheckDuplicate)  # Leg: 往返时会重复. carriers: Id = 0重复
+# Leg: could be replicated for round trip.
+# Carriers: Id = 0 will be replicated.
+sapply(data, flightscanner:::CheckDuplicate)
 
 # filter flight
 FilterFlight(data)

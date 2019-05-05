@@ -1,34 +1,42 @@
-#' Set API hostname and key.
-#' @description Set API hostname and key globally. See
+#' Set API key.
+#' @description Set API key globally. See
 #' \url{https://rapidapi.com/skyscanner/api/skyscanner-flight-search}.
 #'
-#' @param host API hostname.
 #' @param key API key.
-#'
-#' @return A list of hostname and key.
 #' @export
 #'
 #' @examples
 #' \dontrun{
-#' SetAPI("skyscanner-skyscanner-flight-search-v1.p.rapidapi.com", "YOUR_API_KEY")
+#' SetAPI("YOUR_API_KEY")
 #' }
-SetAPI <- function(host, key) {
-  options(API = list(host = host, key = key))
+SetAPI <- function(key) {
+  options(APIkey = key)
 }
 
 
 #' Make headers to a request.
-#'
-#' @param host API hostname.
 #' @param key API key.
-#' @param type Content type.
-#'
 #' @return A character vector contains host, key, and type.
-MakeHeader <- function(host, key, type) {
-  if (missing(host)) host <- getOption("API")$host
-  if (missing(key)) key <- getOption("API")$key
-  if (missing(type)) type <- "application/x-www-form-urlencoded"
-  c("X-RapidAPI-Host" = host, "X-RapidAPI-Key" = key, "Content-Type" = type)
+apiMakeHeader <- function(key) {
+  c("X-RapidAPI-Host" = "skyscanner-skyscanner-flight-search-v1.p.rapidapi.com",
+    "X-RapidAPI-Key" = if (missing(key)) getOption("APIkey") else key,
+    "Content-Type" = "application/x-www-form-urlencoded")
+}
+
+
+#' Check status of request response.
+#' @description Extract the http status code and convert it into a human readable message. Give
+#' warning if has an error.
+#'
+#' @param x A \code{\link[httr:response]{response()}} object or a number.
+#'
+#' @return \code{FALSE} if has an error, otherwise \code{TRUE}.
+apiCheckStatus <- function(x) {
+  # warn_for_status(x)
+  if (http_error(x)) {
+    warning(http_status(x)$message)
+    FALSE
+  } else TRUE
 }
 
 
@@ -38,7 +46,7 @@ MakeHeader <- function(host, key, type) {
 #'
 #' See \url{https://rapidapi.com/skyscanner/api/skyscanner-flight-search}.
 #'
-#' @seealso \code{\link{PollSession}}.
+#' @seealso \code{\link{apiPollSession}}.
 #'
 #' @param origin (REQUIRED) The origin place, can be country, city, airport, in Skyscanner code.
 #' @param destination (REQUIRED) The destination, can be country, city, airport, in Skyscanner code.
@@ -64,28 +72,28 @@ MakeHeader <- function(host, key, type) {
 #'
 #' @examples
 #' \dontrun{
-#' SetAPI("skyscanner-skyscanner-flight-search-v1.p.rapidapi.com", "YOUR_API_KEY")
-#' CreateSession(origin = "SFO", destination = "LHR", startDate = "2019-07-01")
+#' SetAPI("YOUR_API_KEY")
+#' apiCreateSession(origin = "SFO", destination = "LHR", startDate = "2019-07-01")
 #' }
-CreateSession <- function(origin, destination, startDate, returnDate = NULL,
-                          adults = 1, children = NULL, infants = NULL,
-                          country = "US", currency = "USD", locale = "en-US",
-                          cabinClass = c("economy", "premiumeconomy", "business", "first"),
-                          includeCarriers = NULL, excludeCarriers = NULL) {
+apiCreateSession <- function(origin, destination, startDate, returnDate = NULL,
+                             adults = 1, children = NULL, infants = NULL,
+                             country = "US", currency = "USD", locale = "en-US",
+                             cabinClass = c("economy", "premiumeconomy", "business", "first"),
+                             includeCarriers = NULL, excludeCarriers = NULL) {
   cabinClass <- match.arg(cabinClass)
-  checkmate::assertCharacter(origin)
-  checkmate::assertCharacter(destination)
-  checkmate::assertCharacter(country)
-  checkmate::assertCharacter(currency)
-  checkmate::assertCharacter(locale)
-  checkmate::assert_numeric(adults)
-  checkmate::assertDate(lubridate::ymd(startDate))
-  checkmate::assertDate(lubridate::ymd(returnDate))
+  checkmate::assert_character(origin, len = 1)
+  checkmate::assert_character(destination, len = 1)
+  checkmate::assert_character(country, len = 1)
+  checkmate::assert_character(currency, len = 1)
+  checkmate::assert_character(locale, len = 1)
+  checkmate::assert_numeric(adults, lower = 0, len = 1)
+  checkmate::assert_date(lubridate::ymd(startDate), len = 1)
+  checkmate::assert_date(lubridate::ymd(returnDate), min.len = 0, max.len = 1)
   if (!is.null(returnDate))
     checkmate::assert_true(lubridate::ymd(returnDate) > lubridate::ymd(startDate))
   
-  url <- paste0("https://", getOption("API")$host, "/apiservices/pricing/v1.0")
-  header <- MakeHeader()
+  header <- apiMakeHeader()
+  url <- paste0("https://", header["X-RapidAPI-Host"], "/apiservices/pricing/v1.0")
   body <- list(cabinClass = cabinClass,
                country = country,
                currency = currency,
@@ -101,8 +109,8 @@ CreateSession <- function(origin, destination, startDate, returnDate = NULL,
                excludeCarriers = excludeCarriers)
   
   resp <- POST(url, add_headers(header), body = body, encode = "form")
-  flag <- CheckStatus(resp)
-  checkmate::assertClass(resp, "response")
+  flag <- apiCheckStatus(resp)
+  checkmate::assert_class(resp, "response")
   resp
 }
 
@@ -113,9 +121,9 @@ CreateSession <- function(origin, destination, startDate, returnDate = NULL,
 #'
 #' See \url{https://rapidapi.com/skyscanner/api/skyscanner-flight-search}.
 #'
-#' @seealso \code{\link{CreateSession}}.
+#' @seealso \code{\link{apiCreateSession}}.
 #'
-#' @param response Return object of \code{\link{CreateSession}}.
+#' @param response Return object of \code{\link{apiCreateSession}}.
 #' @param sortType (OPTIONAL) The parameter to sort results on. Can be \code{"price"},
 #' \code{"duration"}, \code{"carrier"}, \code{"outboundarrivetime"}, \code{"outbounddeparttime"},
 #' \code{"inboundarrivetime"}, \code{"inbounddeparttime"}.
@@ -160,31 +168,32 @@ CreateSession <- function(origin, destination, startDate, returnDate = NULL,
 #'
 #' @examples
 #' \dontrun{
-#' SetAPI("skyscanner-skyscanner-flight-search-v1.p.rapidapi.com", "YOUR_API_KEY")
-#' resp <- CreateSession(origin = "SFO", destination = "LHR", startDate = "2019-07-01")
-#' PollSession(resp)
+#' SetAPI("YOUR_API_KEY")
+#' resp <- apiCreateSession(origin = "SFO", destination = "LHR", startDate = "2019-07-01")
+#' apiPollSession(resp)
 #' }
-PollSession <- function(response, sortType = c("price", "duration", "carrier",
-                                               "outboundarrivetime", "outbounddeparttime",
-                                               "inboundarrivetime", "inbounddeparttime"),
-                        sortOrder = c("asc", "desc"),
-                        duration = NULL, stops = NULL,
-                        includeCarriers = NULL, excludeCarriers = NULL,
-                        originAirports = NULL, destinationAirports = NULL,
-                        outboundDepartTime = NULL,
-                        outboundDepartStartTime = NULL, outboundDepartEndTime = NULL,
-                        outboundArriveStartTime = NULL, outboundArriveEndTime = NULL,
-                        inboundDepartTime = NULL,
-                        inboundDepartStartTime = NULL, inboundDepartEndTime = NULL,
-                        inboundArriveStartTime = NULL, inboundArriveEndTime = NULL) {
+apiPollSession <- function(response, sortType = c("price", "duration", "carrier",
+                                                  "outboundarrivetime", "outbounddeparttime",
+                                                  "inboundarrivetime", "inbounddeparttime"),
+                           sortOrder = c("asc", "desc"),
+                           duration = NULL, stops = NULL,
+                           includeCarriers = NULL, excludeCarriers = NULL,
+                           originAirports = NULL, destinationAirports = NULL,
+                           outboundDepartTime = NULL,
+                           outboundDepartStartTime = NULL, outboundDepartEndTime = NULL,
+                           outboundArriveStartTime = NULL, outboundArriveEndTime = NULL,
+                           inboundDepartTime = NULL,
+                           inboundDepartStartTime = NULL, inboundDepartEndTime = NULL,
+                           inboundArriveStartTime = NULL, inboundArriveEndTime = NULL) {
   # Add checking here.
   sortType <- match.arg(sortType)
   sortOrder <- match.arg(sortOrder)
-  checkmate::assertClass(response, "response")
+  checkmate::assert_class(response, "response")
   
-  url <- paste0("https://", getOption("API")$host, "/apiservices/pricing/uk2/v1.0")
-  header <- MakeHeader()
-  path <- c(parse_url(url)$path, SessionKey(response))
+  header <- apiMakeHeader()
+  url <- paste0("https://", header["X-RapidAPI-Host"], "/apiservices/pricing/uk2/v1.0")
+  sessionkey <- utils::tail(strsplit(headers(response)$location, "/")[[1]], 1)
+  path <- c(parse_url(url)$path, sessionkey)
   query <- list(sortType = sortType,
                 sortOrder = sortOrder,
                 duration = duration,
@@ -204,13 +213,13 @@ PollSession <- function(response, sortType = c("price", "duration", "carrier",
                 inboundArriveStartTime = inboundArriveStartTime,
                 inboundArriveEndTime = inboundArriveEndTime)
   
-  for (count in 0:100) {
+  for (count in 0:99) {
     resp <- GET(url, add_headers(header), path = path, query = query)
     if (content(resp)$Status == "UpdatesComplete") break
   }
   if (count) message("Try to update data ", count, " times.")
-  flag <- CheckStatus(resp)
-  checkmate::assertClass(resp, "response")
+  flag <- apiCheckStatus(resp)
+  checkmate::assert_class(resp, "response")
   resp
 }
 
@@ -255,63 +264,33 @@ PollSession <- function(response, sortType = c("price", "duration", "carrier",
 #'
 #' @examples
 #' \dontrun{
-#' SetAPI("skyscanner-skyscanner-flight-search-v1.p.rapidapi.com", "YOUR_API_KEY")
-#' BrowseFlight("quotes", origin = "SFO", destination = "LHR", startDate = "2019-07-01")
-#' BrowseFlight("routes", origin = "SFO", destination = "LHR", startDate = "2019-07-01")
-#' BrowseFlight("dates", origin = "SFO", destination = "LHR", startDate = "2019-07-01")
+#' SetAPI("YOUR_API_KEY")
+#' apiBrowseFlight("quotes", origin = "SFO", destination = "LHR", startDate = "2019-07-01")
+#' apiBrowseFlight("routes", origin = "SFO", destination = "LHR", startDate = "2019-07-01")
+#' apiBrowseFlight("dates", origin = "SFO", destination = "LHR", startDate = "2019-07-01")
 #' }
-BrowseFlight <- function(endpoint = c("quotes", "routes", "dates"),
-                         origin, destination, startDate, returnDate = NULL,
-                         country = "US", currency = "USD", locale = "en-US") {
+apiBrowseFlight <- function(endpoint = c("quotes", "routes", "dates"),
+                            origin, destination, startDate, returnDate = NULL,
+                            country = "US", currency = "USD", locale = "en-US") {
   endpoint <- match.arg(endpoint)
-  checkmate::assertCharacter(origin)
-  checkmate::assertCharacter(destination)
-  checkmate::assertCharacter(country)
-  checkmate::assertCharacter(currency)
-  checkmate::assertCharacter(locale)
-  checkmate::assertDate(lubridate::ymd(startDate))
-  checkmate::assertDate(lubridate::ymd(returnDate))
+  checkmate::assert_character(origin, len = 1)
+  checkmate::assert_character(destination, len = 1)
+  checkmate::assert_character(country, len = 1)
+  checkmate::assert_character(currency, len = 1)
+  checkmate::assert_character(locale, len = 1)
+  checkmate::assert_date(lubridate::ymd(startDate), len = 1)
+  checkmate::assert_date(lubridate::ymd(returnDate), min.len = 0, max.len = 1)
   if(!is.null(returnDate))
     checkmate::assert_true(lubridate::ymd(returnDate) > lubridate::ymd(startDate))
   
-  url <- paste0("https://", getOption("API")$host, "/apiservices/browse", endpoint, "/v1.0")
-  header <- MakeHeader()
+  header <- apiMakeHeader()
+  url <- paste0("https://", header["X-RapidAPI-Host"], "/apiservices/browse", endpoint, "/v1.0")
   path <- c(parse_url(url)$path, country, currency, locale,
             paste0(origin, "-sky"), paste0(destination, "-sky"), startDate)
   query <- list(inboundpartialdate = returnDate)
   
   resp <- GET(url, add_headers(header), path = path, query = query)
-  flag <- CheckStatus(resp)
-  checkmate::assertClass(resp, "response")
+  flag <- apiCheckStatus(resp)
+  checkmate::assert_class(resp, "response")
   resp
-}
-
-
-#' Check status of request response.
-#' @description Extract the http status code and convert it into a human readable message. Give
-#' warning if has an error.
-#'
-#' @param x A \code{\link[httr:response]{response()}} object or a number.
-#'
-#' @return \code{TRUE} if has an error, otherwise \code{FALSE}.
-CheckStatus <- function(x) {
-  # warn_for_status(x)
-  if (http_error(x)) {
-    warning(http_status(x)$message)
-    TRUE
-  } else FALSE
-}
-
-
-#' Extract session key from request response.
-#' @description Extract session key from request response. The last value of location header
-#' contains the session key which is required when polling the session.
-#'
-#' @param x A \code{\link[httr:response]{response()}} object.
-#'
-#' @return Session key.
-SessionKey <- function(x) {
-  location <- headers(x)$location
-  y <- strsplit(location, "/")[[1]]
-  y[length(y)]
 }

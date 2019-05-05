@@ -1,5 +1,5 @@
 # library(taskscheduleR)  # Windows
-library(cronR)  # Unix/Linux
+# library(cronR)  # Unix/Linux
 
 # rstudioapi::getPersistentValue
 # rstudioapi::jobRunScript()
@@ -14,11 +14,12 @@ library(cronR)  # Unix/Linux
 # cron_rstudioaddin()
 
 # Create cron job
-CreateJob("DSM", "DTW", "2019-06-01", path = file.path(getwd(), "inst"), frequency = "minutely")
-# CreateJob("DSM", "DTW", "2019-06-01", path = file.path(getwd(), "inst"), frequency = "hourly")
-# CreateJob("DSM", "DTW", "2019-06-01", path = file.path(getwd(), "inst"), frequency = "daily", at = "3AM")
+cron_create("DSM", "DTW", "2019-06-01", path = file.path(getwd(), "inst"), frequency = "minutely")
+cron_create("DSM", "DTW", "2019-06-01", path = file.path(getwd(), "inst"), frequency = "hourly")
+# cron_create("DSM", "DTW", "2019-06-01", path = file.path(getwd(), "inst"), frequency = "daily", at = "3AM")
 
-## Get all the jobs
-cron_njobs()
-cron_clear(ask = FALSE)
+# Get all the jobs
 cron_ls()
+
+# Clear all the jobs
+cron_clear(ask = FALSE)

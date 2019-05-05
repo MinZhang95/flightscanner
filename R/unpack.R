@@ -16,17 +16,19 @@
 #'
 #' @examples
 #' \dontrun{
-#' SetAPI("skyscanner-skyscanner-flight-search-v1.p.rapidapi.com", "YOUR_API_KEY")
-#' resp <- CreateSession(origin = "SFO", destination = "LHR", startDate = "2019-07-01")
-#' resp <- PollSession(resp)
+#' SetAPI("YOUR_API_KEY")
+#' resp <- apiCreateSession(origin = "SFO", destination = "LHR", startDate = "2019-07-01")
+#' resp <- apiPollSession(resp)
 #' flightscanner:::GetPrice(resp)
 #' }
 GetPrice <- function(x) {
   if (!inherits(x, "response")) stop("x should be a response() object.")
+  
   df <- GetItineraries(x, price = TRUE)
   df$SearchTime <- lubridate::with_tz(lubridate::ymd_hms(x$date, tz = "GMT"))
   df <- select(df, "SearchTime", everything())
   checkmate::assert_tibble(df)
+  df
 }
 
 
@@ -46,15 +48,15 @@ GetPrice <- function(x) {
 #'
 #' @examples
 #' \dontrun{
-#' SetAPI("skyscanner-skyscanner-flight-search-v1.p.rapidapi.com", "YOUR_API_KEY")
-#' resp <- CreateSession(origin = "SFO", destination = "LHR", startDate = "2019-07-01")
-#' resp <- PollSession(resp)
+#' SetAPI("YOUR_API_KEY")
+#' resp <- apiCreateSession(origin = "SFO", destination = "LHR", startDate = "2019-07-01")
+#' resp <- apiPollSession(resp)
 #' flightscanner:::GetItineraries(resp)
 #' }
 GetItineraries <- function(x, price = FALSE) {
-  if (inherits(x, "response")) x <- content(x)
+  if (!inherits(x, "response")) stop("x should be a response() object.")
   
-  df <- x$Itineraries %>% map_df(function(y) {
+  df <- content(x)$Itineraries %>% map_df(function(y) {
     tab <- tibble(OutboundLegId = y$OutboundLegId,
                   InboundLegId = ifelse(is.null(y$InboundLegId), "", y$InboundLegId))
     if (price)
@@ -64,6 +66,7 @@ GetItineraries <- function(x, price = FALSE) {
     tab
   })
   checkmate::assert_tibble(df)
+  df
 }
 
 
@@ -85,15 +88,16 @@ GetItineraries <- function(x, price = FALSE) {
 #'
 #' @examples
 #' \dontrun{
-#' SetAPI("skyscanner-skyscanner-flight-search-v1.p.rapidapi.com", "YOUR_API_KEY")
-#' resp <- CreateSession(origin = "SFO", destination = "LHR", startDate = "2019-07-01")
-#' resp <- PollSession(resp)
+#' SetAPI("YOUR_API_KEY")
+#' resp <- apiCreateSession(origin = "SFO", destination = "LHR", startDate = "2019-07-01")
+#' resp <- apiPollSession(resp)
 #' flightscanner:::GetLegs(resp)
 #' }
 GetLegs <- function(x) {
-  if (inherits(x, "response")) x <- content(x)
-  info <- GetSegments(x)
+  if (!inherits(x, "response")) stop("x should be a response() object.")
   
+  info <- GetSegments(x)
+  x <- content(x)
   df <- x$Legs %>% map_df(function(y) {
     n <- length(y$SegmentIds)
     idx <- unlist(y$SegmentIds) + 1
@@ -122,6 +126,7 @@ GetLegs <- function(x) {
   # select the last row of duplicated Ids
   
   checkmate::assert_tibble(df)
+  df
 }
 
 
@@ -141,16 +146,16 @@ GetLegs <- function(x) {
 #'
 #' @examples
 #' \dontrun{
-#' SetAPI("skyscanner-skyscanner-flight-search-v1.p.rapidapi.com", "YOUR_API_KEY")
-#' resp <- CreateSession(origin = "SFO", destination = "LHR", startDate = "2019-07-01")
-#' resp <- PollSession(resp)
+#' SetAPI("YOUR_API_KEY")
+#' resp <- apiCreateSession(origin = "SFO", destination = "LHR", startDate = "2019-07-01")
+#' resp <- apiPollSession(resp)
 #' flightscanner:::GetSegments(resp)
 #' }
 GetSegments <- function(x) {
-  if (inherits(x, "response")) x <- content(x)
-  fmt <- "%y%m%d%H%M"
+  if (!inherits(x, "response")) stop("x should be a response() object.")
   
-  df <- x$Segments %>% map_df(as_tibble) %>%
+  fmt <- "%y%m%d%H%M"
+  df <- content(x)$Segments %>% map_df(as_tibble) %>%
     select("Id":"ArrivalDateTime", "Duration", everything(), -"JourneyMode", -"Directionality") %>%
     mutate_at(c("DepartureDateTime", "ArrivalDateTime"), lubridate::ymd_hms) %>%
     mutate(Id = paste(!!sym("OriginStation"), format(!!sym("DepartureDateTime"), fmt),
@@ -161,6 +166,7 @@ GetSegments <- function(x) {
            CarrierId = "Carrier", OperatingCarrierId = "OperatingCarrier")
   
   checkmate::assert_tibble(df)
+  df
 }
 
 
@@ -179,17 +185,19 @@ GetSegments <- function(x) {
 #'
 #' @examples
 #' \dontrun{
-#' SetAPI("skyscanner-skyscanner-flight-search-v1.p.rapidapi.com", "YOUR_API_KEY")
-#' resp <- CreateSession(origin = "SFO", destination = "LHR", startDate = "2019-07-01")
-#' resp <- PollSession(resp)
+#' SetAPI("YOUR_API_KEY")
+#' resp <- apiCreateSession(origin = "SFO", destination = "LHR", startDate = "2019-07-01")
+#' resp <- apiPollSession(resp)
 #' flightscanner:::GetCarriers(resp)
 #' }
 GetCarriers <- function(x) {
-  if (inherits(x, "response")) x <- content(x)
-  df <- x$Carriers %>% map_df(as_tibble) %>%
+  if (!inherits(x, "response")) stop("x should be a response() object.")
+  
+  df <- content(x)$Carriers %>% map_df(as_tibble) %>%
     select(-"DisplayCode") %>% rename(ImageURL = "ImageUrl") %>%
     group_by(!!sym("Id")) %>% filter(row_number() == 1) %>% ungroup()
   checkmate::assert_tibble(df)
+  df
 }
 
 
@@ -208,17 +216,19 @@ GetCarriers <- function(x) {
 #'
 #' @examples
 #' \dontrun{
-#' SetAPI("skyscanner-skyscanner-flight-search-v1.p.rapidapi.com", "YOUR_API_KEY")
-#' resp <- CreateSession(origin = "SFO", destination = "LHR", startDate = "2019-07-01")
-#' resp <- PollSession(resp)
+#' SetAPI("YOUR_API_KEY")
+#' resp <- apiCreateSession(origin = "SFO", destination = "LHR", startDate = "2019-07-01")
+#' resp <- apiPollSession(resp)
 #' flightscanner:::GetAgents(resp)
 #' }
 GetAgents <- function(x) {
-  if (inherits(x, "response")) x <- content(x)
-  df <- x$Agents %>% map_df(as_tibble) %>%
+  if (!inherits(x, "response")) stop("x should be a response() object.")
+  
+  df <- content(x)$Agents %>% map_df(as_tibble) %>%
     select(-"ImageUrl", everything(), -"Status", -"OptimisedForMobile") %>%
     rename(ImageURL = "ImageUrl")
   checkmate::assert_tibble(df)
+  df
 }
 
 
@@ -237,13 +247,15 @@ GetAgents <- function(x) {
 #'
 #' @examples
 #' \dontrun{
-#' SetAPI("skyscanner-skyscanner-flight-search-v1.p.rapidapi.com", "YOUR_API_KEY")
-#' resp <- CreateSession(origin = "SFO", destination = "LHR", startDate = "2019-07-01")
-#' resp <- PollSession(resp)
+#' SetAPI("YOUR_API_KEY")
+#' resp <- apiCreateSession(origin = "SFO", destination = "LHR", startDate = "2019-07-01")
+#' resp <- apiPollSession(resp)
 #' flightscanner:::GetPlaces(resp)
 #' }
 GetPlaces <- function(x) {
-  if (inherits(x, "response")) x <- content(x)
-  df <- x$Places %>% map_df(as_tibble) %>% select("Id", "ParentId", everything())
+  if (!inherits(x, "response")) stop("x should be a response() object.")
+  
+  df <- content(x)$Places %>% map_df(as_tibble) %>% select("Id", "ParentId", everything())
   checkmate::assert_tibble(df)
+  df
 }

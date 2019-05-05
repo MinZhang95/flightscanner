@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Set API hostname and key. — SetAPI • flightscanner</title>
+<title>Set API key. — SetAPI • flightscanner</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,9 +30,9 @@
 
 
 
-<meta property="og:title" content="Set API hostname and key. — SetAPI" />
+<meta property="og:title" content="Set API key. — SetAPI" />
 
-<meta property="og:description" content="Set API hostname and key globally. See
+<meta property="og:description" content="Set API key globally. See
 https://rapidapi.com/skyscanner/api/skyscanner-flight-search." />
 <meta name="twitter:card" content="summary" />
 
@@ -100,50 +100,40 @@ https://rapidapi.com/skyscanner/api/skyscanner-flight-search." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Set API hostname and key.</h1>
+    <h1>Set API key.</h1>
     <small class="dont-index">Source: <a href='https://github.com/MinZhang95/flightscanner/blob/master/R/api.R'><code>R/api.R</code></a></small>
     <div class="hidden name"><code>SetAPI.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Set API hostname and key globally. See
+    <p>Set API key globally. See
 <a href='https://rapidapi.com/skyscanner/api/skyscanner-flight-search'>https://rapidapi.com/skyscanner/api/skyscanner-flight-search</a>.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>SetAPI</span>(<span class='no'>host</span>, <span class='no'>key</span>)</pre>
+    <pre class="usage"><span class='fu'>SetAPI</span>(<span class='no'>key</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>host</th>
-      <td><p>API hostname.</p></td>
-    </tr>
     <tr>
       <th>key</th>
       <td><p>API key.</p></td>
     </tr>
     </table>
     
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
-
-    <p>A list of hostname and key.</p>
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><span class='co'># NOT RUN {</span>
-<span class='fu'>SetAPI</span>(<span class='st'>"skyscanner-skyscanner-flight-search-v1.p.rapidapi.com"</span>, <span class='st'>"YOUR_API_KEY"</span>)
+<span class='fu'>SetAPI</span>(<span class='st'>"YOUR_API_KEY"</span>)
 <span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      
-      <li><a href="#value">Value</a></li>
-      
+            
       <li><a href="#examples">Examples</a></li>
     </ul>
 

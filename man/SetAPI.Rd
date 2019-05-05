@@ -2,24 +2,19 @@
 % Please edit documentation in R/api.R
 \name{SetAPI}
 \alias{SetAPI}
-\title{Set API hostname and key.}
+\title{Set API key.}
 \usage{
-SetAPI(host, key)
+SetAPI(key)
 }
 \arguments{
-\item{host}{API hostname.}
-
 \item{key}{API key.}
 }
-\value{
-A list of hostname and key.
-}
 \description{
-Set API hostname and key globally. See
+Set API key globally. See
 \url{https://rapidapi.com/skyscanner/api/skyscanner-flight-search}.
 }
 \examples{
 \dontrun{
-SetAPI("skyscanner-skyscanner-flight-search-v1.p.rapidapi.com", "YOUR_API_KEY")
+SetAPI("YOUR_API_KEY")
 }
 }

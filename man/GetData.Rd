@@ -10,14 +10,12 @@ GetData(x, ...)
 
 \method{GetData}{response}(x, ...)
 
-\method{GetData}{SQLiteConnection}(x, lazy = FALSE, ...)
+\method{GetData}{SQLiteConnection}(x, ...)
 }
 \arguments{
 \item{x}{An object to get data from.}
 
 \item{...}{Further arguments passed to methods.}
-
-\item{lazy}{If \code{TRUE}, return lazy tibbles.}
 }
 \value{
 A list of tibble.
@@ -36,13 +34,14 @@ agents, and places. Data are in \code{\link[tibble:tibble]{tibble()}} form.
 \examples{
 \dontrun{
 # Get data from API
-SetAPI("skyscanner-skyscanner-flight-search-v1.p.rapidapi.com", "YOUR_API_KEY")
-resp <- CreateSession(origin = "SFO", destination = "LHR", startDate = "2019-07-01")
-resp <- PollSession(resp)
+SetAPI("YOUR_API_KEY")
+resp <- apiCreateSession(origin = "SFO", destination = "LHR", startDate = "2019-07-01")
+resp <- apiPollSession(resp)
 GetData(resp)
 
 # Get data from SQLite database
 con <- dbCreateDB(dbname = "flight.db")
 GetData(con)
+dbDisconnect(con)
 }
 }

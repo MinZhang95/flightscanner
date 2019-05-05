@@ -57,12 +57,14 @@ ListPack <- function(x, mutate = FALSE, vars = NULL, vars.time = vars(ends_with(
 #' table in the database.
 #' @param ... Other arguments used by individual methods.
 #'
+#' @return Number of rows appended successfully.
 #' @import DBI
 #'
 #' @examples
 #' con <- DBI::dbConnect(RSQLite::SQLite(), ":memory:")
 #' DBI::dbWriteTable(con, "iris", iris[0, ])
 #' flightscanner:::dbAppendTableNew(con, "iris", iris)
+#' dbDisconnect(con)
 dbAppendTableNew <- function(conn, name, value, ...) {
   value <- ListUnpack(value, mutate = TRUE)
   
@@ -102,15 +104,16 @@ dbAppendTableNew <- function(conn, name, value, ...) {
 #'
 #' @examples
 #' \dontrun{
-#' dbCreateDB(dbname = "flight.db")
+#' con <- dbCreateDB(dbname = "flight.db")
 #' unlink("flight.db")
+#' dbDisconnect(con)
 #' }
 dbCreateDB <- function(conn = RSQLite::SQLite(), dbname = "flight.db") {
   if (inherits(conn, "SQLiteConnection")) {
     con <- conn
   } else if (inherits(conn, "SQLiteDriver") && dbCanConnect(conn)) {
     con <- dbConnect(conn, dbname = dbname)
-  } else stop()
+  } else stop("conn should be a SQLiteConnection or SQLiteDriver.")
   
   if (!dbExistsTable(con, "price")) {
     dbCreateTable(con, SQL("price"), c(SearchTime = "TEXT NOT NULL",
@@ -192,17 +195,18 @@ dbCreateDB <- function(conn = RSQLite::SQLite(), dbname = "flight.db") {
 #' @examples
 #' \dontrun{
 #' # Get response from API
-#' SetAPI("skyscanner-skyscanner-flight-search-v1.p.rapidapi.com", "YOUR_API_KEY")
-#' resp <- CreateSession(origin = "SFO", destination = "LHR", startDate = "2019-07-01")
-#' resp <- PollSession(resp)
+#' SetAPI("YOUR_API_KEY")
+#' resp <- apiCreateSession(origin = "SFO", destination = "LHR", startDate = "2019-07-01")
+#' resp <- apiPollSession(resp)
 #'
 #' # Connect to SQLite database
 #' con <- dbCreateDB(dbname = "flight.db")
-#' SaveData(con, resp)
+#' dbSaveData(con, resp)
+#' unlink("flight.db")
+#' dbDisconnect(con)
 #' }
-SaveData <- function(conn, x) {
+dbSaveData <- function(conn, x) {
   if (!inherits(x, "response")) stop("x should be a response() object.")
-  
   data <- GetData(x)
   dbAppendTableNew(conn, "price", data$price)
   dbAppendTableNew(conn, "itinerary", data$itineraries)
@@ -211,6 +215,23 @@ SaveData <- function(conn, x) {
   dbAppendTableNew(conn, "carrier", data$carriers)
   dbAppendTableNew(conn, "agent", data$agents)
   dbAppendTableNew(conn, "place", data$places)
-  
   invisible()
 }
+
+
+#' Disconnect (close) a connection.
+#' @description See \code{DBI::\link[DBI]{dbDisconnect}} for details.
+#'
+#' @name dbDisconnect
+#' @export
+#' @importFrom DBI dbDisconnect
+NULL
+
+
+#' List remote tables.
+#' @description See \code{DBI::\link[DBI]{dbListTables}} for details.
+#'
+#' @name dbListTables
+#' @export
+#' @importFrom DBI dbListTables
+NULL

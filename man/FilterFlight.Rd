@@ -45,9 +45,9 @@ Choose flight itineraries that match the filter conditions.
 \examples{
 \dontrun{
 SetAPI("skyscanner-skyscanner-flight-search-v1.p.rapidapi.com", "YOUR_API_KEY")
-resp <- CreateSession(origin = "SFO", destination = "LHR",
-                      startDate = "2019-07-01", returnDate = "2019-07-10")
-resp <- PollSession(resp)
+resp <- apiCreateSession(origin = "SFO", destination = "LHR",
+                         startDate = "2019-07-01", returnDate = "2019-07-10")
+resp <- apiPollSession(resp)
 data <- GetData(resp)
 FilterFlight(data, max_price = 1000, max_duration = 60 * 24,
              max_stops = 2, layover = c(60, 240),

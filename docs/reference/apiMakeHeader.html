@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Is there any duplicate rows? — CheckDuplicate • flightscanner</title>
+<title>Make headers to a request. — apiMakeHeader • flightscanner</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,10 +30,9 @@
 
 
 
-<meta property="og:title" content="Is there any duplicate rows? — CheckDuplicate" />
+<meta property="og:title" content="Make headers to a request. — apiMakeHeader" />
 
-<meta property="og:description" content="Check if there is any duplicate rows indexed by given columns. If YES, it will give
-warning." />
+<meta property="og:description" content="Make headers to a request." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -100,47 +99,33 @@ warning." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Is there any duplicate rows?</h1>
-    <small class="dont-index">Source: <a href='https://github.com/MinZhang95/flightscanner/blob/master/R/dataprocess.R'><code>R/dataprocess.R</code></a></small>
-    <div class="hidden name"><code>CheckDuplicate.Rd</code></div>
+    <h1>Make headers to a request.</h1>
+    <small class="dont-index">Source: <a href='https://github.com/MinZhang95/flightscanner/blob/master/R/api.R'><code>R/api.R</code></a></small>
+    <div class="hidden name"><code>apiMakeHeader.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Check if there is any duplicate rows indexed by given columns. If YES, it will give
-warning.</p>
+    <p>Make headers to a request.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>CheckDuplicate</span>(<span class='no'>.data</span>, <span class='no'>.vars</span>)</pre>
+    <pre class="usage"><span class='fu'>apiMakeHeader</span>(<span class='no'>key</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>.data</th>
-      <td><p>A data.frame.</p></td>
-    </tr>
-    <tr>
-      <th>.vars</th>
-      <td><p>Names of Columns to group by. If missing, use the first column name.</p></td>
+      <th>key</th>
+      <td><p>API key.</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p><code>TRUE</code> if there exists duplicate rows, otherwise <code>FALSE</code>.</p>
+    <p>A character vector contains host, key, and type.</p>
     
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><span class='co'># NOT RUN {</span>
-<span class='co'># Get data from API</span>
-<span class='fu'><a href='SetAPI.html'>SetAPI</a></span>(<span class='st'>"YOUR_API_KEY"</span>)
-<span class='no'>resp</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='apiCreateSession.html'>apiCreateSession</a></span>(<span class='kw'>origin</span> <span class='kw'>=</span> <span class='st'>"SFO"</span>, <span class='kw'>destination</span> <span class='kw'>=</span> <span class='st'>"LHR"</span>, <span class='kw'>startDate</span> <span class='kw'>=</span> <span class='st'>"2019-07-01"</span>)
-<span class='no'>resp</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='apiPollSession.html'>apiPollSession</a></span>(<span class='no'>resp</span>)
-<span class='no'>data</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='GetData.html'>GetData</a></span>(<span class='no'>resp</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/lapply'>sapply</a></span>(<span class='no'>data</span>, <span class='kw pkg'>flightscanner</span><span class='kw ns'>:::</span><span class='no'><a href='https://www.rdocumentation.org/packages/flightscanner/topics/CheckDuplicate'>CheckDuplicate</a></span>)
-<span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -148,9 +133,7 @@ warning.</p>
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
-      
-      <li><a href="#examples">Examples</a></li>
-    </ul>
+          </ul>
 
   </div>
 </div>

@@ -31,7 +31,8 @@ itinerary, leg, segment, carrier, agent, and place. If not, create them.
 }
 \examples{
 \dontrun{
-dbCreateDB(dbname = "flight.db")
+con <- dbCreateDB(dbname = "flight.db")
 unlink("flight.db")
+dbDisconnect(con)
 }
 }

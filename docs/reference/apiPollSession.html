@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Poll session of live flight search. — PollSession • flightscanner</title>
+<title>Poll session of live flight search. — apiPollSession • flightscanner</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,7 +30,7 @@
 
 
 
-<meta property="og:title" content="Poll session of live flight search. — PollSession" />
+<meta property="og:title" content="Poll session of live flight search. — apiPollSession" />
 
 <meta property="og:description" content="Returns live prices from all our suppliers for the requested flight itinerary. This
 function is GET step. Make sure you have set API using SetAPI before.
@@ -103,7 +103,7 @@ See https://rapidapi.com/skyscanner/api/skyscanner-flight-search." />
     <div class="page-header">
     <h1>Poll session of live flight search.</h1>
     <small class="dont-index">Source: <a href='https://github.com/MinZhang95/flightscanner/blob/master/R/api.R'><code>R/api.R</code></a></small>
-    <div class="hidden name"><code>PollSession.Rd</code></div>
+    <div class="hidden name"><code>apiPollSession.Rd</code></div>
     </div>
 
     <div class="ref-description">
@@ -114,7 +114,7 @@ function is GET step. Make sure you have set API using <code><a href='SetAPI.htm
     
     </div>
 
-    <pre class="usage"><span class='fu'>PollSession</span>(<span class='no'>response</span>, <span class='kw'>sortType</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"price"</span>, <span class='st'>"duration"</span>, <span class='st'>"carrier"</span>,
+    <pre class="usage"><span class='fu'>apiPollSession</span>(<span class='no'>response</span>, <span class='kw'>sortType</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"price"</span>, <span class='st'>"duration"</span>, <span class='st'>"carrier"</span>,
   <span class='st'>"outboundarrivetime"</span>, <span class='st'>"outbounddeparttime"</span>, <span class='st'>"inboundarrivetime"</span>,
   <span class='st'>"inbounddeparttime"</span>), <span class='kw'>sortOrder</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"asc"</span>, <span class='st'>"desc"</span>), <span class='kw'>duration</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>stops</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>includeCarriers</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>excludeCarriers</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
@@ -130,7 +130,7 @@ function is GET step. Make sure you have set API using <code><a href='SetAPI.htm
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>response</th>
-      <td><p>Return object of <code><a href='CreateSession.html'>CreateSession</a></code>.</p></td>
+      <td><p>Return object of <code><a href='apiCreateSession.html'>apiCreateSession</a></code>.</p></td>
     </tr>
     <tr>
       <th>sortType</th>
@@ -231,14 +231,14 @@ Format <code>"hh:mm"</code>.</p></td>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='CreateSession.html'>CreateSession</a></code>.</p></div>
+    <div class='dont-index'><p><code><a href='apiCreateSession.html'>apiCreateSession</a></code>.</p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><span class='co'># NOT RUN {</span>
 <span class='fu'><a href='SetAPI.html'>SetAPI</a></span>(<span class='st'>"YOUR_API_KEY"</span>)
-<span class='no'>resp</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='CreateSession.html'>CreateSession</a></span>(<span class='kw'>origin</span> <span class='kw'>=</span> <span class='st'>"SFO"</span>, <span class='kw'>destination</span> <span class='kw'>=</span> <span class='st'>"LHR"</span>, <span class='kw'>startDate</span> <span class='kw'>=</span> <span class='st'>"2019-07-01"</span>)
-<span class='fu'>PollSession</span>(<span class='no'>resp</span>)
+<span class='no'>resp</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='apiCreateSession.html'>apiCreateSession</a></span>(<span class='kw'>origin</span> <span class='kw'>=</span> <span class='st'>"SFO"</span>, <span class='kw'>destination</span> <span class='kw'>=</span> <span class='st'>"LHR"</span>, <span class='kw'>startDate</span> <span class='kw'>=</span> <span class='st'>"2019-07-01"</span>)
+<span class='fu'>apiPollSession</span>(<span class='no'>resp</span>)
 <span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

@@ -4,7 +4,6 @@
 #'
 #' @param x An object to get data from.
 #' @param ... Further arguments passed to methods.
-#' @param lazy If \code{TRUE}, return lazy tibbles.
 #'
 #' @return A list of tibble.
 #' @export
@@ -12,14 +11,15 @@
 #' @examples
 #' \dontrun{
 #' # Get data from API
-#' SetAPI("skyscanner-skyscanner-flight-search-v1.p.rapidapi.com", "YOUR_API_KEY")
-#' resp <- CreateSession(origin = "SFO", destination = "LHR", startDate = "2019-07-01")
-#' resp <- PollSession(resp)
+#' SetAPI("YOUR_API_KEY")
+#' resp <- apiCreateSession(origin = "SFO", destination = "LHR", startDate = "2019-07-01")
+#' resp <- apiPollSession(resp)
 #' GetData(resp)
 #'
 #' # Get data from SQLite database
 #' con <- dbCreateDB(dbname = "flight.db")
 #' GetData(con)
+#' dbDisconnect(con)
 #' }
 GetData <- function(x, ...) UseMethod("GetData")
 
@@ -39,25 +39,16 @@ GetData.response <- function(x, ...) {
 
 #' @describeIn GetData Get data from SQLite connection.
 #' @export
-GetData.SQLiteConnection <- function(x, lazy = FALSE, ...) {
-  if (lazy) {
-    list(price = tbl(x, from = "price"),
-         itineraries = tbl(x, from = "itinerary"),
-         legs = tbl(x, from = "leg"),
-         segments = tbl(x, from = "segment"),
-         carriers = tbl(x, from = "carrier"),
-         agents = tbl(x, from = "agent"),
-         places = tbl(x, from = "place"))
-  } else {
-    list(price = dbReadTable(x, "price") %>%
-           ListPack(mutate = TRUE, vars = "PricingOptions", tz = NULL),
-         itineraries = dbReadTable(x, "itinerary"),
-         legs = dbReadTable(x, "leg") %>% ListPack(mutate = TRUE, vars = c("SegmentIds", "Stops")),
-         segments = dbReadTable(x, "segment") %>% ListPack(mutate = TRUE),
-         carriers = dbReadTable(x, "carrier"),
-         agents = dbReadTable(x, "agent"),
-         places = dbReadTable(x, "place")) %>% lapply(as.tbl)
-  }
+GetData.SQLiteConnection <- function(x, ...) {
+  list(
+    price = dbReadTable(x, "price") %>% ListPack(mutate = TRUE, vars = "PricingOptions", tz = NULL),
+    itineraries = dbReadTable(x, "itinerary"),
+    legs = dbReadTable(x, "leg") %>% ListPack(mutate = TRUE, vars = c("SegmentIds", "Stops")),
+    segments = dbReadTable(x, "segment") %>% ListPack(mutate = TRUE),
+    carriers = dbReadTable(x, "carrier"),
+    agents = dbReadTable(x, "agent"),
+    places = dbReadTable(x, "place")
+  ) %>% lapply(as.tbl)
 }
 
 
@@ -77,8 +68,8 @@ GetData.SQLiteConnection <- function(x, lazy = FALSE, ...) {
 #' BetweenTime(x, c("7:30", "8:00"))
 #' BetweenTime(x, c("6:00", "7:29"))
 BetweenTime <- function(x, interval) {
-  checkmate::assertPOSIXct(x)
-  checkmate::assertCharacter(interval)
+  checkmate::assert_posixct(x)
+  checkmate::assert_character(interval, len = 2)
   x <- lubridate::as.duration(x - lubridate::floor_date(x, unit = "day"))
   x >= lubridate::hm(interval[1]) & x <= lubridate::hm(interval[2])
 }
@@ -96,14 +87,14 @@ BetweenTime <- function(x, interval) {
 #' @examples
 #' \dontrun{
 #' # Get data from API
-#' SetAPI("skyscanner-skyscanner-flight-search-v1.p.rapidapi.com", "YOUR_API_KEY")
-#' resp <- CreateSession(origin = "SFO", destination = "LHR", startDate = "2019-07-01")
-#' resp <- PollSession(resp)
+#' SetAPI("YOUR_API_KEY")
+#' resp <- apiCreateSession(origin = "SFO", destination = "LHR", startDate = "2019-07-01")
+#' resp <- apiPollSession(resp)
 #' data <- GetData(resp)
 #' sapply(data, flightscanner:::CheckDuplicate)
 #' }
 CheckDuplicate <- function(.data, .vars) {
-  checkmate::assertTibble(.data)
+  checkmate::assert_data_frame(.data)
   name <- names(.data)
   
   if (!missing(.vars)) {
@@ -144,9 +135,9 @@ CheckDuplicate <- function(.data, .vars) {
 #' @examples
 #' \dontrun{
 #' SetAPI("skyscanner-skyscanner-flight-search-v1.p.rapidapi.com", "YOUR_API_KEY")
-#' resp <- CreateSession(origin = "SFO", destination = "LHR",
-#'                       startDate = "2019-07-01", returnDate = "2019-07-10")
-#' resp <- PollSession(resp)
+#' resp <- apiCreateSession(origin = "SFO", destination = "LHR",
+#'                          startDate = "2019-07-01", returnDate = "2019-07-10")
+#' resp <- apiPollSession(resp)
 #' data <- GetData(resp)
 #' FilterFlight(data, max_price = 1000, max_duration = 60 * 24,
 #'              max_stops = 2, layover = c(60, 240),
@@ -158,16 +149,17 @@ FilterFlight <- function(x, max_price = Inf, max_duration = Inf,
                          carrier_include = unique(x$carriers$Code), carrier_exclude = NULL,
                          out_departure = c("00:00", "24:00"), out_arrival = c("00:00", "24:00"),
                          in_departure = c("00:00", "24:00"), in_arrival = c("00:00", "24:00")) {
-  checkmate::assert_numeric(max_price)
-  checkmate::assert_numeric(max_duration)
-  checkmate::assert_numeric(max_stops)
-  checkmate::assertVector(layover, len = 2)
-  checkmate::assertCharacter(carrier_include)
-  # checkmate::assertNull(carrier_exclude)
-  checkmate::assertVector(out_departure, len = 2)
-  checkmate::assertVector(out_arrival, len = 2)
-  checkmate::assertVector(in_departure, len = 2)
-  checkmate::assertVector(in_arrival, len = 2)
+  checkmate::assert_numeric(max_price, lower = 0, len = 1)
+  checkmate::assert_numeric(max_duration, lower = 0, len = 1)
+  checkmate::assert_numeric(max_stops, lower = 0, len = 1)
+  checkmate::assert_numeric(layover, lower = 0, len = 2)
+  checkmate::assert_character(carrier_include)
+  checkmate::assert_character(carrier_exclude, null.ok = T)
+  checkmate::assert_vector(out_departure, len = 2)
+  checkmate::assert_vector(out_arrival, len = 2)
+  checkmate::assert_vector(in_departure, len = 2)
+  checkmate::assert_vector(in_arrival, len = 2)
+  
   f <- function(x) {
     if (is.numeric(x)) {
       x <- format(as.POSIXct(60 * x, origin = "1970-01-01", tz = "UTC"), "%H:%M")
@@ -218,5 +210,7 @@ FilterFlight <- function(x, max_price = Inf, max_duration = Inf,
     filter(map_lgl(!!sym("PricingOptions"), ~ min(.$Price) <= max_price)) %>%
     mutate_at("PricingOptions", ~ map(., ~ filter(., !!sym("Price") <= max_price)))
   
-  inner_join(price_info, itineraries_info, by = c("OutboundLegId", "InboundLegId"))
+  res <- inner_join(price_info, itineraries_info, by = c("OutboundLegId", "InboundLegId"))
+  checkmate::assert_tibble(res)
+  res
 }

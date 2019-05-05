@@ -19,25 +19,24 @@ devtools::document()
 pkgdown::build_site()
 
 # ----------------------------------------------------------------------------
-SetAPI(host = "skyscanner-skyscanner-flight-search-v1.p.rapidapi.com",
-       key = "3e85a0e43cmshac6dba6fde57066p1c1145jsn1e6f8c3d0e33")
-# getOption("API")
+SetAPI("3e85a0e43cmshac6dba6fde57066p1c1145jsn1e6f8c3d0e33")
+# getOption("APIkey")
 
 ### Create session - Live Flight Search
-resp.post <- CreateSession(orig = "SEA", dest = "PVG", startDate = "2019-06-15")
+resp.post <- apiCreateSession(orig = "SEA", dest = "PVG", startDate = "2019-06-15")
 
 ### Poll session - Live Flight Search
-resp.get <- PollSession(resp.post)
+resp.get <- apiPollSession(resp.post)
 res <- httr::content(resp.get)
 
 ### Browse Quotes - Browse Flight Prices
-resp.quote <- BrowseFlight("quotes", orig = "DSM", dest = "DTW", start = "2019-05-01", return = NULL)
+resp.quote <- apiBrowseFlight("quotes", orig = "DSM", dest = "DTW", start = "2019-05-01", return = NULL)
 httr::content(resp.quote)
 
 ### Browse Routes - Browse Flight Prices
-resp.route <- BrowseFlight("routes", orig = "DSM", dest = "DTW", start = "2019-05-01", return = NULL)
+resp.route <- apiBrowseFlight("routes", orig = "DSM", dest = "DTW", start = "2019-05-01", return = NULL)
 httr::content(resp.route)
 
 ### Browse Dates - Browse Flight Prices
-resp.date <- BrowseFlight("dates", orig = "DSM", dest = "DTW", start = "2019-05-01", return = NULL)
+resp.date <- apiBrowseFlight("dates", orig = "DSM", dest = "DTW", start = "2019-05-01", return = NULL)
 httr::content(resp.date)

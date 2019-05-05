@@ -10,19 +10,17 @@ if (length(args) < 4 || length(args) > 5) {
 }
 
 setwd(args[1])
-flightscanner::SetAPI(host = "skyscanner-skyscanner-flight-search-v1.p.rapidapi.com",
-       key = "3e85a0e43cmshac6dba6fde57066p1c1145jsn1e6f8c3d0e33")
-
 library(flightscanner)
+SetAPI("3e85a0e43cmshac6dba6fde57066p1c1145jsn1e6f8c3d0e33")
 
 cat(sprintf("Working Directory: %s\n", getwd()))
-cat(sprintf("API Key: %s\n", getOption("API")$key))
+cat(sprintf("API Key: %s\n", getOption("APIkey")))
 cat("Command Line Arguments: ", args[-1], "\n")
 
 con <- dbCreateDB(dbname = file.path(args[1], "flight.db"))
-resp <- CreateSession(orig = args[2], dest = args[3], startDate = args[4],
-                           returnDate = flightscanner:::Args2null(args[5]))
-resp <- PollSession(resp)
-SaveData(con, x = resp)
-DBI::dbDisconnect(con)
+resp <- apiCreateSession(orig = args[2], dest = args[3], startDate = args[4],
+                         returnDate = flightscanner:::Args2Null(args[5]))
+resp <- apiPollSession(resp)
+dbSaveData(con, x = resp)
+dbDisconnect(con)
 cat("\n\n")

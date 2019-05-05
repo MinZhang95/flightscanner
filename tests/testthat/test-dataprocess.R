@@ -9,6 +9,7 @@ test_that("GetData function works", {
   expect_error(GetData(x = 123))
   testthat::expect_is(getdata, "list")
   testthat::expect_is(GetData(x = con), "list")
+  testthat::expect_is(GetData(x = con, lazy = TRUE), "list")
 })
 
 test_that("BetweenTime function works", {

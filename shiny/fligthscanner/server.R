@@ -115,6 +115,15 @@ shinyServer(function(input, output, session) {
     cat("AIRLINE: In: ", input$`Airline_In`, "\tEx: ", input$`Airline_Ex`, "\n")
     cat("TIME: ", input$Leave_Dep_Time, "\t", input$Leave_Arr_Time, "\t",
         input$Back_Dep_Time, "\t", input$Back_Arr_Time, "\n")
+    # rename dictionary
+    vars <- c(Outbound.Dept.Time = "OutboundLegDepartureTime", 
+              Outbound.Arrv.Time = "OutboundLegArrivalTime", 
+              Outbound.Duration.hrs = "OutboundLegDuration",
+              Outbound.No.Stops = "OutboundLegNo.Stops",
+              Inbound.Dept.Time = "InboundLegDepartureTime", 
+              Inbound.Arrv.Time = "InboundLegArrivalTime", 
+              Inbound.Duration.hrs = "InboundLegDuration", 
+              Inbound.No.Stops = "InboundLegNo.Stops")
     
     temp <- FilterFlight(data,
                          max_price = input$Price,
@@ -128,13 +137,22 @@ shinyServer(function(input, output, session) {
                          in_departure = input$Back_Dep_Time * 60,
                          in_arrival = input$Back_Arr_Time * 60
     ) %>%
-      select(-ends_with("LegId"), -ends_with("LegSegments"), -ends_with("LegStops"))
+      select(-ends_with("LegId"), -ends_with("LegSegments"), -ends_with("LegStops")) %>% 
+      rename(., !!vars) %>% 
+      mutate(Outbound.Duration.hrs = round(Outbound.Duration.hrs/60, 1)) %>% {
+        if (input$trip_type==1) . else 
+          mutate(., Inbound.Duration.hrs = round(Inbound.Duration.hrs/60, 1))
+      } %>% {
+        if (input$trip_type==2) . else select(., -starts_with("Inbound"))
+      }
+    
     
     # For debug
     print(FilterFlight(data) %>% nrow)
     print(temp %>% nrow)
     
-    temp %>% tidyr::unnest(PricingOptions) %>% {
+    temp %>% tidyr::unnest(PricingOptions) %>% 
+      mutate(Link = sprintf('<a href="%s" target="_blank" class="btn btn-primary">Book</a>', LinkURL)) %>% {
       if (nrow(.) == 0) . else select(., Price, everything(), -AgentId, -LinkURL)
     }
   }, escape = FALSE, options = list(pageLength = 10))

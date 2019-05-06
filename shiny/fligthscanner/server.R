@@ -151,7 +151,11 @@ shinyServer(function(input, output, session) {
                  "Inbound\nDuration" = "Inbound.Duration.hrs",
                  "Inbound\nNo.Stops" = "Inbound.No.Stops")
       } %>% {
-        if (input$trip_type==2) . else select(., -starts_with("Inbound"))
+        if (input$trip_type==2) . else select(., -starts_with("Inbound")) %>%
+          rename("Outbound\nDept.Time" = "Outbound.Dept.Time",
+                 "Outbound\nArr.Time" = "Outbound.Arrv.Time",
+                 "Outbound\nDuration" = "Outbound.Duration.hrs",
+                 "Outbound\nNo.Stops" = "Outbound.No.Stops")
       }
     
     

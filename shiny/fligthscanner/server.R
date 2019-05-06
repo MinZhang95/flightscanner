@@ -110,11 +110,11 @@ shinyServer(function(input, output, session) {
     data <- dataset()
     
     # 用来debug
-    cat("DURATION:", input$Duration, "\tPRICE: ", input$Price, "\n")
-    cat("STOPS: ", input$Stops, "\tLAYOVER: ", input$Layover, "\n")
-    cat("AIRLINE: In: ", input$`Airline_In`, "\tEx: ", input$`Airline_Ex`, "\n")
-    cat("TIME: ", input$Leave_Dep_Time, "\t", input$Leave_Arr_Time, "\t",
-        input$Back_Dep_Time, "\t", input$Back_Arr_Time, "\n")
+    # cat("DURATION:", input$Duration, "\tPRICE: ", input$Price, "\n")
+    # cat("STOPS: ", input$Stops, "\tLAYOVER: ", input$Layover, "\n")
+    # cat("AIRLINE: In: ", input$`Airline_In`, "\tEx: ", input$`Airline_Ex`, "\n")
+    # cat("TIME: ", input$Leave_Dep_Time, "\t", input$Leave_Arr_Time, "\t",
+    #     input$Back_Dep_Time, "\t", input$Back_Arr_Time, "\n")
     # rename dictionary
     vars <- c(Outbound.Dept.Time = "OutboundLegDepartureTime", 
               Outbound.Arrv.Time = "OutboundLegArrivalTime", 
@@ -141,23 +141,31 @@ shinyServer(function(input, output, session) {
       rename(., !!vars) %>% 
       mutate(Outbound.Duration.hrs = round(Outbound.Duration.hrs/60, 1)) %>% {
         if (input$trip_type==1) . else 
-          mutate(., Inbound.Duration.hrs = round(Inbound.Duration.hrs/60, 1))
+          mutate(., Inbound.Duration.hrs = round(Inbound.Duration.hrs/60, 1)) %>%
+          rename("Outbound\nDept.Time" = "Outbound.Dept.Time",
+                 "Outbound\nArr.Time" = "Outbound.Arrv.Time",
+                 "Outbound\nDuration" = "Outbound.Duration.hrs",
+                 "Outbound\nNo.Stops" = "Outbound.No.Stops",
+                 "Inbound\nDept.Time" = "Inbound.Dept.Time",
+                 "Inbound\nArr.Time" = "Inbound.Arrv.Time",
+                 "Inbound\nDuration" = "Inbound.Duration.hrs",
+                 "Inbound\nNo.Stops" = "Inbound.No.Stops")
       } %>% {
         if (input$trip_type==2) . else select(., -starts_with("Inbound"))
       }
     
     
     # For debug
-    print(FilterFlight(data) %>% nrow)
-    print(temp %>% nrow)
+    # print(FilterFlight(data) %>% nrow)
+    # print(temp %>% nrow)
     
     temp %>% tidyr::unnest(PricingOptions) %>% 
       mutate(Link = sprintf('<a href="%s" target="_blank" class="btn btn-primary">Book</a>', LinkURL)) %>% {
       if (nrow(.) == 0) . else select(., Price, everything(), -AgentId, -LinkURL)
     }
-  }, escape = FALSE, options = list(pageLength = 10))
+  }, escape = FALSE, options = list(pageLength = 20))
   
   output$IATAtable <- renderDataTable({
     airports %>% filter(IATA != "") %>% select(Name, City, Country, IATA, Latitude, Longitude)
-  }, options = list(pageLength = 10))
+  }, options = list(pageLength = 20))
 })

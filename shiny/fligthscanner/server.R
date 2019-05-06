@@ -23,9 +23,9 @@ shinyServer(function(input, output, session) {
         
         Date <- switch(input$trip_type, "1" = list(input$date1, NULL),
                        "2" = list(input$date2, input$date3))
-        resp.post <- CreateSession(orig = input$from, dest = input$to,
-                                   startDate = Date[[1]], returnDate = Date[[2]])
-        resp.get <- PollSession(respondPOST = resp.post)
+        resp.post <- apiCreateSession(orig = input$from, dest = input$to,
+                                      startDate = Date[[1]], returnDate = Date[[2]])
+        resp.get <- apiPollSession(resp.post)
         GetData(resp.get)
       })
     })
@@ -121,7 +121,7 @@ shinyServer(function(input, output, session) {
                          max_duration = input$Duration * 60,
                          max_stops = as.numeric(input$Stops),
                          layover = input$Layover * 60,
-                         # carrier_include = input$`Airline_In`,  # 有问题
+                         # carrier_include = input$`Airline_In`,  # has problem
                          # carrier_exclude = input$`Airline_Ex`,
                          out_departure = input$Leave_Dep_Time * 60,
                          out_arrival = input$Leave_Arr_Time * 60,
@@ -130,7 +130,7 @@ shinyServer(function(input, output, session) {
     ) %>%
       select(-ends_with("LegId"), -ends_with("LegSegments"), -ends_with("LegStops"))
     
-    # 用来debug
+    # For debug
     print(FilterFlight(data) %>% nrow)
     print(temp %>% nrow)
     

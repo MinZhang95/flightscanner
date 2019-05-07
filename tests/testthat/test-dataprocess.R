@@ -1,12 +1,12 @@
 context("test-dataprocess")
 
-name <- load("resptest.rda")
+name <- load("test-response.rda")
 response <- get(name)
 
 test_that("Function flightGet doesn't work.", {
   expect_error(flightGet(123))
   expect_type(suppressWarnings(flightGet(response)), "list")
-  con <- dbConnect(RSQLite::SQLite(), dbname = "flighttest.db")
+  con <- dbConnect(RSQLite::SQLite(), dbname = "test-flight.db")
   expect_type(flightGet(con), "list")
   dbDisconnect(con)
 })
@@ -22,7 +22,7 @@ test_that("Function BetweenTime doesn't work.", {
 test_that("Function CheckDuplicateRow doesn't work.", {
   df <- data.frame(Id = c(1, 1), name = c("A", "B"))
   expect_error(CheckDuplicateRow(123))
-  expect_warning(CheckDuplicateRow(df, "Id"))
+  expect_warning(CheckDuplicateRow(df))
   expect_false(CheckDuplicateRow(df, "name"))
 })
 

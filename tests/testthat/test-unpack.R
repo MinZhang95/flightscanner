@@ -1,6 +1,6 @@
 context("test-unpack")
 
-name <- load("resptest.rda")
+name <- load("test-response.rda")
 response <- get(name)
 
 test_that("Function GetPrice doesn't work.", {

@@ -85,7 +85,7 @@ BetweenTime <- function(x, interval) {
 #'
 #' @examples
 #' df <- data.frame(Id = c(1, 1), name = c("A", "B"))
-#' flightscanner:::CheckDuplicateRow(df, "Id")
+#' flightscanner:::CheckDuplicateRow(df)
 #' flightscanner:::CheckDuplicateRow(df, "name")
 CheckDuplicateRow <- function(.data, .vars) {
   checkmate::assert_data_frame(.data)

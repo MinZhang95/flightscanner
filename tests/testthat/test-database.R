@@ -1,6 +1,6 @@
 context("test-database")
 
-name <- load("resptest.rda")
+name <- load("test-response.rda")
 response <- get(name)
 
 test_that("Function ListUnpack doesn't work.", {

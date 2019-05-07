@@ -100,7 +100,7 @@ GetLegs <- function(x) {
   x <- content(x)
   df <- x$Legs %>% map_df(function(y) {
     n <- length(y$SegmentIds)
-    idx <- unlist(y$SegmentIds) + 1
+    idx <- unlist(y$SegmentIds) + 1L
     
     stopId <- if (n == 1) {
       integer(0)

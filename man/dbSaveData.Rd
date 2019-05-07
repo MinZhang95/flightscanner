@@ -41,8 +41,8 @@ data <- flightGet(resp)
 
 # Connect to SQLite database
 con <- dbCreateDB(dbname = ":memory:")
-dbSaveData(resp, con)
-dbSaveData(data, con)
+dbSaveData(resp, con)  # from response
+dbSaveData(data, con)  # from list
 dbDisconnect(con)
 }
 }

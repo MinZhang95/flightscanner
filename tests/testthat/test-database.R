@@ -22,8 +22,11 @@ test_that("Function ListPack doesn't work.", {
 test_that("Function dbAppendTableNew doesn't work.", {
   con <- dbConnect(RSQLite::SQLite(), ":memory:")
   dbWriteTable(con, "iris", iris[0, ])
-  expect_type(dbAppendTableNew(con, "iris", iris), "double")
+  dbCreateTable(con, "df", c(Id = "INTEGER PRIMARY KEY NOT NULL", name = "TEXT"))
+  
+  expect_identical(dbAppendTableNew(con, "iris", iris), 150L)
   expect_error(dbAppendTableNew(con, "iris", iris$Species))
+  expect_identical(dbAppendTableNew(con, "df", data.frame(Id = c(1, 1), name = c("A", "B"))), 1L)
   dbDisconnect(con)
 })
 
@@ -39,8 +42,5 @@ test_that("Function dbSaveData doesn't work.", {
   con <- dbCreateDB(dbname = ":memory:")
   expect_error(dbSaveData(con, iris))
   expect_invisible(suppressWarnings(dbSaveData(response, con)))
-  
-  # dbSaveData(resp, con)
-  # dbSaveData(flightGet(data), con)
   dbDisconnect(con)
 })

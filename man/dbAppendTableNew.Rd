@@ -28,5 +28,7 @@ indexed by the key. It assumes that the table has been created beforehand.
 con <- DBI::dbConnect(RSQLite::SQLite(), ":memory:")
 DBI::dbWriteTable(con, "iris", iris[0, ])
 flightscanner:::dbAppendTableNew(con, "iris", iris)
+df <- DBI::dbReadTable(con, "iris")
+head(df)
 dbDisconnect(con)
 }

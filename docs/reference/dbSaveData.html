@@ -32,9 +32,8 @@
 
 <meta property="og:title" content="Save data to SQLite database. — dbSaveData" />
 
-<meta property="og:description" content="Get data from the request response object, and save data to the corresponding tables
-in the SQLite database. Tables includes: price, itinerary, leg, segment, carrier, agent, and
-place." />
+<meta property="og:description" content="Save data to the corresponding tables in the SQLite database. Tables includes:
+price, itinerary, leg, segment, carrier, agent, and place." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -108,39 +107,57 @@ place." />
 
     <div class="ref-description">
     
-    <p>Get data from the request response object, and save data to the corresponding tables
-in the SQLite database. Tables includes: price, itinerary, leg, segment, carrier, agent, and
-place.</p>
+    <p>Save data to the corresponding tables in the SQLite database. Tables includes:
+price, itinerary, leg, segment, carrier, agent, and place.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>dbSaveData</span>(<span class='no'>conn</span>, <span class='no'>x</span>)</pre>
+    <pre class="usage"><span class='fu'>dbSaveData</span>(<span class='no'>x</span>, <span class='no'>conn</span>, <span class='no'>...</span>)
+
+<span class='co'># S3 method for list</span>
+<span class='fu'>dbSaveData</span>(<span class='no'>x</span>, <span class='no'>conn</span>, <span class='no'>...</span>)
+
+<span class='co'># S3 method for response</span>
+<span class='fu'>dbSaveData</span>(<span class='no'>x</span>, <span class='no'>conn</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>x</th>
+      <td><p>An object of data to be saved.</p></td>
+    </tr>
     <tr>
       <th>conn</th>
       <td><p>A <code><a href='https://www.rdocumentation.org/packages/RSQLite/topics/SQLiteConnection-class'>SQLiteConnection</a></code> object, as returned
 by <code><a href='https://www.rdocumentation.org/packages/DBI/topics/dbConnect'>dbConnect()</a></code>.</p></td>
     </tr>
     <tr>
-      <th>x</th>
-      <td><p>A <code><a href='https://www.rdocumentation.org/packages/httr/topics/response'>response()</a></code> object.</p></td>
+      <th>...</th>
+      <td><p>Further arguments passed to methods.</p></td>
     </tr>
     </table>
+    
+    <h2 class="hasAnchor" id="methods-by-class-"><a class="anchor" href="#methods-by-class-"></a>Methods (by class)</h2>
+
+    <ul>
+<li><p><code>list</code>: Save a list of data.frames in databse.</p></li>
+<li><p><code>response</code>: Save data from the request response in databse.</p></li>
+</ul>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><span class='co'># NOT RUN {</span>
-<span class='co'># Get response from API</span>
+<span class='co'># Get data from API</span>
 <span class='fu'><a href='apiSet.html'>apiSet</a></span>(<span class='st'>"YOUR_API_KEY"</span>)
 <span class='no'>resp</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='apiCreateSession.html'>apiCreateSession</a></span>(<span class='kw'>origin</span> <span class='kw'>=</span> <span class='st'>"SFO"</span>, <span class='kw'>destination</span> <span class='kw'>=</span> <span class='st'>"LHR"</span>, <span class='kw'>startDate</span> <span class='kw'>=</span> <span class='st'>"2019-07-01"</span>)
 <span class='no'>resp</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='apiPollSession.html'>apiPollSession</a></span>(<span class='no'>resp</span>)
+<span class='no'>data</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='flightGet.html'>flightGet</a></span>(<span class='no'>resp</span>)
 
 <span class='co'># Connect to SQLite database</span>
 <span class='no'>con</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='dbCreateDB.html'>dbCreateDB</a></span>(<span class='kw'>dbname</span> <span class='kw'>=</span> <span class='st'>":memory:"</span>)
-<span class='fu'>dbSaveData</span>(<span class='no'>con</span>, <span class='no'>resp</span>)
+<span class='fu'>dbSaveData</span>(<span class='no'>resp</span>, <span class='no'>con</span>)  <span class='co'># from response</span>
+<span class='fu'>dbSaveData</span>(<span class='no'>data</span>, <span class='no'>con</span>)  <span class='co'># from list</span>
 <span class='fu'><a href='dbDisconnect.html'>dbDisconnect</a></span>(<span class='no'>con</span>)
 <span class='co'># }</span></pre>
   </div>
@@ -148,7 +165,9 @@ by <code><a href='https://www.rdocumentation.org/packages/DBI/topics/dbConnect'>
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-            
+      
+      <li><a href="#methods-by-class-">Methods (by class)</a></li>
+      
       <li><a href="#examples">Examples</a></li>
     </ul>
 

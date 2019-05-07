@@ -21,7 +21,7 @@
 #' d <- flightscanner:::ListUnpack(iris, mutate = TRUE, vars = "Species")
 #' d <- flightscanner:::ListPack(d, mutate = TRUE, vars = "Species")
 #' d$Species <- unlist(d$Species)
-#' d
+#' head(d)
 ListUnpack <- function(x, mutate = FALSE, vars = NULL) {
   if (!mutate) {
     paste(utils::capture.output(dput(x)), collapse = "")
@@ -64,15 +64,15 @@ ListPack <- function(x, mutate = FALSE, vars = NULL, vars.time = vars(ends_with(
 #' con <- DBI::dbConnect(RSQLite::SQLite(), ":memory:")
 #' DBI::dbWriteTable(con, "iris", iris[0, ])
 #' flightscanner:::dbAppendTableNew(con, "iris", iris)
+#' df <- DBI::dbReadTable(con, "iris")
+#' head(df)
 #' dbDisconnect(con)
 dbAppendTableNew <- function(conn, name, value, ...) {
   value <- ListUnpack(value, mutate = TRUE)
-  
   sum(sapply(1:NROW(value), function(i) {
-    x <- tryCatch(dbAppendTable(conn, name, value[i, , drop = FALSE], ...),
-                  warning = function(w) 1,
+    x <- tryCatch(suppressWarnings(dbAppendTable(conn, name, value[i, , drop = FALSE])),
                   error = function(e) {
-                    if (grepl("^UNIQUE constraint failed", e$message)) 0 else stop(e)
+                    if (grepl("^UNIQUE constraint failed", e$message)) 0L else stop(e)
                   })
     if (inherits(x, "error")) stop(x) else x
   }))
@@ -199,8 +199,8 @@ dbCreateDB <- function(conn = RSQLite::SQLite(), dbname = "flight.db") {
 #'
 #' # Connect to SQLite database
 #' con <- dbCreateDB(dbname = ":memory:")
-#' dbSaveData(resp, con)
-#' dbSaveData(data, con)
+#' dbSaveData(resp, con)  # from response
+#' dbSaveData(data, con)  # from list
 #' dbDisconnect(con)
 #' }
 dbSaveData <- function(x, conn, ...) UseMethod("dbSaveData")

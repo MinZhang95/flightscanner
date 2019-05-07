@@ -38,5 +38,5 @@ flightscanner:::ListPack(s)
 d <- flightscanner:::ListUnpack(iris, mutate = TRUE, vars = "Species")
 d <- flightscanner:::ListPack(d, mutate = TRUE, vars = "Species")
 d$Species <- unlist(d$Species)
-d
+head(d)
 }

@@ -252,11 +252,11 @@ apiPollSession <- function(response, sortType = c("price", "duration", "carrier"
                 inboundArriveStartTime = inboundArriveStartTime,
                 inboundArriveEndTime = inboundArriveEndTime)
   
-  for (count in 0:99) {
+  for (count in 1:100) {
     resp <- GET(url, add_headers(header), path = path, query = query)
     if (content(resp)$Status == "UpdatesComplete") break
   }
-  if (count) message("Try to update data ", count, " times.")
+  
   flag <- apiCheckStatus(resp)
   checkmate::assert_class(resp, "response")
   resp

@@ -22,11 +22,13 @@ test_that("Function ListPack doesn't work.", {
 test_that("Function dbAppendTableNew doesn't work.", {
   con <- dbConnect(RSQLite::SQLite(), ":memory:")
   dbWriteTable(con, "iris", iris[0, ])
-  dbCreateTable(con, "df", c(Id = "INTEGER PRIMARY KEY NOT NULL", name = "TEXT"))
+  dbCreateTable(con, "df1", c(Id = "INTEGER PRIMARY KEY NOT NULL", name = "TEXT"))
+  dbCreateTable(con, "df2", c(Id = "INTEGER", name = "TEXT NOT NULL"))
   
   expect_identical(dbAppendTableNew(con, "iris", iris), 150L)
   expect_error(dbAppendTableNew(con, "iris", iris$Species))
-  expect_identical(dbAppendTableNew(con, "df", data.frame(Id = c(1, 1), name = c("A", "B"))), 1L)
+  expect_identical(dbAppendTableNew(con, "df1", data.frame(Id = c(1, 1), name = c("A", "B"))), 1L)
+  expect_error(dbAppendTableNew(con, "df2", data.frame(Id = 1, name = NA)))
   dbDisconnect(con)
 })
 

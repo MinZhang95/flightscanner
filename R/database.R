@@ -70,7 +70,7 @@ ListPack <- function(x, mutate = FALSE, vars = NULL, vars.time = vars(ends_with(
 dbAppendTableNew <- function(conn, name, value, ...) {
   value <- ListUnpack(value, mutate = TRUE)
   sum(sapply(1:NROW(value), function(i) {
-    x <- tryCatch(suppressWarnings(dbAppendTable(conn, name, value[i, , drop = FALSE])),
+    x <- tryCatch(suppressWarnings(dbAppendTable(conn, name, value[i, , drop = FALSE], ...)),
                   error = function(e) {
                     if (grepl("^UNIQUE constraint failed", e$message)) 0L else stop(e)
                   })

@@ -15,7 +15,7 @@ test_that("Function GetItineraries doesn't work.", {
 
 test_that("Function GetLegs works doesn't work.", {
   expect_error(GetLegs(iris))
-  expect_true(is.tbl(GetLegs(response)))
+  expect_true(is.tbl(suppressWarnings(GetLegs(response))))
 })
 
 test_that("Function GetSegments doesn't work.", {

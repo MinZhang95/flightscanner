@@ -1,3 +1,4 @@
+library(flightscanner)
 # library(taskscheduleR)  # Windows
 # library(cronR)  # Unix/Linux
 

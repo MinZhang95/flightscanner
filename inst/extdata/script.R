@@ -11,7 +11,7 @@ if (length(args) < 4 || length(args) > 5) {
 
 setwd(args[1])
 library(flightscanner)
-SetAPI("3e85a0e43cmshac6dba6fde57066p1c1145jsn1e6f8c3d0e33")
+apiSet("3e85a0e43cmshac6dba6fde57066p1c1145jsn1e6f8c3d0e33")
 
 cat(sprintf("Working Directory: %s\n", getwd()))
 cat(sprintf("API Key: %s\n", getOption("APIkey")))

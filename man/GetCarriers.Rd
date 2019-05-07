@@ -18,7 +18,7 @@ Information includes the CarrierId, Code, Name, and ImageURL.
 }
 \examples{
 \dontrun{
-SetAPI("YOUR_API_KEY")
+apiSet("YOUR_API_KEY")
 resp <- apiCreateSession(origin = "SFO", destination = "LHR", startDate = "2019-07-01")
 resp <- apiPollSession(resp)
 flightscanner:::GetCarriers(resp)

@@ -1,5 +1,5 @@
-#' Get data from source.
-#' @description Get data from source. Includes: price, itineraries, legs, segments, carriers,
+#' Get flight data from source.
+#' @description Get flight data from source. Includes: price, itineraries, legs, segments, carriers,
 #' agents, and places. Data are in \code{\link[tibble:tibble]{tibble()}} form.
 #'
 #' @param x An object to get data from.
@@ -11,22 +11,22 @@
 #' @examples
 #' \dontrun{
 #' # Get data from API
-#' SetAPI("YOUR_API_KEY")
+#' apiSet("YOUR_API_KEY")
 #' resp <- apiCreateSession(origin = "SFO", destination = "LHR", startDate = "2019-07-01")
 #' resp <- apiPollSession(resp)
-#' GetData(resp)
+#' flightGet(resp)
 #'
 #' # Get data from SQLite database
 #' con <- dbCreateDB(dbname = "flight.db")
-#' GetData(con)
+#' flightGet(con)
 #' dbDisconnect(con)
 #' }
-GetData <- function(x, ...) UseMethod("GetData")
+flightGet <- function(x, ...) UseMethod("flightGet")
 
 
-#' @describeIn GetData Get data from API response.
+#' @describeIn flightGet Get flight data from API response.
 #' @export
-GetData.response <- function(x, ...) {
+flightGet.response <- function(x, ...) {
   list(price = GetPrice(x),
        itineraries = GetItineraries(x),
        legs = GetLegs(x),
@@ -37,9 +37,9 @@ GetData.response <- function(x, ...) {
 }
 
 
-#' @describeIn GetData Get data from SQLite connection.
+#' @describeIn flightGet Get flight data from SQLite connection.
 #' @export
-GetData.SQLiteConnection <- function(x, ...) {
+flightGet.SQLiteConnection <- function(x, ...) {
   list(
     price = dbReadTable(x, "price") %>% ListPack(mutate = TRUE, vars = "PricingOptions", tz = NULL),
     itineraries = dbReadTable(x, "itinerary"),
@@ -61,12 +61,11 @@ GetData.SQLiteConnection <- function(x, ...) {
 #' \code{"hh:mm"}.
 #' 
 #' @return \code{TRUE} or \code{FALSE}.
-#' @export
 #'
 #' @examples
 #' x <- lubridate::ymd_hms("2019-01-02 07:30:00")
-#' BetweenTime(x, c("7:30", "8:00"))
-#' BetweenTime(x, c("6:00", "7:29"))
+#' flightscanner:::BetweenTime(x, c("7:30", "8:00"))
+#' flightscanner:::BetweenTime(x, c("6:00", "7:29"))
 BetweenTime <- function(x, interval) {
   checkmate::assert_posixct(x)
   checkmate::assert_character(interval, len = 2)
@@ -85,23 +84,12 @@ BetweenTime <- function(x, interval) {
 #' @return \code{TRUE} if there exists duplicate rows, otherwise \code{FALSE}.
 #'
 #' @examples
-#' \dontrun{
-#' # Get data from API
-#' SetAPI("YOUR_API_KEY")
-#' resp <- apiCreateSession(origin = "SFO", destination = "LHR", startDate = "2019-07-01")
-#' resp <- apiPollSession(resp)
-#' data <- GetData(resp)
-#' sapply(data, flightscanner:::CheckDuplicate)
-#' }
-CheckDuplicate <- function(.data, .vars) {
+#' df <- data.frame(Id = c(1, 1), name = c("A", "B"))
+#' flightscanner:::CheckDuplicateRow(df, "Id")
+#' flightscanner:::CheckDuplicateRow(df, "name")
+CheckDuplicateRow <- function(.data, .vars) {
   checkmate::assert_data_frame(.data)
-  name <- names(.data)
-  
-  if (!missing(.vars)) {
-  } else if ((.vars <- "Id") %in% name) {
-  } else if (all((.vars <- c("OutboundLegId", "InboundLegId")) %in% name)) {
-  } else .vars <- name[1]
-  
+  if (missing(.vars)) .vars <- names(.data)[1]
   x <- filter(group_by(.data, !!!syms(.vars)), n() > 1)
   if (NROW(x)) {
     warning(deparse(substitute(.data)), " has duplicate ",
@@ -134,17 +122,17 @@ CheckDuplicate <- function(.data, .vars) {
 #'
 #' @examples
 #' \dontrun{
-#' SetAPI("skyscanner-skyscanner-flight-search-v1.p.rapidapi.com", "YOUR_API_KEY")
+#' apiSet("skyscanner-skyscanner-flight-search-v1.p.rapidapi.com", "YOUR_API_KEY")
 #' resp <- apiCreateSession(origin = "SFO", destination = "LHR",
 #'                          startDate = "2019-07-01", returnDate = "2019-07-10")
 #' resp <- apiPollSession(resp)
-#' data <- GetData(resp)
-#' FilterFlight(data, max_price = 1000, max_duration = 60 * 24,
+#' data <- flightGet(resp)
+#' flightFilter(data, max_price = 1000, max_duration = 60 * 24,
 #'              max_stops = 2, layover = c(60, 240),
 #'              carrier_include = c("UA", "AA", "DL", "CX", "NH"),
 #'              carrier_exclude = c("MH", "KE"))
 #' }
-FilterFlight <- function(x, max_price = Inf, max_duration = Inf,
+flightFilter <- function(x, max_price = Inf, max_duration = Inf,
                          max_stops = Inf, layover = c(0, Inf),
                          carrier_include = unique(x$carriers$Code), carrier_exclude = NULL,
                          out_departure = c("00:00", "24:00"), out_arrival = c("00:00", "24:00"),
@@ -168,8 +156,7 @@ FilterFlight <- function(x, max_price = Inf, max_duration = Inf,
     x
   }
   
-  # check duplicate Id
-  dup <- sapply(x, CheckDuplicate)
+  dup <- mapply(CheckDuplicateRow, x, rep(list(c("OutboundLegId", "InboundLegId"), "Id"), c(2, 5)))
   if (any(dup)) warning("Duplicate Ids are found in table: ",
                         paste(names(which(dup)), collapse = ", "), ".", call. = FALSE)
   

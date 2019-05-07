@@ -2,13 +2,13 @@ context("test-dataprocess")
 
 name <- load("resptest.rda")
 response <- get(name)
-data <- GetData(response)
-con <- dbConnect(RSQLite::SQLite(), dbname = "flighttest.db")
 
-test_that("Function GetData doesn't work.", {
-  expect_error(GetData(123))
-  expect_type(data, "list")
-  expect_type(GetData(con), "list")
+test_that("Function flightGet doesn't work.", {
+  expect_error(flightGet(123))
+  expect_type(suppressWarnings(flightGet(response)), "list")
+  con <- dbConnect(RSQLite::SQLite(), dbname = "flighttest.db")
+  expect_type(flightGet(con), "list")
+  dbDisconnect(con)
 })
 
 test_that("Function BetweenTime doesn't work.", {
@@ -19,24 +19,25 @@ test_that("Function BetweenTime doesn't work.", {
   expect_false(BetweenTime(x, c("6:00", "7:29")))
 })
 
-test_that("Function CheckDuplicate doesn't work.", {
-  expect_error(CheckDuplicate(123))
-  expect_warning(CheckDuplicate(tibble(OutboundLegId = c(12, 12), InboundLegId = c(34, 34))))
-  expect_false(CheckDuplicate(tibble(OutboundLegId = c(12, 34), InboundLegId = c(56, 78))))
-  expect_false(CheckDuplicate(tibble(FakeName1 = c(12, 34), FakeName2 = c(56, 78))))
+test_that("Function CheckDuplicateRow doesn't work.", {
+  df <- data.frame(Id = c(1, 1), name = c("A", "B"))
+  expect_error(CheckDuplicateRow(123))
+  expect_warning(CheckDuplicateRow(df, "Id"))
+  expect_false(CheckDuplicateRow(df, "name"))
 })
 
-test_that("Function FilterFlight doesn't work.", {
-  expect_error(FilterFlight(data, max_price = "aa"))
-  expect_error(FilterFlight(data, max_duration = "aa"))
-  expect_error(FilterFlight(data, max_stops = "aa"))
-  expect_error(FilterFlight(data, layover = "aa"))
-  expect_error(FilterFlight(data, carrier_include = 123))
-  expect_error(FilterFlight(data, carrier_exclude = 123))
-  expect_error(FilterFlight(data, out_departure = 123))
-  expect_error(FilterFlight(data, out_arrival = 123))
-  expect_error(FilterFlight(data, in_departure = 123))
-  expect_error(FilterFlight(data, in_arrival = 123))
-  expect_true(is.tbl(FilterFlight(data, out_departure = c(0, 24 * 60))))
-  expect_warning(FilterFlight(lapply(data, function(t) {t[2, ] <- t[1, ]; t})))
+test_that("Function flightFilter doesn't work.", {
+  data <- suppressWarnings(flightGet(response))
+  expect_error(flightFilter(data, max_price = "aa"))
+  expect_error(flightFilter(data, max_duration = "aa"))
+  expect_error(flightFilter(data, max_stops = "aa"))
+  expect_error(flightFilter(data, layover = "aa"))
+  expect_error(flightFilter(data, carrier_include = 123))
+  expect_error(flightFilter(data, carrier_exclude = 123))
+  expect_error(flightFilter(data, out_departure = 123))
+  expect_error(flightFilter(data, out_arrival = 123))
+  expect_error(flightFilter(data, in_departure = 123))
+  expect_error(flightFilter(data, in_arrival = 123))
+  expect_true(is.tbl(flightFilter(data, out_departure = c(0, 24 * 60))))
+  expect_warning(flightFilter(lapply(data, function(t) {t[2, ] <- t[1, ]; t})))
 })

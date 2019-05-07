@@ -15,3 +15,7 @@ Converted argument.
 \description{
 Convert missing arguments to NULL.
 }
+\examples{
+flightscanner:::Args2Null("character")
+flightscanner:::Args2Null(NA)
+}

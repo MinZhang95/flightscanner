@@ -30,9 +30,6 @@ Connect to a SQLite database file. And check it the following tables exists: pri
 itinerary, leg, segment, carrier, agent, and place. If not, create them.
 }
 \examples{
-\dontrun{
-con <- dbCreateDB(dbname = "flight.db")
-unlink("flight.db")
+con <- dbCreateDB(dbname = ":memory:")
 dbDisconnect(con)
-}
 }

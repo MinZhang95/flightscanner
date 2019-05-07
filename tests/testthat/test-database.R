@@ -29,16 +29,15 @@ test_that("Function dbAppendTableNew doesn't work.", {
 
 test_that("Function dbCreateDB doesn't work.", {
   expect_error(dbCreateDB(c(0, 1), dbname = ":memory:"))
-  driver <- RSQLite::SQLite()
-  expect_s4_class(dbCreateDB(driver, dbname = ":memory:"), "SQLiteConnection")
-  connection <- dbConnect(driver)
-  expect_s4_class(dbCreateDB(connection, dbname = ":memory:"), "SQLiteConnection")
-  dbDisconnect(connection)
+  con <- dbCreateDB(RSQLite::SQLite(), dbname = ":memory:")
+  expect_s4_class(con, "SQLiteConnection")
+  expect_s4_class(dbCreateDB(con, dbname = ":memory:"), "SQLiteConnection")
+  dbDisconnect(con)
 })
 
 test_that("Function dbSaveData doesn't work.", {
   con <- dbCreateDB(dbname = ":memory:")
   expect_error(dbSaveData(con, iris))
-  expect_invisible(dbSaveData(con, response))
+  expect_invisible(suppressWarnings(dbSaveData(con, response)))
   dbDisconnect(con)
 })

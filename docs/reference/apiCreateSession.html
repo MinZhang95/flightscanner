@@ -33,7 +33,7 @@
 <meta property="og:title" content="Create session of live flight search. — apiCreateSession" />
 
 <meta property="og:description" content="Returns live prices from all our suppliers for the requested flight itinerary. This
-function is POST step. Make sure you have set API using SetAPI before.
+function is POST step. Make sure you have set API using apiSet before.
 See https://rapidapi.com/skyscanner/api/skyscanner-flight-search." />
 <meta name="twitter:card" content="summary" />
 
@@ -109,7 +109,7 @@ See https://rapidapi.com/skyscanner/api/skyscanner-flight-search." />
     <div class="ref-description">
     
     <p>Returns live prices from all our suppliers for the requested flight itinerary. This
-function is POST step. Make sure you have set API using <code><a href='SetAPI.html'>SetAPI</a></code> before.</p>
+function is POST step. Make sure you have set API using <code><a href='apiSet.html'>apiSet</a></code> before.</p>
 <p>See <a href='https://rapidapi.com/skyscanner/api/skyscanner-flight-search'>https://rapidapi.com/skyscanner/api/skyscanner-flight-search</a>.</p>
     
     </div>
@@ -192,7 +192,7 @@ carrier ids.</p></td>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><span class='co'># NOT RUN {</span>
-<span class='fu'><a href='SetAPI.html'>SetAPI</a></span>(<span class='st'>"YOUR_API_KEY"</span>)
+<span class='fu'><a href='apiSet.html'>apiSet</a></span>(<span class='st'>"YOUR_API_KEY"</span>)
 <span class='fu'>apiCreateSession</span>(<span class='kw'>origin</span> <span class='kw'>=</span> <span class='st'>"SFO"</span>, <span class='kw'>destination</span> <span class='kw'>=</span> <span class='st'>"LHR"</span>, <span class='kw'>startDate</span> <span class='kw'>=</span> <span class='st'>"2019-07-01"</span>)
 <span class='co'># }</span></pre>
   </div>

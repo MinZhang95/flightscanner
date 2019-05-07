@@ -78,13 +78,13 @@ A \code{\link[httr:response]{response()}} object of request.
 }
 \description{
 Returns live prices from all our suppliers for the requested flight itinerary. This
-function is GET step. Make sure you have set API using \code{\link{SetAPI}} before.
+function is GET step. Make sure you have set API using \code{\link{apiSet}} before.
 
 See \url{https://rapidapi.com/skyscanner/api/skyscanner-flight-search}.
 }
 \examples{
 \dontrun{
-SetAPI("YOUR_API_KEY")
+apiSet("YOUR_API_KEY")
 resp <- apiCreateSession(origin = "SFO", destination = "LHR", startDate = "2019-07-01")
 apiPollSession(resp)
 }

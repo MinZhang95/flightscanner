@@ -16,3 +16,7 @@ apiCheckStatus(x)
 Extract the http status code and convert it into a human readable message. Give
 warning if has an error.
 }
+\examples{
+flightscanner:::apiCheckStatus(200L)
+flightscanner:::apiCheckStatus(404L)
+}

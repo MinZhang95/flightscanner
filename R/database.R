@@ -103,11 +103,8 @@ dbAppendTableNew <- function(conn, name, value, ...) {
 #' @export
 #'
 #' @examples
-#' \dontrun{
-#' con <- dbCreateDB(dbname = "flight.db")
-#' unlink("flight.db")
+#' con <- dbCreateDB(dbname = ":memory:")
 #' dbDisconnect(con)
-#' }
 dbCreateDB <- function(conn = RSQLite::SQLite(), dbname = "flight.db") {
   if (inherits(conn, "SQLiteConnection")) {
     con <- conn
@@ -195,19 +192,18 @@ dbCreateDB <- function(conn = RSQLite::SQLite(), dbname = "flight.db") {
 #' @examples
 #' \dontrun{
 #' # Get response from API
-#' SetAPI("YOUR_API_KEY")
+#' apiSet("YOUR_API_KEY")
 #' resp <- apiCreateSession(origin = "SFO", destination = "LHR", startDate = "2019-07-01")
 #' resp <- apiPollSession(resp)
 #'
 #' # Connect to SQLite database
-#' con <- dbCreateDB(dbname = "flight.db")
+#' con <- dbCreateDB(dbname = ":memory:")
 #' dbSaveData(con, resp)
-#' unlink("flight.db")
 #' dbDisconnect(con)
 #' }
 dbSaveData <- function(conn, x) {
   if (!inherits(x, "response")) stop("x should be a response() object.")
-  data <- GetData(x)
+  data <- flightGet(x)
   dbAppendTableNew(conn, "price", data$price)
   dbAppendTableNew(conn, "itinerary", data$itineraries)
   dbAppendTableNew(conn, "leg", data$legs)

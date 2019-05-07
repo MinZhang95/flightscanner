@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Connect to a SQLite database and create tables. — dbCreateDB • flightscanner</title>
+<title>Is there any duplicate rows? — CheckDuplicateRow • flightscanner</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,10 +30,10 @@
 
 
 
-<meta property="og:title" content="Connect to a SQLite database and create tables. — dbCreateDB" />
+<meta property="og:title" content="Is there any duplicate rows? — CheckDuplicateRow" />
 
-<meta property="og:description" content="Connect to a SQLite database file. And check it the following tables exists: price,
-itinerary, leg, segment, carrier, agent, and place. If not, create them." />
+<meta property="og:description" content="Check if there is any duplicate rows indexed by given columns. If YES, it will give
+warning." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -100,47 +100,41 @@ itinerary, leg, segment, carrier, agent, and place. If not, create them." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Connect to a SQLite database and create tables.</h1>
-    <small class="dont-index">Source: <a href='https://github.com/MinZhang95/flightscanner/blob/master/R/database.R'><code>R/database.R</code></a></small>
-    <div class="hidden name"><code>dbCreateDB.Rd</code></div>
+    <h1>Is there any duplicate rows?</h1>
+    <small class="dont-index">Source: <a href='https://github.com/MinZhang95/flightscanner/blob/master/R/dataprocess.R'><code>R/dataprocess.R</code></a></small>
+    <div class="hidden name"><code>CheckDuplicateRow.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Connect to a SQLite database file. And check it the following tables exists: price,
-itinerary, leg, segment, carrier, agent, and place. If not, create them.</p>
+    <p>Check if there is any duplicate rows indexed by given columns. If YES, it will give
+warning.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>dbCreateDB</span>(<span class='kw'>conn</span> <span class='kw'>=</span> <span class='kw pkg'>RSQLite</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/RSQLite/topics/SQLite'>SQLite</a></span>(), <span class='kw'>dbname</span> <span class='kw'>=</span> <span class='st'>"flight.db"</span>)</pre>
+    <pre class="usage"><span class='fu'>CheckDuplicateRow</span>(<span class='no'>.data</span>, <span class='no'>.vars</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>conn</th>
-      <td><p>A <code><a href='https://www.rdocumentation.org/packages/RSQLite/topics/SQLiteDriver-class'>SQLiteDriver</a></code> or
-<code><a href='https://www.rdocumentation.org/packages/RSQLite/topics/SQLiteConnection-class'>SQLiteConnection</a></code>.</p></td>
+      <th>.data</th>
+      <td><p>A data.frame.</p></td>
     </tr>
     <tr>
-      <th>dbname</th>
-      <td><p>The path to the database file. Don't use two exceptions:</p><ul>
-<li><p><code>""</code> will create a temporary on-disk database. The file will be deleted when the
-  connection is closed.</p></li>
-<li><p><code>":memory:"</code> or <code>"file::memory:"</code> will create a temporary in-memory database.</p></li>
-</ul></td>
+      <th>.vars</th>
+      <td><p>Names of Columns to group by. If missing, use the first column name.</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>An object of class <code><a href='https://www.rdocumentation.org/packages/RSQLite/topics/SQLiteConnection-class'>SQLiteConnection</a></code>. If
-can't connect to SQLite driver, return 1.</p>
+    <p><code>TRUE</code> if there exists duplicate rows, otherwise <code>FALSE</code>.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>con</span> <span class='kw'>&lt;-</span> <span class='fu'>dbCreateDB</span>(<span class='kw'>dbname</span> <span class='kw'>=</span> <span class='st'>":memory:"</span>)
-<span class='fu'><a href='dbDisconnect.html'>dbDisconnect</a></span>(<span class='no'>con</span>)</div></pre>
+    <pre class="examples"><div class='input'><span class='no'>df</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame</a></span>(<span class='kw'>Id</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>1</span>), <span class='kw'>name</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"A"</span>, <span class='st'>"B"</span>))
+<span class='kw pkg'>flightscanner</span><span class='kw ns'>:::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/flightscanner/topics/CheckDuplicateRow'>CheckDuplicateRow</a></span>(<span class='no'>df</span>, <span class='st'>"Id"</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: df has duplicate Id.</span></div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='kw pkg'>flightscanner</span><span class='kw ns'>:::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/flightscanner/topics/CheckDuplicateRow'>CheckDuplicateRow</a></span>(<span class='no'>df</span>, <span class='st'>"name"</span>)</div><div class='output co'>#&gt; [1] FALSE</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

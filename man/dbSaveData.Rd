@@ -20,14 +20,13 @@ place.
 \examples{
 \dontrun{
 # Get response from API
-SetAPI("YOUR_API_KEY")
+apiSet("YOUR_API_KEY")
 resp <- apiCreateSession(origin = "SFO", destination = "LHR", startDate = "2019-07-01")
 resp <- apiPollSession(resp)
 
 # Connect to SQLite database
-con <- dbCreateDB(dbname = "flight.db")
+con <- dbCreateDB(dbname = ":memory:")
 dbSaveData(con, resp)
-unlink("flight.db")
 dbDisconnect(con)
 }
 }

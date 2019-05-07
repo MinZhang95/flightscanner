@@ -14,8 +14,11 @@
 #' Convert missing arguments to NULL.
 #'
 #' @param x Argument.
-#'
 #' @return Converted argument.
+#' 
+#' @examples
+#' flightscanner:::Args2Null("character")
+#' flightscanner:::Args2Null(NA)
 Args2Null <- function(x) {
   if (is.na(x)) NULL else x
 }
@@ -53,7 +56,7 @@ cron_create <- function(origin, destination, startDate, returnDate = NULL, path 
   
   f <- system.file(package = "flightscanner", "extdata", "script.R")
   tag <- paste(args_flight, collapse = "_")
-  name_log <- paste0("script_", id, ".log")
+  name_log <- paste0("script_", tag, ".log")
   
   cmd <- cronR::cron_rscript(f, rscript_log = file.path(path, name_log),
                              rscript_args = c(paste0("'", path, "'"), args_flight))

@@ -15,3 +15,6 @@ A character vector contains host, key, and type.
 \description{
 Make headers to a request.
 }
+\examples{
+flightscanner:::apiMakeHeader("YOUR_API_KEY")
+}

@@ -21,6 +21,6 @@ check if it falls in specified time range.
 }
 \examples{
 x <- lubridate::ymd_hms("2019-01-02 07:30:00")
-BetweenTime(x, c("7:30", "8:00"))
-BetweenTime(x, c("6:00", "7:29"))
+flightscanner:::BetweenTime(x, c("7:30", "8:00"))
+flightscanner:::BetweenTime(x, c("6:00", "7:29"))
 }

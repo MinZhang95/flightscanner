@@ -16,7 +16,7 @@
 #'
 #' @examples
 #' \dontrun{
-#' SetAPI("YOUR_API_KEY")
+#' apiSet("YOUR_API_KEY")
 #' resp <- apiCreateSession(origin = "SFO", destination = "LHR", startDate = "2019-07-01")
 #' resp <- apiPollSession(resp)
 #' flightscanner:::GetPrice(resp)
@@ -48,7 +48,7 @@ GetPrice <- function(x) {
 #'
 #' @examples
 #' \dontrun{
-#' SetAPI("YOUR_API_KEY")
+#' apiSet("YOUR_API_KEY")
 #' resp <- apiCreateSession(origin = "SFO", destination = "LHR", startDate = "2019-07-01")
 #' resp <- apiPollSession(resp)
 #' flightscanner:::GetItineraries(resp)
@@ -88,7 +88,7 @@ GetItineraries <- function(x, price = FALSE) {
 #'
 #' @examples
 #' \dontrun{
-#' SetAPI("YOUR_API_KEY")
+#' apiSet("YOUR_API_KEY")
 #' resp <- apiCreateSession(origin = "SFO", destination = "LHR", startDate = "2019-07-01")
 #' resp <- apiPollSession(resp)
 #' flightscanner:::GetLegs(resp)
@@ -146,7 +146,7 @@ GetLegs <- function(x) {
 #'
 #' @examples
 #' \dontrun{
-#' SetAPI("YOUR_API_KEY")
+#' apiSet("YOUR_API_KEY")
 #' resp <- apiCreateSession(origin = "SFO", destination = "LHR", startDate = "2019-07-01")
 #' resp <- apiPollSession(resp)
 #' flightscanner:::GetSegments(resp)
@@ -185,7 +185,7 @@ GetSegments <- function(x) {
 #'
 #' @examples
 #' \dontrun{
-#' SetAPI("YOUR_API_KEY")
+#' apiSet("YOUR_API_KEY")
 #' resp <- apiCreateSession(origin = "SFO", destination = "LHR", startDate = "2019-07-01")
 #' resp <- apiPollSession(resp)
 #' flightscanner:::GetCarriers(resp)
@@ -216,7 +216,7 @@ GetCarriers <- function(x) {
 #'
 #' @examples
 #' \dontrun{
-#' SetAPI("YOUR_API_KEY")
+#' apiSet("YOUR_API_KEY")
 #' resp <- apiCreateSession(origin = "SFO", destination = "LHR", startDate = "2019-07-01")
 #' resp <- apiPollSession(resp)
 #' flightscanner:::GetAgents(resp)
@@ -247,7 +247,7 @@ GetAgents <- function(x) {
 #'
 #' @examples
 #' \dontrun{
-#' SetAPI("YOUR_API_KEY")
+#' apiSet("YOUR_API_KEY")
 #' resp <- apiCreateSession(origin = "SFO", destination = "LHR", startDate = "2019-07-01")
 #' resp <- apiPollSession(resp)
 #' flightscanner:::GetPlaces(resp)

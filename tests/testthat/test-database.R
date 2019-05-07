@@ -38,6 +38,9 @@ test_that("Function dbCreateDB doesn't work.", {
 test_that("Function dbSaveData doesn't work.", {
   con <- dbCreateDB(dbname = ":memory:")
   expect_error(dbSaveData(con, iris))
-  expect_invisible(suppressWarnings(dbSaveData(con, response)))
+  expect_invisible(suppressWarnings(dbSaveData(response, con)))
+  
+  # dbSaveData(resp, con)
+  # dbSaveData(flightGet(data), con)
   dbDisconnect(con)
 })

@@ -5,7 +5,7 @@
 #' @param x An object to get data from.
 #' @param ... Further arguments passed to methods.
 #'
-#' @return A list of tibble.
+#' @return A list of tibbles.
 #' @export
 #'
 #' @examples

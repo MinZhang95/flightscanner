@@ -179,39 +179,51 @@ dbCreateDB <- function(conn = RSQLite::SQLite(), dbname = "flight.db") {
 
 
 #' Save data to SQLite database.
-#' @description Get data from the request response object, and save data to the corresponding tables
-#' in the SQLite database. Tables includes: price, itinerary, leg, segment, carrier, agent, and
-#' place.
+#' @description Save data to the corresponding tables in the SQLite database. Tables includes:
+#' price, itinerary, leg, segment, carrier, agent, and place.
 #'
+#' @param x An object of data to be saved.
 #' @param conn A \code{\link[RSQLite:SQLiteConnection-class]{SQLiteConnection}} object, as returned
 #' by \code{\link[DBI:dbConnect]{dbConnect()}}.
-#' @param x A \code{\link[httr:response]{response()}} object.
+#' @param ... Further arguments passed to methods.
 #'
 #' @export
 #'
 #' @examples
 #' \dontrun{
-#' # Get response from API
+#' # Get data from API
 #' apiSet("YOUR_API_KEY")
 #' resp <- apiCreateSession(origin = "SFO", destination = "LHR", startDate = "2019-07-01")
 #' resp <- apiPollSession(resp)
+#' data <- flightGet(resp)
 #'
 #' # Connect to SQLite database
 #' con <- dbCreateDB(dbname = ":memory:")
-#' dbSaveData(con, resp)
+#' dbSaveData(resp, con)
+#' dbSaveData(data, con)
 #' dbDisconnect(con)
 #' }
-dbSaveData <- function(conn, x) {
-  if (!inherits(x, "response")) stop("x should be a response() object.")
-  data <- flightGet(x)
-  dbAppendTableNew(conn, "price", data$price)
-  dbAppendTableNew(conn, "itinerary", data$itineraries)
-  dbAppendTableNew(conn, "leg", data$legs)
-  dbAppendTableNew(conn, "segment", data$segments)
-  dbAppendTableNew(conn, "carrier", data$carriers)
-  dbAppendTableNew(conn, "agent", data$agents)
-  dbAppendTableNew(conn, "place", data$places)
+dbSaveData <- function(x, conn, ...) UseMethod("dbSaveData")
+
+
+#' @describeIn dbSaveData Save a list of data.frames in databse.
+#' @export
+dbSaveData.list <- function(x, conn, ...) {
+  dbAppendTableNew(conn, "price", x$price)
+  dbAppendTableNew(conn, "itinerary", x$itineraries)
+  dbAppendTableNew(conn, "leg", x$legs)
+  dbAppendTableNew(conn, "segment", x$segments)
+  dbAppendTableNew(conn, "carrier", x$carriers)
+  dbAppendTableNew(conn, "agent", x$agents)
+  dbAppendTableNew(conn, "place", x$places)
   invisible()
+}
+
+
+#' @describeIn dbSaveData Save data from the request response in databse. 
+#' @export
+dbSaveData.response <- function(x, conn, ...) {
+  dbSaveData.list(flightGet(x), conn = conn, ...)
 }
 
 

@@ -21,11 +21,15 @@ apiSet("3e85a0e43cmshac6dba6fde57066p1c1145jsn1e6f8c3d0e33")
 resp.get <- apiCreateSession(orig = "DSM", dest = "DTW",
                              startDate = "2019-06-01") %>%  # , returnDate = "2019-07-01"
   apiPollSession()
-dbSaveData(con, x = resp.get)
 
 # extract data
 data <- flightGet(resp.get)  # from API response
 data <- flightGet(con)  # from SQLite database
+
+# save data
+dbSaveData(resp.get, con)  # from API response
+dbSaveData(data, con)  # from list
+
 
 # check duplicate Id
 # Leg: could be replicated for round trip.

@@ -21,6 +21,6 @@ con <- dbCreateDB(dbname = file.path(args[1], "flight.db"))
 resp <- apiCreateSession(orig = args[2], dest = args[3], startDate = args[4],
                          returnDate = flightscanner:::Args2Null(args[5]))
 resp <- apiPollSession(resp)
-dbSaveData(con, x = resp)
+dbSaveData(resp, con)
 dbDisconnect(con)
 cat("\n\n")

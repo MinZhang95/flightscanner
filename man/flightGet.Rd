@@ -18,7 +18,7 @@ flightGet(x, ...)
 \item{...}{Further arguments passed to methods.}
 }
 \value{
-A list of tibble.
+A list of tibbles.
 }
 \description{
 Get flight data from source. Includes: price, itineraries, legs, segments, carriers,

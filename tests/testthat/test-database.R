@@ -1,5 +1,8 @@
 context("test-database")
 
+name <- load("resptest.rda")
+response <- get(name)
+
 test_that("Function ListUnpack doesn't work.", {
   expect_error(ListUnpack(2, mutate = TRUE))
   res1 <- ListUnpack(iris, mutate = TRUE)
@@ -36,5 +39,6 @@ test_that("Function dbCreateDB doesn't work.", {
 test_that("Function dbSaveData doesn't work.", {
   con <- dbCreateDB(dbname = ":memory:")
   expect_error(dbSaveData(con, iris))
+  expect_invisible(dbSaveData(con, response))
   dbDisconnect(con)
 })

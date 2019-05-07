@@ -5,7 +5,7 @@
 \title{Create a cron job.}
 \usage{
 cron_create(origin, destination, startDate, returnDate = NULL,
-  path = getwd(), frequency = c("daily", "hourly", "minutely"), at,
+  path = getwd(), frequency = c("daily", "hourly", "minutely"), at, id,
   ...)
 }
 \arguments{
@@ -24,6 +24,8 @@ cron_create(origin, destination, startDate, returnDate = NULL,
 
 \item{at}{The actual time of day at which to execute the command. When unspecified, we default to
 \code{"8PM"}, when the command is to be run less frequently than \code{"hourly"}.}
+
+\item{id}{An id, or name, to give to the cronjob task, for easier revision in the future.}
 
 \item{...}{Other arguments.}
 }

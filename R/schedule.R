@@ -1,14 +1,14 @@
-get_os <- function() {
-  if (.Platform$OS.type == "windows") { 
-    "win"
-  } else if (Sys.info()["sysname"] == "Darwin") {
-    "mac" 
-  } else if (.Platform$OS.type == "unix") { 
-    "unix"
-  } else {
-    stop("Unknown OS")
-  }
-}
+# get_os <- function() {
+#   if (.Platform$OS.type == "windows") { 
+#     "win"
+#   } else if (Sys.info()["sysname"] == "Darwin") {
+#     "mac" 
+#   } else if (.Platform$OS.type == "unix") { 
+#     "unix"
+#   } else {
+#     stop("Unknown OS")
+#   }
+# }
 
 
 #' Convert missing arguments to NULL.
@@ -34,6 +34,7 @@ Args2Null <- function(x) {
 #' \code{"daily"}.
 #' @param at The actual time of day at which to execute the command. When unspecified, we default to
 #' \code{"8PM"}, when the command is to be run less frequently than \code{"hourly"}.
+#' @param id An id, or name, to give to the cronjob task, for easier revision in the future.
 #' @param ... Other arguments.
 #'
 #' @export
@@ -45,22 +46,32 @@ Args2Null <- function(x) {
 #' cron_create("SFO", "LHR", "2019-07-01", frequency = "minutely")
 #' }
 cron_create <- function(origin, destination, startDate, returnDate = NULL, path = getwd(),
-                      frequency = c("daily", "hourly", "minutely"), at, ...) {
+                      frequency = c("daily", "hourly", "minutely"), at, id, ...) {
   frequency <- match.arg(frequency)
   args_flight <- c(origin, destination, startDate, returnDate)
   path <- tools::file_path_as_absolute(path)
   
   f <- system.file(package = "flightscanner", "extdata", "script.R")
-  id <- paste(args_flight, collapse = "_")
+  tag <- paste(args_flight, collapse = "_")
   name_log <- paste0("script_", id, ".log")
   
   cmd <- cronR::cron_rscript(f, rscript_log = file.path(path, name_log),
                              rscript_args = c(paste0("'", path, "'"), args_flight))
   
-  args_cron <- list(command = cmd, frequency = frequency, id = id, description = "Flights")
+  args_cron <- list(command = cmd, frequency = frequency, tag = tag, description = "Flights")
   if (frequency == "daily") args_cron[["at"]] <- if (missing(at)) "8PM" else at
+  if (!missing(id)) args_cron[["id"]] <- id
   do.call(cronR::cron_add, args_cron)
 }
+
+
+#' Remove a cronjob.
+#' @description See \code{cronR::\link[cronR]{cron_rm}} for details.
+#'
+#' @name cron_rm
+#' @export
+#' @importFrom cronR cron_rm
+NULL
 
 
 #' Clear all cron jobs.

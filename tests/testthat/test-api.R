@@ -19,7 +19,6 @@ test_that("Function PollSession doesn't work.", {
 })
 
 test_that("Function BrowseFlight doesn't work.", {
-  #expect_error(apiBrowseFlight("quote", "DSM", "DTW", "2019-06-10", returnDate = NULL))
   expect_error(apiBrowseFlight("quotes", 233, "DTW", "2019-06-01", returnDate = NULL))
   expect_error(apiBrowseFlight("quotes", "DSM", "DTW", "2019-06-10", returnDate = "2019-06-01"))
   resp <- apiBrowseFlight("quotes", "DSM", "DTW", "2019-06-01", returnDate = NULL)

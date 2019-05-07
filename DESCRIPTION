@@ -29,7 +29,7 @@ Imports:
     cronR,
     checkmate
 Suggests: 
-    testthat,
+    testthat (>= 2.1.0),
     covr
 URL: https://github.com/MinZhang95/flightscanner
 BugReports: https://github.com/MinZhang95/flightscanner/issues

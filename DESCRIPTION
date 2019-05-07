@@ -8,8 +8,7 @@ Authors@R: c(
     person("Yang", "Qiao", email = "yourself@somewhere.net", role = "aut"),
     person("Xin", "Zhang", email = "yourself@somewhere.net", role = "aut"),
     person("Zerui", "Zhang", email = "yourself@somewhere.net", role = "aut"))
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
+Description: Scrape and save flight information from Skyscanner using Rapid API.
 License: GPL-3
 Encoding: UTF-8
 LazyData: true

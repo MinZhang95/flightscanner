@@ -19,8 +19,8 @@ devtools::document()
 pkgdown::build_site()
 
 # ----------------------------------------------------------------------------
-apiSet("3e85a0e43cmshac6dba6fde57066p1c1145jsn1e6f8c3d0e33")
-# getOption("APIkey")
+apiSetKey("3e85a0e43cmshac6dba6fde57066p1c1145jsn1e6f8c3d0e33")
+apiGetKey()
 
 ### Create session - Live Flight Search
 resp.post <- apiCreateSession(orig = "SEA", dest = "PVG", startDate = "2019-06-15")

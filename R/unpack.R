@@ -1,25 +1,26 @@
 #' Extract price information from request response.
 #' @description Extract information from request response of live flight search endpoint.
-#' Information includes the SearchTime, ItineraryId (OutboundLegId, InboundLegId), and
-#' PricingOptions.
-#'
-#' PricingOptions contains the AgentId, Price, and LinkURL.
+#' @describeIn GetPrice Includes the SearchTime, ItineraryId (OutboundLegId, InboundLegId), and
+#' PricingOptions. PricingOptions includes the AgentId, Price, and LinkURL.
 #'
 #' @param x A request object.
+#' @param price If \code{TRUE}, also includes PricingOptions information.
 #'
 #' @return A tibble.
-#' @import dplyr
-#'
-#' @seealso \code{\link{GetPrice}}, \code{\link{GetItineraries}}, \code{\link{GetLegs}},
-#' \code{\link{GetSegments}}, \code{\link{GetCarriers}}, \code{\link{GetAgents}},
-#' \code{\link{GetPlaces}}.
+#' @import dplyr purrr
 #'
 #' @examples
 #' \dontrun{
-#' apiSet("YOUR_API_KEY")
+#' apiSetKey("YOUR_API_KEY")
 #' resp <- apiCreateSession(origin = "SFO", destination = "LHR", startDate = "2019-07-01")
 #' resp <- apiPollSession(resp)
 #' flightscanner:::GetPrice(resp)
+#' flightscanner:::GetItineraries(resp)
+#' flightscanner:::GetLegs(resp)
+#' flightscanner:::GetSegments(resp)
+#' flightscanner:::GetCarriers(resp)
+#' flightscanner:::GetAgents(resp)
+#' flightscanner:::GetPlaces(resp)
 #' }
 GetPrice <- function(x) {
   if (!inherits(x, "response")) stop("x should be a response() object.")
@@ -32,27 +33,7 @@ GetPrice <- function(x) {
 }
 
 
-#' Extract itinerary information from request response.
-#' @description Extract information from request response of live flight search endpoint.
-#' Information includes the ItineraryId (OutboundLegId, InboundLegId).
-#'
-#' @param x A request object.
-#' @param price If \code{TRUE}, also includes PricingOptions information.
-#'
-#' @return A tibble.
-#' @import dplyr purrr
-#' 
-#' @seealso \code{\link{GetPrice}}, \code{\link{GetItineraries}}, \code{\link{GetLegs}},
-#' \code{\link{GetSegments}}, \code{\link{GetCarriers}}, \code{\link{GetAgents}},
-#' \code{\link{GetPlaces}}.
-#'
-#' @examples
-#' \dontrun{
-#' apiSet("YOUR_API_KEY")
-#' resp <- apiCreateSession(origin = "SFO", destination = "LHR", startDate = "2019-07-01")
-#' resp <- apiPollSession(resp)
-#' flightscanner:::GetItineraries(resp)
-#' }
+#' @describeIn GetPrice Includes the ItineraryId (OutboundLegId, InboundLegId).
 GetItineraries <- function(x, price = FALSE) {
   if (!inherits(x, "response")) stop("x should be a response() object.")
   
@@ -70,29 +51,8 @@ GetItineraries <- function(x, price = FALSE) {
 }
 
 
-#' Extract leg information from request response.
-#' @description Extract information from request response of live flight search endpoint.
-#' Information includes the LegId, SegmentIds, OriginId, DestinationId, DepartureTime, ArrivalTime,
-#' Duration, No.Stops, and Stops.
-#'
-#' Stops contains the StopId, and Layover.
-#'
-#' @param x A request object.
-#'
-#' @return A tibble.
-#' @import dplyr purrr
-#' 
-#' @seealso \code{\link{GetPrice}}, \code{\link{GetItineraries}}, \code{\link{GetLegs}},
-#' \code{\link{GetSegments}}, \code{\link{GetCarriers}}, \code{\link{GetAgents}},
-#' \code{\link{GetPlaces}}.
-#'
-#' @examples
-#' \dontrun{
-#' apiSet("YOUR_API_KEY")
-#' resp <- apiCreateSession(origin = "SFO", destination = "LHR", startDate = "2019-07-01")
-#' resp <- apiPollSession(resp)
-#' flightscanner:::GetLegs(resp)
-#' }
+#' @describeIn GetPrice Includes the LegId, SegmentIds, OriginId, DestinationId, DepartureTime,
+#' ArrivalTime, Duration, No.Stops, and Stops. Stops includes the StopId, and Layover.
 GetLegs <- function(x) {
   if (!inherits(x, "response")) stop("x should be a response() object.")
   
@@ -130,27 +90,8 @@ GetLegs <- function(x) {
 }
 
 
-#' Extract segment information from request response.
-#' @description Extract information from request response of live flight search endpoint.
-#' Information includes the SegmentId, OriginId, DestinationId, DepartureTime, ArrivalTime,
+#' @describeIn GetPrice Includes the SegmentId, OriginId, DestinationId, DepartureTime, ArrivalTime,
 #' Duration, CarrierId, OperatingCarrierId, and FlightNumber.
-#'
-#' @param x A request object.
-#'
-#' @return A tibble.
-#' @import dplyr purrr
-#' 
-#' @seealso \code{\link{GetPrice}}, \code{\link{GetItineraries}}, \code{\link{GetLegs}},
-#' \code{\link{GetSegments}}, \code{\link{GetCarriers}}, \code{\link{GetAgents}},
-#' \code{\link{GetPlaces}}.
-#'
-#' @examples
-#' \dontrun{
-#' apiSet("YOUR_API_KEY")
-#' resp <- apiCreateSession(origin = "SFO", destination = "LHR", startDate = "2019-07-01")
-#' resp <- apiPollSession(resp)
-#' flightscanner:::GetSegments(resp)
-#' }
 GetSegments <- function(x) {
   if (!inherits(x, "response")) stop("x should be a response() object.")
   
@@ -170,26 +111,7 @@ GetSegments <- function(x) {
 }
 
 
-#' Extract carrier information from request response.
-#' @description Extract information from request response of live flight search endpoint.
-#' Information includes the CarrierId, Code, Name, and ImageURL.
-#'
-#' @param x A request object.
-#'
-#' @return A tibble.
-#' @import dplyr purrr
-#' 
-#' @seealso \code{\link{GetPrice}}, \code{\link{GetItineraries}}, \code{\link{GetLegs}},
-#' \code{\link{GetSegments}}, \code{\link{GetCarriers}}, \code{\link{GetAgents}},
-#' \code{\link{GetPlaces}}.
-#'
-#' @examples
-#' \dontrun{
-#' apiSet("YOUR_API_KEY")
-#' resp <- apiCreateSession(origin = "SFO", destination = "LHR", startDate = "2019-07-01")
-#' resp <- apiPollSession(resp)
-#' flightscanner:::GetCarriers(resp)
-#' }
+#' @describeIn GetPrice Includes the CarrierId, Code, Name, and ImageURL.
 GetCarriers <- function(x) {
   if (!inherits(x, "response")) stop("x should be a response() object.")
   
@@ -201,26 +123,7 @@ GetCarriers <- function(x) {
 }
 
 
-#' Extract agent information from request response.
-#' @description Extract information from request response of live flight search endpoint.
-#' Information includes the AgentId, Name, ImageURL, and Type.
-#'
-#' @param x A request object.
-#'
-#' @return A tibble.
-#' @import dplyr purrr
-#' 
-#' @seealso \code{\link{GetPrice}}, \code{\link{GetItineraries}}, \code{\link{GetLegs}},
-#' \code{\link{GetSegments}}, \code{\link{GetCarriers}}, \code{\link{GetAgents}},
-#' \code{\link{GetPlaces}}.
-#'
-#' @examples
-#' \dontrun{
-#' apiSet("YOUR_API_KEY")
-#' resp <- apiCreateSession(origin = "SFO", destination = "LHR", startDate = "2019-07-01")
-#' resp <- apiPollSession(resp)
-#' flightscanner:::GetAgents(resp)
-#' }
+#' @describeIn GetPrice Includes the AgentId, Name, ImageURL, and Type.
 GetAgents <- function(x) {
   if (!inherits(x, "response")) stop("x should be a response() object.")
   
@@ -232,26 +135,7 @@ GetAgents <- function(x) {
 }
 
 
-#' Extract place information from request response.
-#' @description Extract information from request response of live flight search endpoint.
-#' Information includes the PlaceId, ParentId, Code, Type and Name.
-#'
-#' @param x A request object.
-#'
-#' @return A tibble.
-#' @import dplyr purrr
-#' 
-#' @seealso \code{\link{GetPrice}}, \code{\link{GetItineraries}}, \code{\link{GetLegs}},
-#' \code{\link{GetSegments}}, \code{\link{GetCarriers}}, \code{\link{GetAgents}},
-#' \code{\link{GetPlaces}}.
-#'
-#' @examples
-#' \dontrun{
-#' apiSet("YOUR_API_KEY")
-#' resp <- apiCreateSession(origin = "SFO", destination = "LHR", startDate = "2019-07-01")
-#' resp <- apiPollSession(resp)
-#' flightscanner:::GetPlaces(resp)
-#' }
+#' @describeIn GetPrice Includes the PlaceId, ParentId, Code, Type and Name.
 GetPlaces <- function(x) {
   if (!inherits(x, "response")) stop("x should be a response() object.")
   

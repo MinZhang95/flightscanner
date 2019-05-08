@@ -5,7 +5,7 @@
 \title{Create a cron job.}
 \usage{
 cron_create(origin, destination, startDate, returnDate = NULL,
-  path = getwd(), frequency = c("daily", "hourly", "minutely"), at, id,
+  key = apiGetKey(), path = getwd(), frequency = "daily", at, id,
   ...)
 }
 \arguments{
@@ -17,10 +17,13 @@ cron_create(origin, destination, startDate, returnDate = NULL,
 
 \item{returnDate}{The return date. Format 'yyyy-mm-dd'. Use NULL for oneway trip.}
 
+\item{key}{API key. Default using the key in global options, see \code{\link{apiSetKey}}.}
+
 \item{path}{Where to put the log, defaults is the current working directory.}
 
-\item{frequency}{A character string equal to one of \code{"minutely"}, \code{"hourly"}, or
-\code{"daily"}.}
+\item{frequency}{A character string equal to one of \code{"minutely"}, \code{"hourly"},
+\code{"daily"}, \code{"monthly"}, or \code{"yearly"}. Or any complex cron schedule.
+.}
 
 \item{at}{The actual time of day at which to execute the command. When unspecified, we default to
 \code{"8PM"}, when the command is to be run less frequently than \code{"hourly"}.}
@@ -35,8 +38,10 @@ and save them to a local SQLite database file.
 }
 \examples{
 \dontrun{
+apiSetKey("YOUR_API_KEY")
 cron_create("SFO", "LHR", "2019-07-01", frequency = "daily", at = "3AM")
 cron_create("SFO", "LHR", "2019-07-01", frequency = "hourly")
 cron_create("SFO", "LHR", "2019-07-01", frequency = "minutely")
+cron_create("SFO", "LHR", "2019-07-01", frequency = "0 */2 * * *")  # every 2 hours
 }
 }

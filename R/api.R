@@ -1,5 +1,5 @@
-#' Set API key.
-#' @description Set API key globally. See
+#' API key.
+#' @description Set or get API key in global options. To get the key, see
 #' \url{https://rapidapi.com/skyscanner/api/skyscanner-flight-search}.
 #'
 #' @param key API key.
@@ -7,10 +7,19 @@
 #'
 #' @examples
 #' \dontrun{
-#' apiSet("YOUR_API_KEY")
+#' apiSetKey("YOUR_API_KEY")
+#' apiGetKey()
 #' }
-apiSet <- function(key) {
+apiSetKey <- function(key) {
   options(APIkey = key)
+}
+
+
+#' @rdname apiSetKey
+#' @return \code{apiGetKey} will return the key if it has been set, otherwise \code{NULL}.
+#' @export
+apiGetKey <- function() {
+  getOption("APIkey")
 }
 
 
@@ -20,8 +29,8 @@ apiCheckKey <- function() {
   website <- "https://rapidapi.com/skyscanner/api/skyscanner-flight-search"
   filename <- "APIkey.txt"
   
-  if (!is.null(getOption("APIkey"))) {
-    key <- getOption("APIkey")
+  if (!is.null(apiGetKey())) {
+    key <- apiGetKey()
   } else if (file.exists(filename)) {
     key <- tryCatch(utils::read.table(filename, stringsAsFactors = FALSE),
                     warning = function(w) {}, error = function(e) {})[1, 1]
@@ -40,11 +49,11 @@ apiCheckKey <- function() {
   resp <- GET(url, add_headers(header))
   
   if (suppressWarnings(apiCheckStatus(resp))) {
-    apiSet(key)
+    apiSetKey(key)
     utils::write.table(key, filename, quote = FALSE, row.names = FALSE, col.names = FALSE)
     if (interactive()) cat("Welcome to FlightScanner!\n")
   } else if (interactive()) {
-    cat("Check your API key or network connection. And use function `apiSet` to set your key later.\n")
+    cat("Check your key or network connection. And use function `apiSetKey` to set key later.\n")
   }
 }
 
@@ -56,7 +65,7 @@ apiCheckKey <- function() {
 #' flightscanner:::apiMakeHeader("YOUR_API_KEY")
 apiMakeHeader <- function(key) {
   c("X-RapidAPI-Host" = "skyscanner-skyscanner-flight-search-v1.p.rapidapi.com",
-    "X-RapidAPI-Key" = if (missing(key)) getOption("APIkey") else key,
+    "X-RapidAPI-Key" = if (missing(key)) apiGetKey() else key,
     "Content-Type" = "application/x-www-form-urlencoded")
 }
 
@@ -82,7 +91,7 @@ apiCheckStatus <- function(x) {
 
 #' Create session of live flight search.
 #' @description Returns live prices from all our suppliers for the requested flight itinerary. This
-#' function is POST step. Make sure you have set API using \code{\link{apiSet}} before.
+#' function is POST step. Make sure you have set API using \code{\link{apiSetKey}} before.
 #'
 #' See \url{https://rapidapi.com/skyscanner/api/skyscanner-flight-search}.
 #'
@@ -112,7 +121,7 @@ apiCheckStatus <- function(x) {
 #'
 #' @examples
 #' \dontrun{
-#' apiSet("YOUR_API_KEY")
+#' apiSetKey("YOUR_API_KEY")
 #' apiCreateSession(origin = "SFO", destination = "LHR", startDate = "2019-07-01")
 #' }
 apiCreateSession <- function(origin, destination, startDate, returnDate = NULL,
@@ -157,7 +166,7 @@ apiCreateSession <- function(origin, destination, startDate, returnDate = NULL,
 
 #' Poll session of live flight search.
 #' @description Returns live prices from all our suppliers for the requested flight itinerary. This
-#' function is GET step. Make sure you have set API using \code{\link{apiSet}} before.
+#' function is GET step. Make sure you have set API using \code{\link{apiSetKey}} before.
 #'
 #' See \url{https://rapidapi.com/skyscanner/api/skyscanner-flight-search}.
 #'
@@ -208,7 +217,7 @@ apiCreateSession <- function(origin, destination, startDate, returnDate = NULL,
 #'
 #' @examples
 #' \dontrun{
-#' apiSet("YOUR_API_KEY")
+#' apiSetKey("YOUR_API_KEY")
 #' resp <- apiCreateSession(origin = "SFO", destination = "LHR", startDate = "2019-07-01")
 #' apiPollSession(resp)
 #' }
@@ -266,21 +275,21 @@ apiPollSession <- function(response, sortType = c("price", "duration", "carrier"
 #' Browse flight prices from the skyscanner cache.
 #' @description Gets you information about flights from the skyscanner cache. It might be slightly
 #' outdated in comparison to live search, but more detailed and immediate. Make sure you have set
-#' API using \code{\link{apiSet}} before.
+#' API using \code{\link{apiSetKey}} before.
 #'
 #' See \url{https://rapidapi.com/skyscanner/api/skyscanner-flight-search}.
 #'
 #' @details The \code{endpoint} argument:
 #' \describe{
-#'   \item{\code{'quotes'}}{
+#'   \item{\code{"quotes"}}{
 #'   Returns the cheapest quotes that meet your query. The prices come from our cached prices
 #'   resulting from our users' searches.
 #'   }
-#'   \item{\code{'routes'}}{
+#'   \item{\code{"routes"}}{
 #'   Similar to Browse Quotes but with the quotes grouped by routes. This provides the cheapest
 #'   destinations (countries, cities or airports) from our cached data.
 #'   }
-#'   \item{\code{'dates'}}{
+#'   \item{\code{"dates"}}{
 #'   Similar to Browse Quotes but with the quotes grouped by outbound and inbound date. Useful to
 #'   find the lowest price for a given route, over either a month or a 12 month period.
 #'   }
@@ -303,7 +312,7 @@ apiPollSession <- function(response, sortType = c("price", "duration", "carrier"
 #'
 #' @examples
 #' \dontrun{
-#' apiSet("YOUR_API_KEY")
+#' apiSetKey("YOUR_API_KEY")
 #' apiBrowseFlight("quotes", origin = "SFO", destination = "LHR", startDate = "2019-07-01")
 #' apiBrowseFlight("routes", origin = "SFO", destination = "LHR", startDate = "2019-07-01")
 #' apiBrowseFlight("dates", origin = "SFO", destination = "LHR", startDate = "2019-07-01")

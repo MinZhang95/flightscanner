@@ -17,10 +17,10 @@ dbListTables(con)
 sapply(dbListTables(con), DBI::dbRemoveTable, conn = con)
 
 # write data into database
-apiSet("3e85a0e43cmshac6dba6fde57066p1c1145jsn1e6f8c3d0e33")
-resp.get <- apiCreateSession(orig = "DSM", dest = "DTW",
-                             startDate = "2019-06-01") %>%  # , returnDate = "2019-07-01"
-  apiPollSession()
+apiSetKey("3e85a0e43cmshac6dba6fde57066p1c1145jsn1e6f8c3d0e33")
+resp.get <- apiCreateSession(orig = "DSM", dest = "DTW", startDate = "2019-06-01",
+                             # returnDate = "2019-07-01"
+                             ) %>% apiPollSession()
 
 # extract data
 data <- flightGet(resp.get)  # from API response

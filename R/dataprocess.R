@@ -11,7 +11,7 @@
 #' @examples
 #' \dontrun{
 #' # Get data from API
-#' apiSet("YOUR_API_KEY")
+#' apiSetKey("YOUR_API_KEY")
 #' resp <- apiCreateSession(origin = "SFO", destination = "LHR", startDate = "2019-07-01")
 #' resp <- apiPollSession(resp)
 #' flightGet(resp)
@@ -122,7 +122,7 @@ CheckDuplicateRow <- function(.data, .vars) {
 #'
 #' @examples
 #' \dontrun{
-#' apiSet("skyscanner-skyscanner-flight-search-v1.p.rapidapi.com", "YOUR_API_KEY")
+#' apiSetKey("skyscanner-skyscanner-flight-search-v1.p.rapidapi.com", "YOUR_API_KEY")
 #' resp <- apiCreateSession(origin = "SFO", destination = "LHR",
 #'                          startDate = "2019-07-01", returnDate = "2019-07-10")
 #' resp <- apiPollSession(resp)
@@ -149,8 +149,8 @@ flightFilter <- function(x, max_price = Inf, max_duration = Inf,
   checkmate::assert_vector(in_arrival, len = 2)
   
   f <- function(x) {
-    if (is.numeric(x)) {
-      x <- format(as.POSIXct(60 * x, origin = "1970-01-01", tz = "UTC"), "%H:%M")
+    if (is.numeric(x)) {  # if x is in unit of minutes
+      x <- format(lubridate::ymd("1970-01-01") + lubridate::minutes(x), "%H:%M")
       if (x[2] == "00:00") x[2] <- "24:00"
     }
     x

@@ -33,22 +33,22 @@ A \code{\link[httr:response]{response()}} object of request.
 \description{
 Gets you information about flights from the skyscanner cache. It might be slightly
 outdated in comparison to live search, but more detailed and immediate. Make sure you have set
-API using \code{\link{apiSet}} before.
+API using \code{\link{apiSetKey}} before.
 
 See \url{https://rapidapi.com/skyscanner/api/skyscanner-flight-search}.
 }
 \details{
 The \code{endpoint} argument:
 \describe{
-  \item{\code{'quotes'}}{
+  \item{\code{"quotes"}}{
   Returns the cheapest quotes that meet your query. The prices come from our cached prices
   resulting from our users' searches.
   }
-  \item{\code{'routes'}}{
+  \item{\code{"routes"}}{
   Similar to Browse Quotes but with the quotes grouped by routes. This provides the cheapest
   destinations (countries, cities or airports) from our cached data.
   }
-  \item{\code{'dates'}}{
+  \item{\code{"dates"}}{
   Similar to Browse Quotes but with the quotes grouped by outbound and inbound date. Useful to
   find the lowest price for a given route, over either a month or a 12 month period.
   }
@@ -56,7 +56,7 @@ The \code{endpoint} argument:
 }
 \examples{
 \dontrun{
-apiSet("YOUR_API_KEY")
+apiSetKey("YOUR_API_KEY")
 apiBrowseFlight("quotes", origin = "SFO", destination = "LHR", startDate = "2019-07-01")
 apiBrowseFlight("routes", origin = "SFO", destination = "LHR", startDate = "2019-07-01")
 apiBrowseFlight("dates", origin = "SFO", destination = "LHR", startDate = "2019-07-01")

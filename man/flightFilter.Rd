@@ -44,7 +44,7 @@ Choose flight itineraries that match the filter conditions.
 }
 \examples{
 \dontrun{
-apiSet("skyscanner-skyscanner-flight-search-v1.p.rapidapi.com", "YOUR_API_KEY")
+apiSetKey("skyscanner-skyscanner-flight-search-v1.p.rapidapi.com", "YOUR_API_KEY")
 resp <- apiCreateSession(origin = "SFO", destination = "LHR",
                          startDate = "2019-07-01", returnDate = "2019-07-10")
 resp <- apiPollSession(resp)

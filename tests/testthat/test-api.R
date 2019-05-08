@@ -1,10 +1,10 @@
 context("test-api")
 
-apiSet("fefb4945e2msh1d70bbb54d6ef9bp1901acjsn9d9be332a30e")
+apiSetKey("fefb4945e2msh1d70bbb54d6ef9bp1901acjsn9d9be332a30e")
 
 test_that("Function apiCheckKey doesn't work.", {
   expect_silent(apiCheckKey())
-  options(APIkey = NULL)
+  apiSetKey(NULL)
   expect_silent(apiCheckKey())
 })
 

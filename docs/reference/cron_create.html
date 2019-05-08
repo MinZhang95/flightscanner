@@ -113,7 +113,7 @@ and save them to a local SQLite database file.</p>
     </div>
 
     <pre class="usage"><span class='fu'>cron_create</span>(<span class='no'>origin</span>, <span class='no'>destination</span>, <span class='no'>startDate</span>, <span class='kw'>returnDate</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>path</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/getwd'>getwd</a></span>(), <span class='kw'>frequency</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"daily"</span>, <span class='st'>"hourly"</span>, <span class='st'>"minutely"</span>), <span class='no'>at</span>, <span class='no'>id</span>,
+  <span class='kw'>key</span> <span class='kw'>=</span> <span class='fu'><a href='apiSetKey.html'>apiGetKey</a></span>(), <span class='kw'>path</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/getwd'>getwd</a></span>(), <span class='kw'>frequency</span> <span class='kw'>=</span> <span class='st'>"daily"</span>, <span class='no'>at</span>, <span class='no'>id</span>,
   <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -136,13 +136,18 @@ and save them to a local SQLite database file.</p>
       <td><p>The return date. Format 'yyyy-mm-dd'. Use NULL for oneway trip.</p></td>
     </tr>
     <tr>
+      <th>key</th>
+      <td><p>API key. Default using the key in global options, see <code><a href='apiSetKey.html'>apiSetKey</a></code>.</p></td>
+    </tr>
+    <tr>
       <th>path</th>
       <td><p>Where to put the log, defaults is the current working directory.</p></td>
     </tr>
     <tr>
       <th>frequency</th>
-      <td><p>A character string equal to one of <code>"minutely"</code>, <code>"hourly"</code>, or
-<code>"daily"</code>.</p></td>
+      <td><p>A character string equal to one of <code>"minutely"</code>, <code>"hourly"</code>,
+<code>"daily"</code>, <code>"monthly"</code>, or <code>"yearly"</code>. Or any complex cron schedule.
+.</p></td>
     </tr>
     <tr>
       <th>at</th>
@@ -162,9 +167,11 @@ and save them to a local SQLite database file.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><span class='co'># NOT RUN {</span>
+<span class='fu'><a href='apiSetKey.html'>apiSetKey</a></span>(<span class='st'>"YOUR_API_KEY"</span>)
 <span class='fu'>cron_create</span>(<span class='st'>"SFO"</span>, <span class='st'>"LHR"</span>, <span class='st'>"2019-07-01"</span>, <span class='kw'>frequency</span> <span class='kw'>=</span> <span class='st'>"daily"</span>, <span class='kw'>at</span> <span class='kw'>=</span> <span class='st'>"3AM"</span>)
 <span class='fu'>cron_create</span>(<span class='st'>"SFO"</span>, <span class='st'>"LHR"</span>, <span class='st'>"2019-07-01"</span>, <span class='kw'>frequency</span> <span class='kw'>=</span> <span class='st'>"hourly"</span>)
 <span class='fu'>cron_create</span>(<span class='st'>"SFO"</span>, <span class='st'>"LHR"</span>, <span class='st'>"2019-07-01"</span>, <span class='kw'>frequency</span> <span class='kw'>=</span> <span class='st'>"minutely"</span>)
+<span class='fu'>cron_create</span>(<span class='st'>"SFO"</span>, <span class='st'>"LHR"</span>, <span class='st'>"2019-07-01"</span>, <span class='kw'>frequency</span> <span class='kw'>=</span> <span class='st'>"0 */2 * * *"</span>)  <span class='co'># every 2 hours</span>
 <span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

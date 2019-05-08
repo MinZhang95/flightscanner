@@ -2,33 +2,70 @@
 % Please edit documentation in R/unpack.R
 \name{GetPrice}
 \alias{GetPrice}
+\alias{GetItineraries}
+\alias{GetLegs}
+\alias{GetSegments}
+\alias{GetCarriers}
+\alias{GetAgents}
+\alias{GetPlaces}
 \title{Extract price information from request response.}
 \usage{
 GetPrice(x)
+
+GetItineraries(x, price = FALSE)
+
+GetLegs(x)
+
+GetSegments(x)
+
+GetCarriers(x)
+
+GetAgents(x)
+
+GetPlaces(x)
 }
 \arguments{
 \item{x}{A request object.}
+
+\item{price}{If \code{TRUE}, also includes PricingOptions information.}
 }
 \value{
 A tibble.
 }
 \description{
 Extract information from request response of live flight search endpoint.
-Information includes the SearchTime, ItineraryId (OutboundLegId, InboundLegId), and
-PricingOptions.
-
-PricingOptions contains the AgentId, Price, and LinkURL.
 }
+\section{Functions}{
+\itemize{
+\item \code{GetPrice}: Includes the SearchTime, ItineraryId (OutboundLegId, InboundLegId), and
+PricingOptions. PricingOptions includes the AgentId, Price, and LinkURL.
+
+\item \code{GetItineraries}: Includes the ItineraryId (OutboundLegId, InboundLegId).
+
+\item \code{GetLegs}: Includes the LegId, SegmentIds, OriginId, DestinationId, DepartureTime,
+ArrivalTime, Duration, No.Stops, and Stops. Stops includes the StopId, and Layover.
+
+\item \code{GetSegments}: Includes the SegmentId, OriginId, DestinationId, DepartureTime, ArrivalTime,
+Duration, CarrierId, OperatingCarrierId, and FlightNumber.
+
+\item \code{GetCarriers}: Includes the CarrierId, Code, Name, and ImageURL.
+
+\item \code{GetAgents}: Includes the AgentId, Name, ImageURL, and Type.
+
+\item \code{GetPlaces}: Includes the PlaceId, ParentId, Code, Type and Name.
+}}
+
 \examples{
 \dontrun{
-apiSet("YOUR_API_KEY")
+apiSetKey("YOUR_API_KEY")
 resp <- apiCreateSession(origin = "SFO", destination = "LHR", startDate = "2019-07-01")
 resp <- apiPollSession(resp)
 flightscanner:::GetPrice(resp)
+flightscanner:::GetItineraries(resp)
+flightscanner:::GetLegs(resp)
+flightscanner:::GetSegments(resp)
+flightscanner:::GetCarriers(resp)
+flightscanner:::GetAgents(resp)
+flightscanner:::GetPlaces(resp)
 }
-}
-\seealso{
-\code{\link{GetPrice}}, \code{\link{GetItineraries}}, \code{\link{GetLegs}},
-\code{\link{GetSegments}}, \code{\link{GetCarriers}}, \code{\link{GetAgents}},
-\code{\link{GetPlaces}}.
 }

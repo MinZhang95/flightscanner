@@ -10,7 +10,7 @@ vignette: >
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
-# Introduction
+## Introduction
 
 (a paragraph to introduce the motivation and what we want to do,)
 
@@ -20,11 +20,12 @@ Finding the cheapest flight from point A to point B can be a headache for most o
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
-  comment = "#>"
+  comment = "#>",
+  fig.align = "center"
 )
 ```
 
-# Getting Started
+## Getting Started
 
 (introdue how to install our package and the api our package based on)
 
@@ -34,19 +35,59 @@ library(flightscanner)
 
 (introduce the dataset Airport in our package and show some plots and tables)
 
-## Setup function 1: keychecking.R
+### Setup step 1: keychecking.R
 
-## Setup function 1: setAPI.R
+To explore the features of our package, the API key is necessary. After attaching Flightscanner, the following function will be triggered if the API key is not provided. 
+```r
+flightscanner::apiCheckKey()
+```
 
-# Main Functions
+This function is based on the R function "onAttach". Thus, it will be called with
+```r
+library(flightscanner)
+```
+but not run with
+```r
+flightscanner::some_function
+```
 
-## Download data with API
+Two questions will be posted for users to easily setup the API:
+```r
+API key is required!
+Please follow the instructions to get the key:
+1. Browse and login:  https://rapidapi.com/skyscanner/api/skyscanner-flight-search 
+   Do you want to visit this website (1 for YES; 0 for NO)?
+   
+2. Copy the value of X-RapidAPI-Key in Header Parameters.
+   Paste your key (without quote):
+   
+```
+If the users enter "1" for the first question, the webpage of Rapid API will be opened and users can find the API key in the right panel(See the below figure); then users can paste the key for the second question and the API option will be automatically setup. 
 
-## Data Storage
+```{r, out.width='100%', echo=FALSE, eval=TRUE}
+knitr::include_graphics('APIwebpage.JPG')
+```
 
-## Data Processing 
+Some messages will be posted to show whether the API setup is successful or not. If the key is invalid or the network is unconnected, it will show that
+```r
+Check your key or network connection. And use function `apiSetKey` to set key later.
+```
+If it successed, the welcome message will be shown and the API key will be stored into "API_key.txt" under the current working directory:
+```r
+Welcome to FlightScanner!
+```
 
-# Automatical Download Data
+### Setup step 2: setAPI.R
+
+## Main Functions
+
+### Download data with API
+
+### Data Storage
+
+### Data Processing 
+
+## Automatical Download Data
 
 
 

@@ -36,6 +36,7 @@ knitr::opts_chunk$set(
 
 ```{r}
 library(flightscanner)
+apiSetKey("a01b3ec5e9msh2698ef80ca5232dp18fc92jsnddf5fad0cc7d")
 ```
 
 (introduce the dataset Airport in our package and show some plots and tables)

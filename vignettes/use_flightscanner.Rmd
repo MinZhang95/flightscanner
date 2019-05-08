@@ -111,9 +111,80 @@ We can check the content of the output of `apiPollSession`.
 ```{r}
 dsm2sea_res %>% content %>% names
 ```
-### Data Storage
+
+Although output from `apiPollSession` is the searching result, the format of it is not very friendly. The output contains several sub-lists such as "itineraries", "legs", "segments". The relationship between these terms are shown below.
+
+$$
+\text{searching result} 
+\begin{cases}
+  \text{itinerary_1} 
+    \begin{cases}
+      \text{leg_1} 
+        \begin{cases}
+          \text{segment_1} \\
+          \text{segment_2} \\
+          \vdots \\
+          \text{segment_S}
+        \end{cases} \\
+      \text{leg_2} 
+        \begin{cases}
+          \text{segment_1}
+        \end{cases}
+    \end{cases} \\
+  \text{itinerary_2} 
+    \begin{cases}
+      \text{leg_1} 
+        \begin{cases}
+          \text{segment_1} \\
+          \text{segment_2} 
+        \end{cases} \\
+      \text{leg_2} 
+        \begin{cases}
+          \text{segment_1}
+        \end{cases}
+    \end{cases} \\
+  \vdots \\
+  \text{itinerary_n} 
+    \begin{cases}
+      \text{leg_1} 
+        \begin{cases}
+          \text{segment_1} 
+        \end{cases} \\
+      \text{leg_2} 
+        \begin{cases}
+          \text{segment_1}
+        \end{cases}
+    \end{cases}
+\end{cases}
+$$
+Searching results may contain many itineraries. Round-way trip contains two legs, outbound leg and inbound leg. If there are any stops in one leg, then this leg may contain several segments. Next we are going to link them and store them effeciently.
 
 ### Data Processing 
+
+#### `flightGet`
+
+`flightGet` allows users to input the result from `PollSession` or read from database (will talk about this later in "Data Storage" section) and get a list which contains 7 dataframes. The names of these dataframes are shown below.
+
+```{r}
+dsm2sea_df <- dsm2sea_res %>% flightGet()
+names(dsm2sea_df)
+```
+
+The dataframe "price" contains information like seraching time and pricing option.
+
+```{r}
+dsm2sea_df$price %>% head(3) %>% print(width = 120)
+```
+
+Even the same itinerary may have different prices because of different agents.
+
+```{r}
+dsm2sea_df$price$PricingOptions[[3]] %>% head(3) %>% print(width = 120)
+```
+
+Dataframe "leg" has the leg duration information and number of stops.
+
+### Data Storage
 
 ## Automatical Download Data
 

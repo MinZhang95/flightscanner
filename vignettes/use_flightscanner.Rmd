@@ -1,11 +1,21 @@
 ---
-title: "How to use flightscanner"
-output: rmarkdown::html_vignette
+title: "FlightScanner: Find the best flight for you!"
+output: 
+    rmarkdown::html_vignette:
+       
+author: Yang Qiao, Dapeng Hu, Min Zhang, Xin Zhang and Zerui Zhang
+date: "5/7/2019"
 vignette: >
-  %\VignetteIndexEntry{How to use flightscanner}
+  %\VignetteIndexEntry{FlightScanner}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
+# Introduction
+
+(a paragraph to introduce the motivation and what we want to do,)
+
+Finding the cheapest flight from point A to point B can be a headache for most of us, especially with other multiple constraints, such as duration, departure and arrival time, layover, etc. The flight searching engines do not provide detailed enough filters for those “picky” customers, and it’s also time consuming to constantly check the flight information. Our project (R package) allows us to scrape information from Skyscanner API, and keep track of that per unit time. The functions in our package also enable us to filter and sort the available flights based on customized constraints. Outcomes are presented with both text and user-friendly figures. Finally, we build a Shiny web page to make flight searching process easy and fun.
+
 
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
@@ -14,6 +24,29 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{r setup}
+# Getting Started
+
+(introdue how to install our package and the api our package based on)
+
+```{r}
 library(flightscanner)
 ```
+
+(introduce the dataset Airport in our package and show some plots and tables)
+
+## Setup function 1: keychecking.R
+
+## Setup function 1: setAPI.R
+
+# Main Functions
+
+## Download data with API
+
+## Data Storage
+
+## Data Processing 
+
+# Automatical Download Data
+
+
+

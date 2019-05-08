@@ -1,0 +1,27 @@
+
+h1 {
+  font-size: 25px;
+}
+
+h2 {
+  font-size: 20px;
+}
+
+
+p {
+  font-size: 18px;
+}
+
+li {
+  font-size: 15px;
+}
+
+img {
+    display: block;
+    margin: auto;
+}
+
+img-circle {
+    border-radius: 50%;
+}
+

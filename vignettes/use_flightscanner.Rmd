@@ -10,6 +10,11 @@ vignette: >
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
+
+```{r, include=FALSE, message=FALSE}
+library(dplyr)
+library(httr)
+```
 ## Introduction
 
 (a paragraph to introduce the motivation and what we want to do,)
@@ -83,6 +88,29 @@ Welcome to FlightScanner!
 
 ### Download data with API
 
+#### `apiCreateSession`
+
+`apiCreateSession` allows users to input their searching information such as origin, destination, etc, and create a session on the API server, then return an ouput which contains a session ID. For example, if you want to buy 1 adult flight ticket flying from Des Moines to Seattle on 2019-07-20 (make sure the date you input is on or after your current date).
+
+```{r}
+dsm2sea_session <- apiCreateSession(origin = "DSM", destination = "SEA", startDate = "2019-07-20", adults = 1)
+```
+
+We will use the output from `apiCreateSession` as the input of `apiPollSession`
+
+#### `apiPollSession`
+
+`apiPollSession` retrieves the flight data you searched in `apiCreateSession` and also allows you to sort the results by different types like price, duration. Filters like number of stops, departure time are also available. The default values of all filter variables are `NULL` because we usually do not filter anything before we can see the actual data. Let's say if we want our search result in price ascending order. 
+
+```{r}
+dsm2sea_res <- apiPollSession(response = dsm2sea_session, sortType = "price", sortOrder = "asc")
+```
+
+We can check the content of the output of `apiPollSession`.
+
+```{r}
+dsm2sea_res %>% content %>% names
+```
 ### Data Storage
 
 ### Data Processing 

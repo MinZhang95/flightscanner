@@ -6,6 +6,7 @@ test_that("Function Args2Null doesn't work.", {
 })
 
 test_that("Function cron_create doesn't work.", {
+  expect_warning(cron_create("SFO", "LHR", "2019-07-01", key = NULL, frequency = "daily"))
   expect_invisible(cron_create("SFO", "LHR", "2019-07-01", frequency = "daily", id = 585), "list")
   cron_rm(id = 585)
 })

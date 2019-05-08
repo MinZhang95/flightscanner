@@ -6,3 +6,4 @@
 .DS_Store
 flightscanner.Rproj
 APIkey.txt
+inst/doc

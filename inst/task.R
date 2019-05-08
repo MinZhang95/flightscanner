@@ -16,11 +16,11 @@ library(flightscanner)
 
 # Create cron job
 apiSetKey("23d5e72978msh9f54564c51ae7d9p11f285jsna232a1fe2fdb")
-cron_create("DSM", "DTW", "2019-06-01", path = file.path(getwd(), "inst"), frequency = "47/10 * * * *")
-cron_create("DSM", "DTW", "2019-06-01", path = file.path(getwd(), "inst"), frequency = "* 20/8 * * *")
-cron_create("dtw", "dsm", "2019-06-02", "2019/06/07", path = file.path(getwd(), "inst"), frequency = "minutely")
- cron_create("DSM", "DTW", "2019-06-01", path = file.path(getwd(), "inst"), frequency = "hourly")
-# cron_create("DSM", "DTW", "2019-06-01", path = file.path(getwd(), "inst"), frequency = "daily", at = "3AM")
+cron_create("DSM", "PVG", "2019-06-01", path = file.path(getwd(), "inst"), frequency = "* */8 * * *")
+cron_create("DSM", "DTW", "2019-06-01", path = file.path(getwd(), "inst"), frequency = "daily")
+
+con <- dbCreateDB(dbname = "inst/flight_DSM_PVG_2019-06-01.db")
+data <- flightGet(con)
 
 # Get all the jobs
 cron_ls()

@@ -40,7 +40,7 @@ library(flightscanner)
 
 (introduce the dataset Airport in our package and show some plots and tables)
 
-### Setup step 1: keychecking.R
+### Setup option 1: keychecking.R
 
 To explore the features of our package, the API key is necessary. After attaching Flightscanner, the following function will be triggered if the API key is not provided. 
 ```r
@@ -82,7 +82,7 @@ If it successed, the welcome message will be shown and the API key will be store
 Welcome to FlightScanner!
 ```
 
-### Setup step 2: setAPI.R
+### Setup option 2: setAPI.R
 
 ## Main Functions
 

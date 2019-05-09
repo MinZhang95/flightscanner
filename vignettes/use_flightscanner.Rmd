@@ -200,7 +200,39 @@ Even the same itinerary may have different prices because of different agents.
 dsm2sea_df$price$PricingOptions[[3]] %>% head(3) %>% print(width = 120)
 ```
 
-Dataframe "leg" has the leg duration information and number of stops.
+Dataframe "leg" has information like duration and number of stops.
+
+```{r}
+dsm2sea_df$legs %>% head(3) %>% print(width = 120)
+```
+
+We can also check the stop information in dataframe "leg". Let's say we want to look at stops and layover for each leg. Note the unit of layover is minute.
+
+```{r}
+dsm2sea_df$legs$Stops %>% head(3) %>% print(width = 120)
+```
+
+Similarly, detailed results about segments are stored in dataframe "segments".
+
+```{r}
+dsm2sea_df$segments %>% head(2) %>% print(width = 120)
+```
+
+Note that information like "StopId" and "CarrierId" is numbers. The next three tables contain these IDs and corresponding names.
+
+```{r}
+dsm2sea_df$carriers %>% head(1) %>% print(width = 120)
+dsm2sea_df$agents %>% head(1) %>% print(width = 120)
+dsm2sea_df$places %>% head(1) %>% print(width = 120)
+```
+
+#### `flightFilter`
+
+Users can use `flightFilter` to filter the results they get from `flightGet`. Suppose the maximum price we would like to pay is $1,000 and we want the number of stops is less than 1. Moreover, we want to depart after 8:00 am.
+
+```{r}
+flightFilter(dsm2sea_df, max_price = 1000, max_stops = 1, out_departure = c("08:00","24:00")) %>% head(3)
+```
 
 ### Data Storage
 

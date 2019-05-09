@@ -10,7 +10,7 @@ knitr::opts_chunk$set(
   out.width = "100%"
 )
 ```
-# flightscanner  <img src='man/figures/logo.png' align="right" height="120" />
+# flightscanner  <img src='man/figures/logo.png' align="right" height="150" />
 [![996.icu](https://img.shields.io/badge/link-996.icu-red.svg)](https://996.icu)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 [![Travis build status](https://travis-ci.org/MinZhang95/flightscanner.svg?branch=master)](https://travis-ci.org/MinZhang95/flightscanner)

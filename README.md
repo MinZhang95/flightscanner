@@ -1,5 +1,5 @@
 
-# flightscanner <img src='man/figures/logo.png' align="right" height="120" />
+# flightscanner <img src='man/figures/logo.png' align="right" height="150" />
 
 [![996.icu](https://img.shields.io/badge/link-996.icu-red.svg)](https://996.icu)
 [![License: GPL

@@ -104,11 +104,11 @@ This function will return the API key only if it has been successfully setup; ot
 
 #### `apiCreateSession`
 
-`apiCreateSession` allows the users to input their flight information (origin, destination and dates) and create a session on the API server. The output contains a session ID. For example, to buy a ticket from Des Moines to Seattle for an adult on 2019-07-20 (the departure date cannot be earlier than the current date):
+`apiCreateSession` allows the users to input their flight information (origin, destination and dates) and create a session on the API server. The output contains a session ID. For example, to buy a ticket from Des Moines to Detroit for an adult on 2019-06-01 (the departure date cannot be earlier than the current date):
 
 ```{r}
-dsm2sea_session <- 
-  apiCreateSession(origin = "DSM", destination = "SEA", startDate = "2019-07-20", adults = 1)
+dsm2dtw_session <- 
+  apiCreateSession(origin = "DSM", destination = "DTW", startDate = "2019-06-01", adults = 1)
 ```
 
 The output of `apiCreateSession` is used as the input of `apiPollSession`.
@@ -118,13 +118,13 @@ The output of `apiCreateSession` is used as the input of `apiPollSession`.
 `apiPollSession` retrieves the flight data searched with `apiCreateSession` and allows the users to sort and filter the tickets by various standards. The default values of all filter variables are `NULL`, meaning that we do not filter anything before we obtain the actual data. For example, to search the previous result in price ascending order:
 
 ```{r}
-dsm2sea_res <- apiPollSession(response = dsm2sea_session, sortType = "price", sortOrder = "asc")
+dsm2dtw_res <- apiPollSession(response = dsm2dtw_session, sortType = "price", sortOrder = "asc")
 ```
 
 Let's check the content of the output of `apiPollSession`:
 
 ```{r}
-dsm2sea_res %>% content %>% names
+dsm2dtw_res %>% content %>% names
 ```
 
 The output of `apiPollSession` is messy, because it contains several sub-lists, such as "itineraries", "legs", and "segments". The relationship between these terms are shown below.
@@ -181,46 +181,46 @@ One searching request may contain several itineraries. A one-way trip contains o
 
 `flightGet` allows users to input the result from `PollSession` or to read from database (explain later in "Data Storage" section). The output contains a list of seven dataframes, whose names are printed below:
 
-```{r}
-dsm2sea_df <- dsm2sea_res %>% flightGet()
-names(dsm2sea_df)
+```{r message=FALSE}
+dsm2dtw_df <- dsm2dtw_res %>% flightGet()
+names(dsm2dtw_df)
 ```
 
 The dataframe "price" provides information, such as the seraching time and pricing options:
 
 ```{r}
-dsm2sea_df$price %>% head(3) %>% print(width = 120)
+dsm2dtw_df$price %>% head(3) %>% print(width = 120)
 ```
 
 Within the same itinerary, there might be several different prices due to different agents:
 
 ```{r}
-dsm2sea_df$price$PricingOptions[[3]] %>% head(3) %>% print(width = 120)
+dsm2dtw_df$price$PricingOptions[[39]] %>% print(width = 120)
 ```
 
 The dataframe "leg" provides information, such as duration and number of stops:
 
 ```{r}
-dsm2sea_df$legs %>% head(3) %>% print(width = 120)
+dsm2dtw_df$legs %>% head(3) %>% print(width = 120)
 ```
 
 We can also check the stop information and the layover in minutes with the "leg" dataframe for each leg:
 
 ```{r}
-dsm2sea_df$legs$Stops %>% head(3) %>% print(width = 120)
+dsm2dtw_df$legs$Stops %>% head(3) %>% print(width = 120)
 ```
 
 Similarly, the detailed results about the segments are stored in the "segments" dataframe:
 
 ```{r}
-dsm2sea_df$segments %>% head(2) %>% print(width = 120)
+dsm2dtw_df$segments %>% head(2) %>% print(width = 120)
 ```
 
 In the above outputs, the carriers and stops are represented with their IDs. To "translate" to their names, run:
 
 ```{r}
-dsm2sea_df$carriers %>% head(1) %>% print(width = 120)
-dsm2sea_df$places %>% head(1) %>% print(width = 120)
+dsm2dtw_df$carriers %>% head(1) %>% print(width = 120)
+dsm2dtw_df$places %>% head(1) %>% print(width = 120)
 ```
 
 #### `flightFilter`
@@ -228,12 +228,12 @@ dsm2sea_df$places %>% head(1) %>% print(width = 120)
 `flightFilter` allows users to filter the results obtained from `flightGet`. Continued with the previous example, the user looks for flights with a budget of $1,000, no more than 1 stop, and departure time after 8:00 am:
 
 ```{r}
-flightFilter(dsm2sea_df, max_price = 1000, max_stops = 1, out_departure = c("08:00","24:00")) %>% head(3)
+flightFilter(dsm2dtw_df, max_price = 1000, max_stops = 1, out_departure = c("08:00","24:00")) %>% head(3)
 ```
 
 ### Data Storage
 
-We want to scrape and save data for a period to see the price change over time. Thus, here several functions are made to generate database.
+Storing flight data as database can be efficient for automatic searching. 
 
 #### `dbCreateDB`
 
@@ -251,7 +251,7 @@ dbListTables(con)
 
 It will excute:
 
-1. connect to SQLite driver
+1. connect to SQLite driver.
 2. create a local database file if it doesn't exist.
 3. create the schema of above seven tables if they don't exist.
 
@@ -260,7 +260,7 @@ It will excute:
 **'dbSaveDB'** is a function to save data into the databse file.
 
 ```r
-resp <- apiCreateSession(origin = "SFO", destination = "LHR", startDate = "2019-07-01")
+resp <- apiCreateSession(origin = "DSM", destination = "DTW", startDate = "2019-06-01")
 resp <- apiPollSession(resp)
 data <- flightGet(resp)
 
@@ -275,10 +275,10 @@ It accepts two classes of inputs: `response` or `list`. `response` is the reques
 
 ## Automatic Data Download
 
-A feature that makes the `flightscanner` package unique, compared with the existing flight searching engines, is its functionality of automatic flight enquiry according to a schedule, which is realized with the **'cron_create'** function. Besides the regular flight information (such as orgin, destination, and dates), another input `frequency` is needed for the job schedule. It could be "minutely", "hourly", "daily" or other frequencies defined by `cronR`'s syntax, see [here](https://en.wikipedia.org/wiki/Cron). Here is an example of using `cron_create`:
+A feature that makes the `flightscanner` package unique, compared with the existing flight searching engines, is its functionality of automatic flight enquiry according to a schedule, which is realized with the **'cron_create'** function. Besides the regular flight information (such as orgin, destination, and dates), another input `frequency` is needed for the job schedule. It could be "minutely", "hourly", "daily" or other frequencies defined by `cronR`'s syntax, see [link](https://en.wikipedia.org/wiki/Cron). Here is an example of using `cron_create`:
 
 ```r
-cron_create("DSM", "SEA", "2019-07-20", frequency = "daily", at = "3AM")
+cron_create("DSM", "SEA", "2019-07-20", frequency = "hourly") # this is the example
 cron_create("DSM", "PVG", "2019-06-01", frequency = "0 */2 * * *")  # every 2 hours
 ```
 
@@ -296,11 +296,13 @@ dbDisconnect(con)
 ```
 
 To show the current searching jobs, run the function:
+
 ```r
 cron_ls()
 ```
 
-The job will be automatically excuted even you close `R` or restart your computer. So if you want to stop the job, you have to clear the current searching jobs, by using:
+The job will be automatically excuted even if `R` is closed or the computer is restarted. To stop the job, run:
+
 ```r
 cron_clear(ask = FALSE)
 ```
@@ -312,46 +314,48 @@ The Shiny App for the `flightscanner` includes three tabs: **Airport Map**, **Fl
 ### Airport Map
 
 It is used as the welcome page by default. The map from `leaflet` shows the accurate locations of the target airports. It could provide a rough intuition about how far the users need to travel. 
-
-There are four input boxes on the top of the map. If the user wants to make a flight search, these values should be provided.
+Input values are needed on the top of the map when doing a flight search:
 
 **Trip type**: one-way tirp or round trip.
 
-**From**, **To**: 3-character code for the airports the user would like to start from and end at.
+**From**, **To**: 3-character code for the departure/destination airport.
 
-**Dept.Date**, **Arr.Date**: small calendar would be shown so that the user could choose the specific date for leaving and arriving. **Arr.Date** box would appear only when the user choose a **round trip**.
+**Dept.Date**, **Arr.Date**: departure date (no earlier than the current date) and return date (no earlier than the departure date). **Arr.Date** box would appear only when the **round trip** is selected. 
 
-After the user makes sure that the App has been given the right information, he/she can click the **Go!** button with the cute paper plane and then wait for the data scrape, cleaning and filtering.
+Click on the **Go!** button after providing the trip information. 
 
 ```{r, out.width='100%', echo=FALSE, eval=TRUE}
-knitr::include_graphics('shiny2.png')
+knitr::include_graphics('shinyMap.png')
 ```
 
 ### Flights
 
-Once the App indicates that "Search succeeded! Click Flight Tab For More Details:)", the user could then have a check on this module.
-
+Click on the Flight tab after the search is complete. 
 There are several filter options on the left panel.
 
-**Price**: a slider ranging from the maximum to the minimum of the ticket price.
+**Price**: a slider ranging from the minimum to the maximum of the ticket prices.
 
-**Airlines Includes**, **Airlines Excludes**: the user can delete or keep the airlines that you want to include or exclude.
+**Airlines Includes**, **Airlines Excludes**: the users can include or exclude some specific airlines.
 
-**Duration**: the time required for a specific flight.
+**Duration**: a slider ranging from the minimum to the maximum of the trip duration.
 
-**Stops**: the user can choose the preferences for the number of transit stops.
+**Stops**: the users can specify their preferences to the number of stransition stops.
 
-**Layover**: the total time the user will spend at the transit stops.
+**Layover**: the total time to be spent at the transition stops. 
 
-**Outbound, Inbound**: the user could choose the specific range of time for the departure time and arrival time, for both outbound flight and inbound flight using a 24-hour clock.
+**Outbound, Inbound**: the users can choose a range of time for the departure time and arrival time, for both outbound flight and inbound flight using a 24-hour clock.
 
 ```{r, out.width='100%', echo=FALSE, eval=TRUE}
-knitr::include_graphics('shiny3.png')
+knitr::include_graphics('shinyTickets.png')
 ```
 
-A datatable containing some important and detailed inforamtion about the filtered filghts would be given on the right panel, including accurate total price, leaving and arriving time for inbound and/or outbound flight, duration and number of stops of inbound and/or outbound. There is also hyperlinks for the ticket booking on the agent websites in the column of **Link**.
+A table containing the detailed inforamtion about the filtered filghts will be given on the right main panel, including the ticket price, departure and arrival time for inbound and/or outbound flight, duration, and the number of stops for inbound and/or outbound. There are also hyperlinks to the ticketing agencies in the column of **Link**.
 
 ### IATA Code
 
-If the user has no idea what the 3-character codes for the airports he/she would visit, this tab could help find the codes. Use the search box on the right and feed it with the name of the city or country, the data from `MUCflight` would provide the desired information.
+Under this tab, users can search for the 3-character codes for the target airports by providing city or country names in the searching box in the upper right corner. The data comes from `MUCflight`.
+
+```{r, out.width='100%', echo=FALSE, eval=TRUE}
+knitr::include_graphics('shinyCode.png')
+```
 

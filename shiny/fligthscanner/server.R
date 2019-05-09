@@ -26,7 +26,7 @@ shinyServer(function(input, output, session) {
         resp.post <- apiCreateSession(orig = input$from, dest = input$to,
                                       startDate = Date[[1]], returnDate = Date[[2]])
         resp.get <- apiPollSession(resp.post)
-        GetData(resp.get)
+        flightGet(resp.get)
       })
     })
   
@@ -125,7 +125,7 @@ shinyServer(function(input, output, session) {
               Inbound.Duration.hrs = "InboundLegDuration", 
               Inbound.No.Stops = "InboundLegNo.Stops")
     
-    temp <- FilterFlight(data,
+    temp <- flightFilter(data,
                          max_price = input$Price,
                          max_duration = input$Duration * 60,
                          max_stops = as.numeric(input$Stops),
@@ -160,7 +160,7 @@ shinyServer(function(input, output, session) {
     
     
     # For debug
-    # print(FilterFlight(data) %>% nrow)
+    # print(flightFilter(data) %>% nrow)
     # print(temp %>% nrow)
     
     temp %>% tidyr::unnest(PricingOptions) %>% 

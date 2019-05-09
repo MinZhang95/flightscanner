@@ -1,11 +1,10 @@
 ---
-title: "flightscanner: Find the best flight for you!"
+title: "Flightscanner: Find the Best Flight For You!"
 output: 
     rmarkdown::html_vignette:
       toc: true
        
 author: Dapeng Hu, Yang Qiao, Min Zhang, Xin Zhang and Zerui Zhang
-date: "5/7/2019"
 vignette: >
   %\VignetteIndexEntry{flightscanner}
   %\VignetteEngine{knitr::rmarkdown}

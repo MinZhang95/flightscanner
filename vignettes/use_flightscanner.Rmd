@@ -36,12 +36,16 @@ knitr::opts_chunk$set(
 
 ```{r}
 library(flightscanner)
+```
+```{r,echo=FALSE}
 apiSetKey("a01b3ec5e9msh2698ef80ca5232dp18fc92jsnddf5fad0cc7d")
 ```
 
 (introduce the dataset Airport in our package and show some plots and tables)
 
-### Setup option 1: keychecking.R
+### Setup with API key
+
+#### `apiCheckKey`
 
 To explore the features of our package, the API key is necessary. After attaching Flightscanner, the following function will be triggered if the API key is not provided. 
 ```r
@@ -84,7 +88,7 @@ Welcome to FlightScanner!
 ```
 The API key will be stored into "APIkey.txt" under the current working directory
 
-### Setup option 2: setAPI.R
+#### `setAPI`
 
 In addition, the users can reset the API key globally with the function 'apiSetKey'
 ```r

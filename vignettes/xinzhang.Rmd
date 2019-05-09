@@ -106,6 +106,35 @@ This function will return the key if it has been set, otherwise 'NULL'.
 
 ### Data Storage
 
+We want to scrape and save data for a period to see the price change over time. Thus, here several functions are made to generate database.
+
+#### `dbCreateDB`
+
+**'dbCreateDB'** is a function to connect to SQLite driver and generate a local database file 'flight.db'.
+```r
+dbCreateDB(conn = RSQLite::SQLite(), dbname = "flight.db")
+```
+The flight.db includes 7 tables:
+```{r,echo=FALSE}
+con <- dbCreateDB(dbname = "flight.db")
+dbListTables(con)
+```
+
+#### `dbSaveData`
+
+**'dbSaveDB'** is a function to save data from the request response into the databse 'flight.db'. 
+```r
+resp <- apiCreateSession(origin = "SFO", destination = "LHR", startDate = "2019-07-01")
+resp <- apiPollSession(resp)
+data <- flightGet(resp)
+
+# Connect to SQLite database
+con <- dbCreateDB(dbname = ":memory:")
+dbSaveData(resp, con)  # from response
+dbSaveData(data, con)  # from list
+dbDisconnect(con)
+```
+
 ## Automatical Download Data
 
 The **flightscanner** is a 'mature' paakage, and it can download the flight data by itself. Based on the package **'cronR'**, we make the function **'cron_create'**. 

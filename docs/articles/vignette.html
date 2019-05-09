@@ -110,8 +110,7 @@ Please follow the instructions to get the key<span class="op">:</span>
    Do you want to visit this <span class="kw">website</span> (<span class="dv">1</span> <span class="cf">for</span> YES; <span class="dv">0</span> <span class="cf">for</span> NO)?
    
 <span class="dv">2</span>. Copy the value of X<span class="op">-</span>RapidAPI<span class="op">-</span>Key <span class="cf">in</span> Header Parameters.
-   Paste your <span class="kw">key</span> (without quote)<span class="op">:</span>
-<span class="st">   </span></code></pre></div>
+   Paste your <span class="kw">key</span> (without quote)<span class="op">:</span></code></pre></div>
 <p>By selecting “1” for the first question, the users will be directed to the Rapid API Skyscanner webpage, where the API key can be found in the right panel (Figure 1) and be used for the second question.</p>
 <div class="figure" style="text-align: center">
 <img src="APIwebpage.JPG" alt="Figure 1: Rapid API Skyscanner and API-key" width="100%"><p class="caption">
@@ -123,12 +122,12 @@ Figure 1: Rapid API Skyscanner and API-key
 <p>The valid API key will be stored into “APIkey.txt” under the current working directory, so that the API key will not be required again and again everytime when the package is loaded.</p>
 <p>However, with an invalid API key, a failure message will show up:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Check your key or network connection. And use <span class="cf">function</span> <span class="st">`</span><span class="dt">apiSetKey</span><span class="st">`</span> to set key later.</code></pre></div>
-<p>Alternatively, the users could set (or reset) the API key manually with the function ‘apiSetKey’:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">flightscanner<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/flightscanner/topics/apiSetKey">apiSetKey</a></span>(<span class="st">"YOUR KEY"</span>)</code></pre></div>
-<p>Please notice that <code>apiSetKey</code> does not generate or rewrite ‘APIkey.txt’ under the current working directory.</p>
-<p>To obtain the global API key, use the function ‘apiGetKey’:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">fligthscanner<span class="op">::</span><span class="kw">apiGetKey</span>()</code></pre></div>
-<p>This function will return the API key only if it has been successfully setup; otherwise it will return ‘NULL’.</p>
+<p>Alternatively, the users could set (or reset) the API key manually with the function <code><a href="../reference/apiSetKey.html">apiSetKey()</a></code>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/apiSetKey.html">apiSetKey</a></span>(<span class="st">"YOUR KEY"</span>)</code></pre></div>
+<p>Please notice that <code><a href="../reference/apiSetKey.html">apiSetKey()</a></code> does not generate or rewrite “APIkey.txt” under the current working directory.</p>
+<p>To obtain the global API key, use the function <code><a href="../reference/apiSetKey.html">apiGetKey()</a></code>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/apiSetKey.html">apiGetKey</a></span>()</code></pre></div>
+<p>This function will return the API key only if it has been successfully setup; otherwise it will return <code>NULL</code>.</p>
 </div>
 </div>
 <div id="main-functions" class="section level2">
@@ -139,24 +138,24 @@ Figure 1: Rapid API Skyscanner and API-key
 <a href="#download-data-with-api" class="anchor"></a>Download data with API</h3>
 <div id="apicreatesession" class="section level4">
 <h4 class="hasAnchor">
-<a href="#apicreatesession" class="anchor"></a><code>apiCreateSession</code>
+<a href="#apicreatesession" class="anchor"></a><code><a href="../reference/apiCreateSession.html">apiCreateSession()</a></code>
 </h4>
-<p><code>apiCreateSession</code> allows the users to input their flight information (origin, destination and dates) and create a session on the API server. The output contains a session ID. For example, to buy a ticket from Des Moines to Detroit for an adult on 2019-06-01 (the departure date cannot be earlier than the current date):</p>
+<p><code><a href="../reference/apiCreateSession.html">apiCreateSession()</a></code> allows the users to input their flight information (origin, destination and dates) and create a session on the API server. The output contains a session ID. For example, to buy a ticket from Des Moines to Detroit for an adult on 2019-06-01 (the departure date cannot be earlier than the current date):</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dsm2dtw_session &lt;-<span class="st"> </span>
 <span class="st">  </span><span class="kw"><a href="../reference/apiCreateSession.html">apiCreateSession</a></span>(<span class="dt">origin =</span> <span class="st">"DSM"</span>, <span class="dt">destination =</span> <span class="st">"DTW"</span>, <span class="dt">startDate =</span> <span class="st">"2019-06-01"</span>, <span class="dt">adults =</span> <span class="dv">1</span>)</code></pre></div>
-<p>The output of <code>apiCreateSession</code> is used as the input of <code>apiPollSession</code>.</p>
+<p>The output of <code><a href="../reference/apiCreateSession.html">apiCreateSession()</a></code> is used as the input of <code><a href="../reference/apiPollSession.html">apiPollSession()</a></code>.</p>
 </div>
 <div id="apipollsession" class="section level4">
 <h4 class="hasAnchor">
-<a href="#apipollsession" class="anchor"></a><code>apiPollSession</code>
+<a href="#apipollsession" class="anchor"></a><code><a href="../reference/apiPollSession.html">apiPollSession()</a></code>
 </h4>
-<p><code>apiPollSession</code> retrieves the flight data searched with <code>apiCreateSession</code> and allows the users to sort and filter the tickets by various standards. The default values of all filter variables are <code>NULL</code>, meaning that we do not filter anything before we obtain the actual data. For example, to search the previous result in price ascending order:</p>
+<p><code><a href="../reference/apiPollSession.html">apiPollSession()</a></code> retrieves the flight data searched with <code><a href="../reference/apiCreateSession.html">apiCreateSession()</a></code> and allows the users to sort and filter the tickets by various standards. The default values of all filter variables are <code>NULL</code>, meaning that we do not filter anything before we obtain the actual data. For example, to search the previous result in price ascending order:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dsm2dtw_res &lt;-<span class="st"> </span><span class="kw"><a href="../reference/apiPollSession.html">apiPollSession</a></span>(<span class="dt">response =</span> dsm2dtw_session, <span class="dt">sortType =</span> <span class="st">"price"</span>, <span class="dt">sortOrder =</span> <span class="st">"asc"</span>)</code></pre></div>
-<p>Let’s check the content of the output of <code>apiPollSession</code>:</p>
+<p>Let’s check the content of the output of <code><a href="../reference/apiPollSession.html">apiPollSession()</a></code>:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dsm2dtw_res <span class="op">%&gt;%</span><span class="st"> </span>content <span class="op">%&gt;%</span><span class="st"> </span>names
 <span class="co">#&gt;  [1] "SessionKey"  "Query"       "Status"      "Itineraries" "Legs"       </span>
 <span class="co">#&gt;  [6] "Segments"    "Carriers"    "Agents"      "Places"      "Currencies"</span></code></pre></div>
-<p>The output of <code>apiPollSession</code> is messy, because it contains several sub-lists, such as “itineraries”, “legs”, and “segments”. The relationship between these terms are shown below.</p>
+<p>The output of <code><a href="../reference/apiPollSession.html">apiPollSession()</a></code> is messy, because it contains several sub-lists, such as “itineraries”, “legs”, and “segments”. The relationship between these terms are shown below.</p>
 <p><span class="math display">\[
 \text{searching result} 
 \begin{cases}
@@ -208,9 +207,9 @@ Figure 1: Rapid API Skyscanner and API-key
 <a href="#data-processing" class="anchor"></a>Data Processing</h3>
 <div id="flightget" class="section level4">
 <h4 class="hasAnchor">
-<a href="#flightget" class="anchor"></a><code>flightGet</code>
+<a href="#flightget" class="anchor"></a><code><a href="../reference/flightGet.html">flightGet()</a></code>
 </h4>
-<p><code>flightGet</code> allows users to input the result from <code>PollSession</code> or to read from database (explain later in “Data Storage” section). The output contains a list of seven dataframes, whose names are printed below:</p>
+<p><code><a href="../reference/flightGet.html">flightGet()</a></code> allows users to input the result from <code>PollSession()</code> or to read from database (explain later in “Data Storage” section). The output contains a list of seven dataframes, whose names are printed below:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dsm2dtw_df &lt;-<span class="st"> </span>dsm2dtw_res <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/flightGet.html">flightGet</a></span>()
 <span class="co">#&gt; Warning: Unmatch of Segments and Stops: [LegId] =</span>
 <span class="co">#&gt; 11140-1906010743--30963,-32462-3-11152-1906020959</span>
@@ -226,9 +225,9 @@ Figure 1: Rapid API Skyscanner and API-key
 <span class="co">#&gt; # A tibble: 3 x 4</span>
 <span class="co">#&gt;   SearchTime          OutboundLegId                             </span>
 <span class="co">#&gt;   &lt;dttm&gt;              &lt;chr&gt;                                     </span>
-<span class="co">#&gt; 1 2019-05-09 17:50:59 11140-1906011835--31722-1-11152-1906012344</span>
-<span class="co">#&gt; 2 2019-05-09 17:50:59 11140-1906010615--31722-1-11152-1906011349</span>
-<span class="co">#&gt; 3 2019-05-09 17:50:59 11140-1906011520--31722-1-11152-1906012026</span>
+<span class="co">#&gt; 1 2019-05-09 18:27:41 11140-1906011835--31722-1-11152-1906012344</span>
+<span class="co">#&gt; 2 2019-05-09 18:27:41 11140-1906010615--31722-1-11152-1906011349</span>
+<span class="co">#&gt; 3 2019-05-09 18:27:41 11140-1906011520--31722-1-11152-1906012026</span>
 <span class="co">#&gt;   InboundLegId PricingOptions  </span>
 <span class="co">#&gt;   &lt;chr&gt;        &lt;list&gt;          </span>
 <span class="co">#&gt; 1 ""           &lt;tibble [1 × 3]&gt;</span>
@@ -301,9 +300,9 @@ dsm2dtw_df<span class="op">$</span>places <span class="op">%&gt;%</span><span cl
 </div>
 <div id="flightfilter" class="section level4">
 <h4 class="hasAnchor">
-<a href="#flightfilter" class="anchor"></a><code>flightFilter</code>
+<a href="#flightfilter" class="anchor"></a><code><a href="../reference/flightFilter.html">flightFilter()</a></code>
 </h4>
-<p><code>flightFilter</code> allows users to filter the results obtained from <code>flightGet</code>. Continued with the previous example, the user looks for flights with a budget of $1,000, no more than 1 stop, and departure time after 8:00 am:</p>
+<p><code><a href="../reference/flightFilter.html">flightFilter()</a></code> allows users to filter the results obtained from <code><a href="../reference/flightGet.html">flightGet()</a></code>. Continued with the previous example, the user looks for flights with a budget of $1,000, no more than 1 stop, and departure time after 8AM:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/flightFilter.html">flightFilter</a></span>(dsm2dtw_df, <span class="dt">max_price =</span> <span class="dv">1000</span>, <span class="dt">max_stops =</span> <span class="dv">1</span>, <span class="dt">out_departure =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"08:00"</span>,<span class="st">"24:00"</span>)) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(<span class="dv">3</span>)
 <span class="co">#&gt; # A tibble: 3 x 15</span>
 <span class="co">#&gt;   OutboundLegId InboundLegId PricingOptions OutboundLegSegm…</span>
@@ -325,9 +324,9 @@ dsm2dtw_df<span class="op">$</span>places <span class="op">%&gt;%</span><span cl
 <p>Storing flight data as database can be efficient for automatic searching.</p>
 <div id="dbcreatedb" class="section level4">
 <h4 class="hasAnchor">
-<a href="#dbcreatedb" class="anchor"></a><code>dbCreateDB</code>
+<a href="#dbcreatedb" class="anchor"></a><code><a href="../reference/dbCreateDB.html">dbCreateDB()</a></code>
 </h4>
-<p><strong>‘dbCreateDB’</strong> is a function to connect to the local database file, default is ‘flight.db’. This is the pre-configuration before saving data in database.</p>
+<p><code><a href="../reference/dbCreateDB.html">dbCreateDB()</a></code> is a function to connect to the local database file, default is “flight.db”. This is the pre-configuration before saving data in database.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/dbCreateDB.html">dbCreateDB</a></span>(<span class="dt">conn =</span> RSQLite<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/RSQLite/topics/SQLite">SQLite</a></span>(), <span class="dt">dbname =</span> <span class="st">"flight.db"</span>)</code></pre></div>
 <p>The flight.db includes seven tables:</p>
 <pre><code>#&gt; [1] "agent"     "carrier"   "itinerary" "leg"       "place"     "price"    
@@ -343,7 +342,7 @@ dsm2dtw_df<span class="op">$</span>places <span class="op">%&gt;%</span><span cl
 <h4 class="hasAnchor">
 <a href="#dbsavedata" class="anchor"></a><code>dbSaveData</code>
 </h4>
-<p><strong>‘dbSaveDB’</strong> is a function to save data into the databse file.</p>
+<p><strong><code>dbSaveDB</code></strong> is a function to save data into the databse file.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">resp &lt;-<span class="st"> </span><span class="kw"><a href="../reference/apiCreateSession.html">apiCreateSession</a></span>(<span class="dt">origin =</span> <span class="st">"DSM"</span>, <span class="dt">destination =</span> <span class="st">"DTW"</span>, <span class="dt">startDate =</span> <span class="st">"2019-06-01"</span>)
 resp &lt;-<span class="st"> </span><span class="kw"><a href="../reference/apiPollSession.html">apiPollSession</a></span>(resp)
 data &lt;-<span class="st"> </span><span class="kw"><a href="../reference/flightGet.html">flightGet</a></span>(resp)
@@ -360,10 +359,29 @@ con &lt;-<span class="st"> </span><span class="kw"><a href="../reference/dbCreat
 <div id="automatic-data-download" class="section level2">
 <h2 class="hasAnchor">
 <a href="#automatic-data-download" class="anchor"></a>Automatic Data Download</h2>
-<p>A feature that makes the <code>flightscanner</code> package unique, compared with the existing flight searching engines, is its functionality of automatic flight enquiry according to a schedule, which is realized with the <strong>‘cron_create’</strong> function. Besides the regular flight information (such as orgin, destination, and dates), another input <code>frequency</code> is needed for the job schedule. It could be “minutely”, “hourly”, “daily” or other frequencies defined by <code>cronR</code>’s syntax, see <a href="https://en.wikipedia.org/wiki/Cron">link</a>. Here is an example of using <code>cron_create</code>:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/cron_create.html">cron_create</a></span>(<span class="st">"DSM"</span>, <span class="st">"SEA"</span>, <span class="st">"2019-07-20"</span>, <span class="dt">frequency =</span> <span class="st">"hourly"</span>) <span class="co"># this is the example</span>
+<div id="important-notice" class="section level3">
+<h3 class="hasAnchor">
+<a href="#important-notice" class="anchor"></a>Important Notice</h3>
+<p>A feature that makes the <code>flightscanner</code> package unique, compared with the existing flight searching engines, is its functionality of automatic flight enquiry according to a schedule.</p>
+<p>This part of functions only works on <strong>Unix/Linux/MacOS</strong>, not Windows. In the future, we will add Windows part.</p>
+<p>If you use <strong>MacOS</strong> and meet the problem of “Operation not permitted”. Follow the instructions:</p>
+<ol style="list-style-type: decimal">
+<li>Pull down the Apple menu and choose “System Preferences”</li>
+<li>Choose “Security &amp; Privacy” control panel</li>
+<li>Now select the “Privacy” tab, then from the left-side menu select “Full Disk Access”</li>
+<li>Click the lock icon in the lower left corner of the preference panel and authenticate with an admin level login</li>
+<li>Now click the [+] plus button to add an application with full disk access</li>
+<li>Navigate to the /Applications/ folder and choose “RStudio.app” or “R” to grant it with Full Disk Access privileges</li>
+<li>Relaunch RStudio or R, the “Operation not permitted” error messages will be gone</li>
+</ol>
+</div>
+<div id="create-and-manage-jobs" class="section level3">
+<h3 class="hasAnchor">
+<a href="#create-and-manage-jobs" class="anchor"></a>Create and Manage Jobs</h3>
+<p>Creating Cron jobs is realized with the <code><a href="../reference/cron_create.html">cron_create()</a></code> function. Besides the regular flight information (such as orgin, destination, and dates), another input “frequency” is needed for the job schedule. It could be “minutely”, “hourly”, “daily” or other frequencies defined by Cron’s syntax, see <a href="https://en.wikipedia.org/wiki/Cron">link</a>. Here is an example:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/cron_create.html">cron_create</a></span>(<span class="st">"DSM"</span>, <span class="st">"SEA"</span>, <span class="st">"2019-07-20"</span>, <span class="dt">frequency =</span> <span class="st">"hourly"</span>)  <span class="co"># this is the example</span>
 <span class="kw"><a href="../reference/cron_create.html">cron_create</a></span>(<span class="st">"DSM"</span>, <span class="st">"PVG"</span>, <span class="st">"2019-06-01"</span>, <span class="dt">frequency =</span> <span class="st">"0 */2 * * *"</span>)  <span class="co"># every 2 hours</span></code></pre></div>
-<p>This function will generate a log file and a database file. All of the scheduled searching results are contained in this database file, e.g. ‘flight.db’.</p>
+<p>This function will generate a log file and a database file. All of the scheduled searching results are contained in this database file, e.g. “flight.db”.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># connect to SQLite database</span>
 con &lt;-<span class="st"> </span><span class="kw"><a href="../reference/dbCreateDB.html">dbCreateDB</a></span>(<span class="dt">dbname =</span> <span class="st">"flight.db"</span>)
 <span class="co"># read data from database</span>
@@ -380,17 +398,25 @@ data &lt;-<span class="st"> </span><span class="kw"><a href="../reference/flight
 <p>The job will be automatically excuted even if <code>R</code> is closed or the computer is restarted. To stop the job, run:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/cron_clear.html">cron_clear</a></span>(<span class="dt">ask =</span> <span class="ot">FALSE</span>)</code></pre></div>
 </div>
+</div>
 <div id="shiny-app" class="section level2">
 <h2 class="hasAnchor">
 <a href="#shiny-app" class="anchor"></a>Shiny App</h2>
+<p>To open the Shiny App, run:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">shiny<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/shiny/topics/runApp">runApp</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.file">system.file</a></span>(<span class="dt">package =</span> <span class="st">"flightscanner"</span>, <span class="st">"shiny"</span>))</code></pre></div>
 <p>The Shiny App for the <code>flightscanner</code> includes three tabs: <strong>Airport Map</strong>, <strong>Flights</strong> and <strong>IATA Code</strong>.</p>
 <div id="airport-map" class="section level3">
 <h3 class="hasAnchor">
 <a href="#airport-map" class="anchor"></a>Airport Map</h3>
 <p>It is used as the welcome page by default. The map from <code>leaflet</code> shows the accurate locations of the target airports. It could provide a rough intuition about how far the users need to travel. Input values are needed on the top of the map when doing a flight search:</p>
-<p><strong>Trip type</strong>: one-way tirp or round trip.</p>
-<p><strong>From</strong>, <strong>To</strong>: 3-character code for the departure/destination airport.</p>
-<p><strong>Dept.Date</strong>, <strong>Arr.Date</strong>: departure date (no earlier than the current date) and return date (no earlier than the departure date). <strong>Arr.Date</strong> box would appear only when the <strong>round trip</strong> is selected.</p>
+<ul>
+<li>
+<strong>Trip type</strong>: one-way tirp or round trip.</li>
+<li>
+<strong>From</strong>, <strong>To</strong>: 3-character code for the departure/destination airport.</li>
+<li>
+<strong>Dept.Date</strong>, <strong>Arr.Date</strong>: departure date (no earlier than the current date) and return date (no earlier than the departure date). <strong>Arr.Date</strong> box would appear only when the <strong>round trip</strong> is selected.</li>
+</ul>
 <p>Click on the <strong>Go!</strong> button after providing the trip information.</p>
 <p><img src="shinyMap.png" width="100%" style="display: block; margin: auto;"></p>
 </div>
@@ -398,12 +424,20 @@ data &lt;-<span class="st"> </span><span class="kw"><a href="../reference/flight
 <h3 class="hasAnchor">
 <a href="#flights" class="anchor"></a>Flights</h3>
 <p>Click on the Flight tab after the search is complete. There are several filter options on the left panel.</p>
-<p><strong>Price</strong>: a slider ranging from the minimum to the maximum of the ticket prices.</p>
-<p><strong>Airlines Includes</strong>, <strong>Airlines Excludes</strong>: the users can include or exclude some specific airlines.</p>
-<p><strong>Duration</strong>: a slider ranging from the minimum to the maximum of the trip duration.</p>
-<p><strong>Stops</strong>: the users can specify their preferences to the number of stransition stops.</p>
-<p><strong>Layover</strong>: the total time to be spent at the transition stops.</p>
-<p><strong>Outbound, Inbound</strong>: the users can choose a range of time for the departure time and arrival time, for both outbound flight and inbound flight using a 24-hour clock.</p>
+<ul>
+<li>
+<strong>Price</strong>: a slider ranging from the minimum to the maximum of the ticket prices.</li>
+<li>
+<strong>Airlines Includes</strong>, <strong>Airlines Excludes</strong>: the users can include or exclude some specific airlines.</li>
+<li>
+<strong>Duration</strong>: a slider ranging from the minimum to the maximum of the trip duration.</li>
+<li>
+<strong>Stops</strong>: the users can specify their preferences to the number of stransition stops.</li>
+<li>
+<strong>Layover</strong>: the total time to be spent at the transition stops.</li>
+<li>
+<strong>Outbound, Inbound</strong>: the users can choose a range of time for the departure time and arrival time, for both outbound flight and inbound flight using a 24-hour clock.</li>
+</ul>
 <p><img src="shinyTickets.png" width="100%" style="display: block; margin: auto;"></p>
 <p>A table containing the detailed inforamtion about the filtered filghts will be given on the right main panel, including the ticket price, departure and arrival time for inbound and/or outbound flight, duration, and the number of stops for inbound and/or outbound. There are also hyperlinks to the ticketing agencies in the column of <strong>Link</strong>.</p>
 </div>

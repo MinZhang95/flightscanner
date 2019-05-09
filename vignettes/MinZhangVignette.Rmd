@@ -12,14 +12,7 @@ vignette: >
 ---
 # Introduction
 
-
-
-Finding the cheapest flight from point A to point B could be a headache for many of us, especially with other multiple constraints, such as duration, departure and arrival time, layover, etc. The goal of the `FlightScanner` package is to provide a simple and straightforward interface for interacting with [Rapid API--Sky Scanner](https://rapidapi.com/skyscanner/api/skyscanner-flight-search) through R. The Sky Scanner API lets users to search for flight and query flight prices from Skyscanners database, as well as quotes from ticketing agencies. Existing  
-
-
-
-The goal o
-The flight searching engines do not provide detailed enough filters for those “picky” customers, and it’s also time consuming to constantly check the flight information. Our project (R package) allows us to scrape information from Skyscanner API, and keep track of that per unit time. The functions in our package also enable us to filter and sort the available flights based on customized constraints. Outcomes are presented with both text and user-friendly figures. Finally, we build a Shiny web page to make flight searching process easy and fun.
+Finding the cheapest flight from point A to point B could be a headache for many of us, especially with other multiple constraints, such as duration, departure and arrival time, layover, etc. The goal of the `FlightScanner` package is to provide a simple and straightforward interface for interacting with [Rapid API--Sky Scanner](https://rapidapi.com/skyscanner/api/skyscanner-flight-search) through R. The Sky Scanner API lets users to search for flight and query flight prices from Skyscanners database, as well as quotes from ticketing agencies.  Besides these basic functionalities as a flight searching tool, `FlightScanner` allows users to schedule searches and record results antomatically. The package also provides a Shiny APP to visualize the trip and to show the available ticket options according to the customized constraints. 
 
 
 ```{r, include = FALSE}

@@ -173,7 +173,7 @@ $$
 \end{cases}
 $$
 
-One searching request may contain several itineraries. A one-way trip contains one leg, whereas a round-way trip contains two: outbound leg and inbound leg. One leg contains several segments if it not a direct flight. 
+One searching request may contain several itineraries. A one-way trip contains one leg, whereas a round-way trip contains two: outbound leg and inbound leg. One leg contains several segments if it is not a direct flight. 
 
 ### Data Processing 
 

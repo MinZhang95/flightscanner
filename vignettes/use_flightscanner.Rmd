@@ -36,12 +36,16 @@ knitr::opts_chunk$set(
 
 ```{r}
 library(flightscanner)
+```
+```{r,echo=FALSE}
 apiSetKey("a01b3ec5e9msh2698ef80ca5232dp18fc92jsnddf5fad0cc7d")
 ```
 
 (introduce the dataset Airport in our package and show some plots and tables)
 
-### Setup option 1: keychecking.R
+### Setup with API key
+
+#### `apiCheckKey`
 
 To explore the features of our package, the API key is necessary. After attaching Flightscanner, the following function will be triggered if the API key is not provided. 
 ```r
@@ -78,12 +82,25 @@ Some messages will be posted to show whether the API setup is successful or not.
 ```r
 Check your key or network connection. And use function `apiSetKey` to set key later.
 ```
-If it successed, the welcome message will be shown and the API key will be stored into "API_key.txt" under the current working directory:
+If it successed, the welcome message will be shown:
 ```r
 Welcome to FlightScanner!
 ```
+The API key will be stored into "APIkey.txt" under the current working directory
 
-### Setup option 2: setAPI.R
+#### `setAPI`
+
+In addition, the users can reset the API key globally with the function 'apiSetKey'
+```r
+flightscanner::apiSetKey("YOUR KEY")
+```
+However, this function will NOT generate or rewrite 'APIkey.txt' under the current working directory.
+
+To get the global API, the function 'apiGetKey' can be adopted:
+```r
+fligthscanner::apiGetKey()
+```
+This function will return the key if it has been set, otherwise 'NULL'.
 
 ## Main Functions
 
@@ -189,5 +206,55 @@ Dataframe "leg" has the leg duration information and number of stops.
 
 ## Automatical Download Data
 
+The **flightscanner** is a 'mature' paakage, and it can download the flight data by itself. Based on the package **'cronR'**, we make the function **'cron_create'**. 
 
+The following arguments are required for **'cron_create'**:  
+- origin: The origin place;  
+- destination: The destination;  
+- startDate: The leaving date;  
+- returnDate: The return date (default is 'NULL');  
+- frequency: How frequent the auto-searching is. It could be "minutely", "hourly", "daily" or any time period based on cronR's syntax.
+
+We give some examples here:
+```r
+cron_create("SFO", "LHR", "2019-07-01", frequency = "daily", at = "3AM")
+cron_create("SFO", "LHR", "2019-07-01", "2019-07-10", frequency = "hourly")
+cron_create("SFO", "LHR", "2019-07-01", frequency = "minutely")
+cron_create("SFO", "LHR", "2019-07-01", frequency = "0 */2 * * *")  # every 2 hours
+```
+Two files will be generated:  
+- log file: 'script_origin_destination_startDate_returnDate.log';  
+- database: 'flight.db'.
+
+The log file includes the searching message. For example,
+```r
+Time: 2019-05-05 09:00:00
+Welcome to FlightScanner!
+Working Directory: /working directory
+API Key: XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+Command Line Arguments:  DSM DTW 2019-06-01 
+Try to update data 16 times.
+Warning message:
+Unmatch of Segments and Stops: [LegId] = 11140-1906010743--30963,-32462-3-11152-1906020959 
+```
+In the 'flight.db', all the search results are contained.
+```{r}
+# connect to SQLite database
+con <- dbCreateDB(dbname = "flight.db")
+# read data from database
+data <- flightGet(con)  
+# show the searching time
+unique(data$price$SearchTime)
+# disconnect database
+dbDisconnect(con)
+```
+
+To show the current searching jobs, use the function:
+```r
+cron_ls()
+```
+To clear the current searching jobs, use the function:
+```r
+cron_clear(ask = FALSE)
+```
 

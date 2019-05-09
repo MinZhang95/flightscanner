@@ -129,12 +129,35 @@ Two files will be generated:
 - database: 'flight.db'.
 
 The log file includes the searching message. For example,
-
-
+```r
+Time: 2019-05-05 09:00:00
+Welcome to FlightScanner!
+Working Directory: /working directory
+API Key: XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+Command Line Arguments:  DSM DTW 2019-06-01 
+Try to update data 16 times.
+Warning message:
+Unmatch of Segments and Stops: [LegId] = 11140-1906010743--30963,-32462-3-11152-1906020959 
+```
 In the 'flight.db', all the search results are contained.
 ```{r}
 # connect to SQLite database
 con <- dbCreateDB(dbname = "flight.db")
+# read data from database
+data <- flightGet(con)  
+# show the searching time
+unique(data$price$SearchTime)
+# disconnect database
+dbDisconnect(con)
+```
+
+To show the current searching jobs, use the function:
+```r
+cron_ls()
+```
+To clear the current searching jobs, use the function:
+```r
+cron_clear(ask = FALSE)
 ```
 
 

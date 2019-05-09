@@ -47,12 +47,12 @@ apiSetKey("a01b3ec5e9msh2698ef80ca5232dp18fc92jsnddf5fad0cc7d")
 
 #### `apiCheckKey`
 
-To explore the features of our package, the API key is necessary. After attaching Flightscanner, the following function will be triggered if the API key is not provided. 
+To explore the features of our package, the API key is necessary. After loading **'flightscanner'**, the following function will be triggered if the API key is not provided. 
 ```r
 flightscanner::apiCheckKey()
 ```
 
-This function is based on the R function "onAttach". Thus, it will be called with
+It is based on the R function "onAttach". Thus, it will be called with
 ```r
 library(flightscanner)
 ```
@@ -203,6 +203,35 @@ dsm2sea_df$price$PricingOptions[[3]] %>% head(3) %>% print(width = 120)
 Dataframe "leg" has the leg duration information and number of stops.
 
 ### Data Storage
+
+We want to scrape and save data for a period to see the price change over time. Thus, here several functions are made to generate database.
+
+#### `dbCreateDB`
+
+**'dbCreateDB'** is a function to connect to SQLite driver and generate a local database file 'flight.db'.
+```r
+dbCreateDB(conn = RSQLite::SQLite(), dbname = "flight.db")
+```
+The flight.db includes 7 tables:
+```{r,echo=FALSE}
+con <- dbCreateDB(dbname = "flight.db")
+dbListTables(con)
+```
+
+#### `dbSaveData`
+
+**'dbSaveDB'** is a function to save data from the request response into the databse 'flight.db'. 
+```r
+resp <- apiCreateSession(origin = "SFO", destination = "LHR", startDate = "2019-07-01")
+resp <- apiPollSession(resp)
+data <- flightGet(resp)
+
+# Connect to SQLite database
+con <- dbCreateDB(dbname = ":memory:")
+dbSaveData(resp, con)  # from response
+dbSaveData(data, con)  # from list
+dbDisconnect(con)
+```
 
 ## Automatical Download Data
 

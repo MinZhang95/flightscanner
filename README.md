@@ -1,5 +1,5 @@
 
-# flightscanner
+# flightscanner <img src='man/figures/logo.png' align="right" height="120" />
 
 [![996.icu](https://img.shields.io/badge/link-996.icu-red.svg)](https://996.icu)
 [![License: GPL
@@ -25,13 +25,14 @@ searching.
 
 Given departure, destination and a range of acceptable departure date,
 
-  - scrape flight information and price every day or every several hours
-  - arrange the flights by price and user-provided constraints.
-  - visualize flight information
+  - scrape flight information every day or every several hours.
+  - filter flights by user-provided constraints such as price, duration,
+    number of stops, etc.
+  - visualize flight information by shiny.
 
 Useful information may include *Price*, *Duration*, *Departure Time*,
 *Arrival Time*, *Stops*, *Layover*, *Airline*, Flight Number, Class,
-Bags, etc.
+etc.
 
 ## Installation
 

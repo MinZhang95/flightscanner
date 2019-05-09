@@ -17,9 +17,7 @@ library(httr)
 ```
 
 ## Introduction
-
 Finding the cheapest flight from point A to point B could be a headache for many of us, especially with other multiple constraints, such as duration, layover, departure and arrival time, etc. The goal of the `flightscanner` package is to provide a simple and straightforward interface for interacting with [Rapid API -- Skyscanner](https://rapidapi.com/skyscanner/api/skyscanner-flight-search) through R. The Skyscanner API lets users to search for flight and query flight prices from Skyscanner's database, as well as quotes from ticketing agencies.  Besides these basic functionalities as a flight searching tool, `flightscanner` also allows users to schedule searches and record results antomatically. In addition, this package provides a Shiny APP to visualize the trip on a map and to show the available ticket options according to the customized constraints. 
-
 
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
@@ -30,7 +28,6 @@ knitr::opts_chunk$set(
 ```
 
 ## Getting Started with flightscanner
-
 At the time of this writing, `flightscanner` has not been submitted to CRAN. Right now, the `flightscanner` package can be easily installed through the `devtools` package with the function `install_github()`.
 
 ```r
@@ -46,7 +43,6 @@ apiSetKey("a01b3ec5e9msh2698ef80ca5232dp18fc92jsnddf5fad0cc7d")
 ```
 
 ### Setup with API key
-
 The first step in using the `flightscanner` package is to initialized the API connection to Skyscanner. 
 If this is your first time of loading this package, you will be required to pass the API key received from Skyscanner into the console. 
 Two questions will be prompted for users to quickly setup the API:
@@ -59,7 +55,6 @@ Please follow the instructions to get the key:
    
 2. Copy the value of X-RapidAPI-Key in Header Parameters.
    Paste your key (without quote):
-   
 ```
 
 By selecting "1" for the first question, the users will be directed to the Rapid API Skyscanner webpage, where the API key can be found in the right panel (Figure 1) and be used for the second question. 
@@ -82,52 +77,48 @@ However, with an invalid API key, a failure message will show up:
 Check your key or network connection. And use function `apiSetKey` to set key later.
 ```
 
-Alternatively, the users could set (or reset) the API key manually with the function 'apiSetKey':
+Alternatively, the users could set (or reset) the API key manually with the function `apiSetKey()`:
 
 ```r
-flightscanner::apiSetKey("YOUR KEY")
+apiSetKey("YOUR KEY")
 ```
 
-Please notice that `apiSetKey` does not generate or rewrite 'APIkey.txt' under the current working directory.
+Please notice that `apiSetKey()` does not generate or rewrite "APIkey.txt" under the current working directory.
 
-To obtain the global API key, use the function 'apiGetKey':
+To obtain the global API key, use the function `apiGetKey()`:
 
 ```r
-fligthscanner::apiGetKey()
+apiGetKey()
 ```
 
-This function will return the API key only if it has been successfully setup; otherwise it will return 'NULL'.
+This function will return the API key only if it has been successfully setup; otherwise it will return `NULL`.
 
 ## Main Functions
-
 ### Download data with API
-
-#### `apiCreateSession`
-
-`apiCreateSession` allows the users to input their flight information (origin, destination and dates) and create a session on the API server. The output contains a session ID. For example, to buy a ticket from Des Moines to Detroit for an adult on 2019-06-01 (the departure date cannot be earlier than the current date):
+#### `apiCreateSession()`
+`apiCreateSession()` allows the users to input their flight information (origin, destination and dates) and create a session on the API server. The output contains a session ID. For example, to buy a ticket from Des Moines to Detroit for an adult on 2019-06-01 (the departure date cannot be earlier than the current date):
 
 ```{r}
 dsm2dtw_session <- 
   apiCreateSession(origin = "DSM", destination = "DTW", startDate = "2019-06-01", adults = 1)
 ```
 
-The output of `apiCreateSession` is used as the input of `apiPollSession`.
+The output of `apiCreateSession()` is used as the input of `apiPollSession()`.
 
-#### `apiPollSession`
-
-`apiPollSession` retrieves the flight data searched with `apiCreateSession` and allows the users to sort and filter the tickets by various standards. The default values of all filter variables are `NULL`, meaning that we do not filter anything before we obtain the actual data. For example, to search the previous result in price ascending order:
+#### `apiPollSession()`
+`apiPollSession()` retrieves the flight data searched with `apiCreateSession()` and allows the users to sort and filter the tickets by various standards. The default values of all filter variables are `NULL`, meaning that we do not filter anything before we obtain the actual data. For example, to search the previous result in price ascending order:
 
 ```{r}
 dsm2dtw_res <- apiPollSession(response = dsm2dtw_session, sortType = "price", sortOrder = "asc")
 ```
 
-Let's check the content of the output of `apiPollSession`:
+Let's check the content of the output of `apiPollSession()`:
 
 ```{r}
 dsm2dtw_res %>% content %>% names
 ```
 
-The output of `apiPollSession` is messy, because it contains several sub-lists, such as "itineraries", "legs", and "segments". The relationship between these terms are shown below.
+The output of `apiPollSession()` is messy, because it contains several sub-lists, such as "itineraries", "legs", and "segments". The relationship between these terms are shown below.
 
 $$
 \text{searching result} 
@@ -176,10 +167,8 @@ $$
 One searching request may contain several itineraries. A one-way trip contains one leg, whereas a round-way trip contains two: outbound leg and inbound leg. One leg contains several segments if it is not a direct flight. 
 
 ### Data Processing 
-
-#### `flightGet`
-
-`flightGet` allows users to input the result from `PollSession` or to read from database (explain later in "Data Storage" section). The output contains a list of seven dataframes, whose names are printed below:
+#### `flightGet()`
+`flightGet()` allows users to input the result from `PollSession()` or to read from database (explain later in "Data Storage" section). The output contains a list of seven dataframes, whose names are printed below:
 
 ```{r message=FALSE}
 dsm2dtw_df <- dsm2dtw_res %>% flightGet()
@@ -223,21 +212,18 @@ dsm2dtw_df$carriers %>% head(1) %>% print(width = 120)
 dsm2dtw_df$places %>% head(1) %>% print(width = 120)
 ```
 
-#### `flightFilter`
-
-`flightFilter` allows users to filter the results obtained from `flightGet`. Continued with the previous example, the user looks for flights with a budget of $1,000, no more than 1 stop, and departure time after 8:00 am:
+#### `flightFilter()`
+`flightFilter()` allows users to filter the results obtained from `flightGet()`. Continued with the previous example, the user looks for flights with a budget of $1,000, no more than 1 stop, and departure time after 8AM:
 
 ```{r}
 flightFilter(dsm2dtw_df, max_price = 1000, max_stops = 1, out_departure = c("08:00","24:00")) %>% head(3)
 ```
 
 ### Data Storage
-
 Storing flight data as database can be efficient for automatic searching. 
 
-#### `dbCreateDB`
-
-**'dbCreateDB'** is a function to connect to the local database file, default is 'flight.db'. This is the pre-configuration before saving data in database.
+#### `dbCreateDB()`
+`dbCreateDB()` is a function to connect to the local database file, default is "flight.db". This is the pre-configuration before saving data in database.
 
 ```r
 dbCreateDB(conn = RSQLite::SQLite(), dbname = "flight.db")
@@ -256,8 +242,7 @@ It will excute:
 3. create the schema of above seven tables if they don't exist.
 
 #### `dbSaveData`
-
-**'dbSaveDB'** is a function to save data into the databse file.
+**`dbSaveDB`** is a function to save data into the databse file.
 
 ```r
 resp <- apiCreateSession(origin = "DSM", destination = "DTW", startDate = "2019-06-01")
@@ -274,15 +259,30 @@ dbDisconnect(con)
 It accepts two classes of inputs: `response` or `list`. `response` is the request response got by `apiPollSession()`. `list` is the data got by `flightGet()`.
 
 ## Automatic Data Download
+### Important Notice
+A feature that makes the `flightscanner` package unique, compared with the existing flight searching engines, is its functionality of automatic flight enquiry according to a schedule.
 
-A feature that makes the `flightscanner` package unique, compared with the existing flight searching engines, is its functionality of automatic flight enquiry according to a schedule, which is realized with the **'cron_create'** function. Besides the regular flight information (such as orgin, destination, and dates), another input `frequency` is needed for the job schedule. It could be "minutely", "hourly", "daily" or other frequencies defined by `cronR`'s syntax, see [link](https://en.wikipedia.org/wiki/Cron). Here is an example of using `cron_create`:
+This part of functions only works on **Unix/Linux/MacOS**, not Windows. In the future, we will add Windows part.
+
+If you use **MacOS** and meet the problem of "Operation not permitted". Follow the instructions:
+
+1. Pull down the Apple menu and choose "System Preferences"
+2. Choose "Security & Privacy" control panel
+3. Now select the "Privacy" tab, then from the left-side menu select "Full Disk Access"
+4. Click the lock icon in the lower left corner of the preference panel and authenticate with an admin level login
+5. Now click the [+] plus button to add an application with full disk access
+6. Navigate to the /Applications/ folder and choose "RStudio.app" or "R" to grant it with Full Disk Access privileges
+7. Relaunch RStudio or R, the "Operation not permitted" error messages will be gone
+
+### Create and Manage Jobs
+Creating Cron jobs is realized with the `cron_create()` function. Besides the regular flight information (such as orgin, destination, and dates), another input "frequency" is needed for the job schedule. It could be "minutely", "hourly", "daily" or other frequencies defined by Cron's syntax, see [link](https://en.wikipedia.org/wiki/Cron). Here is an example:
 
 ```r
-cron_create("DSM", "SEA", "2019-07-20", frequency = "hourly") # this is the example
+cron_create("DSM", "SEA", "2019-07-20", frequency = "hourly")  # this is the example
 cron_create("DSM", "PVG", "2019-06-01", frequency = "0 */2 * * *")  # every 2 hours
 ```
 
-This function will generate a log file and a database file. All of the scheduled searching results are contained in this database file, e.g. 'flight.db'. 
+This function will generate a log file and a database file. All of the scheduled searching results are contained in this database file, e.g. "flight.db".
 
 ```{r}
 # connect to SQLite database
@@ -308,19 +308,20 @@ cron_clear(ask = FALSE)
 ```
 
 ## Shiny App
+To open the Shiny App, run:
+```r
+shiny::runApp(system.file(package = "flightscanner", "shiny"))
+```
 
 The Shiny App for the `flightscanner` includes three tabs: **Airport Map**, **Flights** and **IATA Code**.
 
 ### Airport Map
-
 It is used as the welcome page by default. The map from `leaflet` shows the accurate locations of the target airports. It could provide a rough intuition about how far the users need to travel. 
 Input values are needed on the top of the map when doing a flight search:
 
-**Trip type**: one-way tirp or round trip.
-
-**From**, **To**: 3-character code for the departure/destination airport.
-
-**Dept.Date**, **Arr.Date**: departure date (no earlier than the current date) and return date (no earlier than the departure date). **Arr.Date** box would appear only when the **round trip** is selected. 
+- **Trip type**: one-way tirp or round trip.
+- **From**, **To**: 3-character code for the departure/destination airport.
+- **Dept.Date**, **Arr.Date**: departure date (no earlier than the current date) and return date (no earlier than the departure date). **Arr.Date** box would appear only when the **round trip** is selected. 
 
 Click on the **Go!** button after providing the trip information. 
 
@@ -329,21 +330,15 @@ knitr::include_graphics('shinyMap.png')
 ```
 
 ### Flights
-
 Click on the Flight tab after the search is complete. 
 There are several filter options on the left panel.
 
-**Price**: a slider ranging from the minimum to the maximum of the ticket prices.
-
-**Airlines Includes**, **Airlines Excludes**: the users can include or exclude some specific airlines.
-
-**Duration**: a slider ranging from the minimum to the maximum of the trip duration.
-
-**Stops**: the users can specify their preferences to the number of stransition stops.
-
-**Layover**: the total time to be spent at the transition stops. 
-
-**Outbound, Inbound**: the users can choose a range of time for the departure time and arrival time, for both outbound flight and inbound flight using a 24-hour clock.
+- **Price**: a slider ranging from the minimum to the maximum of the ticket prices.
+- **Airlines Includes**, **Airlines Excludes**: the users can include or exclude some specific airlines.
+- **Duration**: a slider ranging from the minimum to the maximum of the trip duration.
+- **Stops**: the users can specify their preferences to the number of stransition stops.
+- **Layover**: the total time to be spent at the transition stops. 
+- **Outbound, Inbound**: the users can choose a range of time for the departure time and arrival time, for both outbound flight and inbound flight using a 24-hour clock.
 
 ```{r, out.width='100%', echo=FALSE, eval=TRUE}
 knitr::include_graphics('shinyTickets.png')
@@ -352,7 +347,6 @@ knitr::include_graphics('shinyTickets.png')
 A table containing the detailed inforamtion about the filtered filghts will be given on the right main panel, including the ticket price, departure and arrival time for inbound and/or outbound flight, duration, and the number of stops for inbound and/or outbound. There are also hyperlinks to the ticketing agencies in the column of **Link**.
 
 ### IATA Code
-
 Under this tab, users can search for the 3-character codes for the target airports by providing city or country names in the searching box in the upper right corner. The data comes from `MUCflight`.
 
 ```{r, out.width='100%', echo=FALSE, eval=TRUE}

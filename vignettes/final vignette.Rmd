@@ -238,7 +238,7 @@ We want to scrape and save data for a period to see the price change over time. 
 
 #### `dbCreateDB`
 
-**'dbCreateDB'** is a function to connect with SQLite driver and to generate a local database file 'flight.db':
+**'dbCreateDB'** is a function to connect to the local database file, default is 'flight.db'. This is the pre-configuration before saving data in database.
 
 ```r
 dbCreateDB(conn = RSQLite::SQLite(), dbname = "flight.db")
@@ -250,9 +250,16 @@ con <- dbCreateDB(dbname = "flight.db")
 dbListTables(con)
 ```
 
+It will excute:
+
+1. connect to SQLite driver
+2. create a local database file if it doesn't exist.
+3. create the schema of above seven tables if they don't exist.
+
 #### `dbSaveData`
 
-**'dbSaveDB'** is a function to save data from the request response into the databse 'flight.db'. 
+**'dbSaveDB'** is a function to save data into the databse file.
+
 ```r
 resp <- apiCreateSession(origin = "SFO", destination = "LHR", startDate = "2019-07-01")
 resp <- apiPollSession(resp)
@@ -265,16 +272,18 @@ dbSaveData(data, con)  # from list
 dbDisconnect(con)
 ```
 
+It accepts two classes of inputs: `response` or `list`. `response` is the request response got by `apiPollSession()`. `list` is the data got by `flightGet()`.
+
 ## Automatic Data Download
 
-A feature that makes the `flightscanner` package unique, compared with the existing flight searching engines, is its functionality of automatic flight enquiry according to a schedule, which is realized with the **'cron_create'** function. Besides the regular flight information (such as orgin, destination, and dates), another input `frequency` is needed for the job schedule. It could be "minutely", "hourly", "daily" or other frequencies defined by `cronR`'s syntax. Here is an example of using `cron_create`:
+A feature that makes the `flightscanner` package unique, compared with the existing flight searching engines, is its functionality of automatic flight enquiry according to a schedule, which is realized with the **'cron_create'** function. Besides the regular flight information (such as orgin, destination, and dates), another input `frequency` is needed for the job schedule. It could be "minutely", "hourly", "daily" or other frequencies defined by `cronR`'s syntax, see [here](https://en.wikipedia.org/wiki/Cron). Here is an example of using `cron_create`:
 
 ```r
 cron_create("DSM", "SEA", "2019-07-20", frequency = "daily", at = "3AM")
+cron_create("DSM", "PVG", "2019-06-01", frequency = "0 */2 * * *")  # every 2 hours
 ```
 
-The outputs of runing `cron_create` are a log file and a database file.
-All of the scheduled searching results are contained in the database 'flight.db'. 
+This function will generate a log file and a database file. All of the scheduled searching results are contained in this database file, e.g. 'flight.db'. 
 
 ```{r}
 # connect to SQLite database
@@ -292,7 +301,7 @@ To show the current searching jobs, run the function:
 cron_ls()
 ```
 
-To clear the current searching jobs, run the function:
+The job will be automatically excuted even you close `R` or restart your computer. So if you want to stop the job, you have to clear the current searching jobs, by using:
 ```r
 cron_clear(ask = FALSE)
 ```

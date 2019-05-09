@@ -1,0 +1,76 @@
+--------------------------------------------------------------------------------
+Time: 2019-05-05 05:00:00
+Welcome to FlightScanner!
+Working Directory: /Users/xin/Documents/Course/STAT585/flightscanner/inst
+API Key: 3e85a0e43cmshac6dba6fde57066p1c1145jsn1e6f8c3d0e33
+Command Line Arguments:  DSM DTW 2019-06-01 
+Error in curl::curl_fetch_memory(url, handle = handle) : 
+  Timeout was reached: Resolving timed out after 7200471 milliseconds
+Calls: CreateSession ... request_fetch -> request_fetch.write_memory -> <Anonymous>
+Execution halted
+--------------------------------------------------------------------------------
+Time: 2019-05-05 09:00:00
+Welcome to FlightScanner!
+Working Directory: /Users/xin/Documents/Course/STAT585/flightscanner/inst
+API Key: 3e85a0e43cmshac6dba6fde57066p1c1145jsn1e6f8c3d0e33
+Command Line Arguments:  DSM DTW 2019-06-01 
+Try to update data 16 times.
+Warning message:
+Unmatch of Segments and Stops: [LegId] = 11140-1906010743--30963,-32462-3-11152-1906020959 
+
+
+--------------------------------------------------------------------------------
+Time: 2019-05-05 10:00:01
+Welcome to FlightScanner!
+Working Directory: /Users/xin/Documents/Course/STAT585/flightscanner/inst
+API Key: 3e85a0e43cmshac6dba6fde57066p1c1145jsn1e6f8c3d0e33
+Command Line Arguments:  DSM DTW 2019-06-01 
+Try to update data 3 times.
+Warning message:
+Unmatch of Segments and Stops: [LegId] = 11140-1906010743--30963,-32462-3-11152-1906020959 
+
+
+--------------------------------------------------------------------------------
+Time: 2019-05-05 13:00:01
+Welcome to FlightScanner!
+Working Directory: /Users/xin/Documents/Course/STAT585/flightscanner/inst
+API Key: 3e85a0e43cmshac6dba6fde57066p1c1145jsn1e6f8c3d0e33
+Command Line Arguments:  DSM DTW 2019-06-01 
+Try to update data 9 times.
+Warning message:
+Unmatch of Segments and Stops: [LegId] = 11140-1906010743--30963,-32462-3-11152-1906020959 
+
+
+--------------------------------------------------------------------------------
+Time: 2019-05-05 14:00:00
+Welcome to FlightScanner!
+Working Directory: /Users/xin/Documents/Course/STAT585/flightscanner/inst
+API Key: 3e85a0e43cmshac6dba6fde57066p1c1145jsn1e6f8c3d0e33
+Command Line Arguments:  DSM DTW 2019-06-01 
+Try to update data 6 times.
+Warning message:
+Unmatch of Segments and Stops: [LegId] = 11140-1906010743--30963,-32462-3-11152-1906020959 
+
+
+--------------------------------------------------------------------------------
+Time: 2019-05-05 15:00:01
+Welcome to FlightScanner!
+Working Directory: /Users/xin/Documents/Course/STAT585/flightscanner/inst
+API Key: 3e85a0e43cmshac6dba6fde57066p1c1145jsn1e6f8c3d0e33
+Command Line Arguments:  DSM DTW 2019-06-01 
+Try to update data 2 times.
+Warning message:
+Unmatch of Segments and Stops: [LegId] = 11140-1906010743--30963,-32462-3-11152-1906020959 
+
+
+--------------------------------------------------------------------------------
+Time: 2019-05-05 16:00:01
+Welcome to FlightScanner!
+Working Directory: /Users/xin/Documents/Course/STAT585/flightscanner/inst
+API Key: 3e85a0e43cmshac6dba6fde57066p1c1145jsn1e6f8c3d0e33
+Command Line Arguments:  DSM DTW 2019-06-01 
+Try to update data 4 times.
+Warning message:
+Unmatch of Segments and Stops: [LegId] = 11140-1906010743--30963,-32462-3-11152-1906020959 
+
+

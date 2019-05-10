@@ -61,4 +61,4 @@ You can also run the Shiny App,
 shiny::runApp(system.file(package = "flightscanner", "shiny"))
 ```
 
-For more details, see the [vignette](articles/vignette.html).
+For more details, see the [vignette](https://minzhang95.github.io/flightscanner/articles/vignette.html).

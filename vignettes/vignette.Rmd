@@ -60,7 +60,7 @@ Please follow the instructions to get the key:
 By selecting "1" for the first question, the users will be directed to the Rapid API Skyscanner webpage, where the API key can be found in the right panel (Figure 1) and be used for the second question. 
 
 ```{r, out.width='100%', echo=FALSE, eval=TRUE, fig.cap="Figure 1: Rapid API Skyscanner and API-key"}
-knitr::include_graphics('APIwebpage.JPG')
+knitr::include_graphics('APIwebpage.png')
 ```
 
 A welcome message will show up with a valid API key:

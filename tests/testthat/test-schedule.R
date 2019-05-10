@@ -1,4 +1,5 @@
 context("test-schedule")
+skip_on_os("windows")
 
 test_that("Function Args2Null doesn't work.", {
   expect_null(Args2Null(NA))

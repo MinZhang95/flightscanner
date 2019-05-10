@@ -54,3 +54,9 @@ To filter the available flights with a budget of $1,000, no more than 1 stop dur
 ``` r
 flightFilter(dsm2dtw_df, max_price = 1000, max_stops = 1, out_departure = c("08:00","24:00")) 
 ```
+
+You can also run the Shiny App,
+
+``` r
+shiny::runApp(system.file(package = "flightscanner", "shiny"))
+```

@@ -125,6 +125,9 @@ dsm2dtw_res &lt;-<span class="st"> </span><span class="kw"><a href="reference/ap
 dsm2dtw_df &lt;-<span class="st"> </span>dsm2dtw_res <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="reference/flightGet.html">flightGet</a></span>()</code></pre></div>
 <p>To filter the available flights with a budget of $1,000, no more than 1 stop during the trip, and departure time not earlier than 8:00 am:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="reference/flightFilter.html">flightFilter</a></span>(dsm2dtw_df, <span class="dt">max_price =</span> <span class="dv">1000</span>, <span class="dt">max_stops =</span> <span class="dv">1</span>, <span class="dt">out_departure =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"08:00"</span>,<span class="st">"24:00"</span>)) </code></pre></div>
+<p>You can also run the Shiny App,</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">shiny<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/shiny/topics/runApp">runApp</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.file">system.file</a></span>(<span class="dt">package =</span> <span class="st">"flightscanner"</span>, <span class="st">"shiny"</span>))</code></pre></div>
+<p>For more details, see the <a href="articles/vignette.html">vignette</a>.</p>
 </div>
 </div>
   </div>

@@ -60,3 +60,5 @@ You can also run the Shiny App,
 ``` r
 shiny::runApp(system.file(package = "flightscanner", "shiny"))
 ```
+
+For more details, see the [vignette](articles/vignette.html).

@@ -101,21 +101,30 @@
 <a href="#main-function" class="anchor"></a>Main Function</h2>
 <p>Given departure, destination and a range of acceptable departure date,</p>
 <ul>
-<li>scrape flight information every day or every several hours.</li>
-<li>filter flights by user-provided constraints such as price, duration, number of stops, etc.</li>
+<li>scrape and filter flights by user-defined constraints such as price, duration, number of stops, etc.</li>
+<li>search flight data automatically based on a schedule.</li>
 <li>visualize flight information by shiny.</li>
 </ul>
-<p>Useful information may include <em>Price</em>, <em>Duration</em>, <em>Departure Time</em>, <em>Arrival Time</em>, <em>Stops</em>, <em>Layover</em>, <em>Airline</em>, Flight Number, Class, etc.</p>
+<p>User constraints may include <em>Price</em>, <em>Duration</em>, <em>Departure Time</em>, <em>Arrival Time</em>, <em>Stops</em>, <em>Layover</em>, <em>Airline</em>, etc.</p>
 </div>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
-<p>You can install the released version of flightscanner from <a href="https://CRAN.R-project.org">CRAN</a> with:</p>
+<p><strong>Important Notice</strong>: Now this package can only be installed on <strong>Unix/Linux/MacOS</strong>, since we use package <code>cronR</code> which can’t be installed on Windows. Sorry about the inconvenience.</p>
+<p>You can install the released version of flightscanner with:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">devtools<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/devtools/topics/reexports">install_github</a></span>(<span class="st">"MinZhang95/flightscanner"</span>)</code></pre></div>
 </div>
 <div id="example" class="section level2">
 <h2 class="hasAnchor">
 <a href="#example" class="anchor"></a>Example</h2>
+<p>To buy a ticket from Des Moines to Detroit for an adult on 2019-06-01 (today is 2019-05-09):</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dsm2dtw_session &lt;-<span class="st"> </span><span class="kw"><a href="reference/apiCreateSession.html">apiCreateSession</a></span>(<span class="dt">origin =</span> <span class="st">"DSM"</span>, <span class="dt">destination =</span> <span class="st">"DTW"</span>, <span class="dt">startDate =</span> <span class="st">"2019-06-01"</span>, <span class="dt">adults =</span> <span class="dv">1</span>)
+
+dsm2dtw_res &lt;-<span class="st"> </span><span class="kw"><a href="reference/apiPollSession.html">apiPollSession</a></span>(<span class="dt">response =</span> dsm2dtw_session, <span class="dt">sortType =</span> <span class="st">"price"</span>, <span class="dt">sortOrder =</span> <span class="st">"asc"</span>)
+
+dsm2dtw_df &lt;-<span class="st"> </span>dsm2dtw_res <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="reference/flightGet.html">flightGet</a></span>()</code></pre></div>
+<p>To filter the available flights with a budget of $1,000, no more than 1 stop during the trip, and departure time not earlier than 8:00 am:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="reference/flightFilter.html">flightFilter</a></span>(dsm2dtw_df, <span class="dt">max_price =</span> <span class="dv">1000</span>, <span class="dt">max_stops =</span> <span class="dv">1</span>, <span class="dt">out_departure =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"08:00"</span>,<span class="st">"24:00"</span>)) </code></pre></div>
 </div>
 </div>
   </div>

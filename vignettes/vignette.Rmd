@@ -17,7 +17,7 @@ library(httr)
 ```
 
 ## Introduction
-Finding the cheapest flight from point A to point B could be a headache for many of us, especially with other multiple constraints, such as duration, layover, departure and arrival time, etc. The goal of the `flightscanner` package is to provide a simple and straightforward interface for interacting with [Rapid API -- Skyscanner](https://rapidapi.com/skyscanner/api/skyscanner-flight-search) through R. The Skyscanner API lets users to search for flight and query flight prices from Skyscanner's database, as well as quotes from ticketing agencies.  Besides these basic functionalities as a flight searching tool, `flightscanner` also allows users to schedule searches and record results antomatically. In addition, this package provides a Shiny APP to visualize the trip on a map and to show the available ticket options according to the customized constraints. 
+Finding the cheapest flight from point A to point B could be a headache for many of us, especially with other multiple constraints, such as duration, layover, departure and arrival time, etc. The goal of the `flightscanner` package is to provide a simple and straightforward interface for interacting with [Rapid API -- Skyscanner](https://rapidapi.com/skyscanner/api/skyscanner-flight-search) through R. The Skyscanner API lets users to search for flight and query flight prices from Skyscanner's database, as well as quotes from ticketing agencies.  Besides these basic functionalities as a flight searching tool, `flightscanner` also allows users to schedule searches and record results automatically. In addition, this package provides a Shiny APP to visualize the trip on a map and to show the available ticket options according to the customized constraints. 
 
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
@@ -175,7 +175,7 @@ dsm2dtw_df <- dsm2dtw_res %>% flightGet()
 names(dsm2dtw_df)
 ```
 
-The dataframe "price" provides information, such as the seraching time and pricing options:
+The dataframe "price" provides information, such as the searching time and pricing options:
 
 ```{r}
 dsm2dtw_df$price %>% head(3) %>% print(width = 120)
@@ -242,7 +242,7 @@ It will excute:
 3. create the schema of above seven tables if they don't exist.
 
 #### `dbSaveData`
-**`dbSaveDB`** is a function to save data into the databse file.
+**`dbSaveDB`** is a function to save data into the database file.
 
 ```r
 resp <- apiCreateSession(origin = "DSM", destination = "DTW", startDate = "2019-06-01")
@@ -275,7 +275,7 @@ If you use **MacOS** and meet the problem of "Operation not permitted". Follow t
 7. Relaunch RStudio or R, the "Operation not permitted" error messages will be gone
 
 ### Create and Manage Jobs
-Creating Cron jobs is realized with the `cron_create()` function. Besides the regular flight information (such as orgin, destination, and dates), another input "frequency" is needed for the job schedule. It could be "minutely", "hourly", "daily" or other frequencies defined by Cron's syntax, see [link](https://en.wikipedia.org/wiki/Cron). Here is an example:
+Creating Cron jobs is realized with the `cron_create()` function. Besides the regular flight information (such as origin, destination, and dates), another input "frequency" is needed for the job schedule. It could be "minutely", "hourly", "daily" or other frequencies defined by Cron's syntax, see [link](https://en.wikipedia.org/wiki/Cron). Here is an example:
 
 ```r
 cron_create("DSM", "SEA", "2019-07-20", frequency = "hourly")  # this is the example
@@ -319,7 +319,7 @@ The Shiny App for the `flightscanner` includes three tabs: **Airport Map**, **Fl
 It is used as the welcome page by default. The map from `leaflet` shows the accurate locations of the target airports. It could provide a rough intuition about how far the users need to travel. 
 Input values are needed on the top of the map when doing a flight search:
 
-- **Trip type**: one-way tirp or round trip.
+- **Trip type**: one-way trip or round trip.
 - **From**, **To**: 3-character code for the departure/destination airport.
 - **Dept.Date**, **Arr.Date**: departure date (no earlier than the current date) and return date (no earlier than the departure date). **Arr.Date** box would appear only when the **round trip** is selected. 
 
@@ -336,7 +336,7 @@ There are several filter options on the left panel.
 - **Price**: a slider ranging from the minimum to the maximum of the ticket prices.
 - **Airlines Includes**, **Airlines Excludes**: the users can include or exclude some specific airlines.
 - **Duration**: a slider ranging from the minimum to the maximum of the trip duration.
-- **Stops**: the users can specify their preferences to the number of stransition stops.
+- **Stops**: the users can specify their preferences to the number of transition stops.
 - **Layover**: the total time to be spent at the transition stops. 
 - **Outbound, Inbound**: the users can choose a range of time for the departure time and arrival time, for both outbound flight and inbound flight using a 24-hour clock.
 
@@ -344,7 +344,7 @@ There are several filter options on the left panel.
 knitr::include_graphics('shinyTickets.png')
 ```
 
-A table containing the detailed inforamtion about the filtered filghts will be given on the right main panel, including the ticket price, departure and arrival time for inbound and/or outbound flight, duration, and the number of stops for inbound and/or outbound. There are also hyperlinks to the ticketing agencies in the column of **Link**.
+A table containing the detailed information about the filtered flights will be given on the right main panel, including the ticket price, departure and arrival time for inbound and/or outbound flight, duration, and the number of stops for inbound and/or outbound. There are also hyperlinks to the ticketing agencies in the column of **Link**.
 
 ### IATA Code
 Under this tab, users can search for the 3-character codes for the target airports by providing city or country names in the searching box in the upper right corner. The data comes from `MUCflight`.

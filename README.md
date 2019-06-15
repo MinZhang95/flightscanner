@@ -64,3 +64,6 @@ shiny::runApp(system.file(package = "flightscanner", "shiny"))
 ```
 
 For more details, see the [vignette](https://minzhang95.github.io/flightscanner/articles/vignette.html).
+
+
+<a href="https://info.flagcounter.com/VwMb"><img src="https://s05.flagcounter.com/map/VwMb/size_l/txt_000000/border_CCCCCC/pageviews_1/viewers_0/flags_0/" alt="Flag Counter" border="0"></a>

@@ -2,7 +2,8 @@
 flightscanner <img src='man/figures/logo.png' align="right" height="150" />
 ===========================================================================
 
-[![996.icu](https://img.shields.io/badge/link-996.icu-red.svg)](https://996.icu) [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0) [![Travis build status](https://travis-ci.org/MinZhang95/flightscanner.svg?branch=master)](https://travis-ci.org/MinZhang95/flightscanner) [![Coverage status](https://codecov.io/gh/MinZhang95/flightscanner/branch/master/graph/badge.svg)](https://codecov.io/github/MinZhang95/flightscanner?branch=master) [![HitCount](http://hits.dwyl.io/MinZhang95/flightscanner.svg)](http://hits.dwyl.io/MinZhang95/flightscanner)
+[![996.icu](https://img.shields.io/badge/link-996.icu-red.svg)](https://996.icu) [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0) [![Travis build status](https://travis-ci.org/MinZhang95/flightscanner.svg?branch=master)](https://travis-ci.org/MinZhang95/flightscanner) [![Coverage status](https://codecov.io/gh/MinZhang95/flightscanner/branch/master/graph/badge.svg)](https://codecov.io/github/MinZhang95/flightscanner?branch=master) [![HitCount](http://hits.dwyl.io/MinZhang95/flightscanner.svg)](http://hits.dwyl.io/MinZhang95/flightscanner)  
+
 <a href="https://info.flagcounter.com/sKSu"><img src="https://s01.flagcounter.com/count2/sKSu/bg_FFFFFF/txt_000000/border_CCCCCC/columns_2/maxflags_10/viewers_0/labels_0/pageviews_0/flags_0/percent_0/" alt="Flag Counter" border="0"></a>
 
 Topic
